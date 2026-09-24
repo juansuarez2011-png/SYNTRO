@@ -1,0 +1,2543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Syntro Supervisor - Sistema Pecuario</title>
+    <style>
+        :root {
+            --syntro-verde-claro: #d9ed92;
+            --syntro-verde-medio: #b5e48c;
+            --syntro-verde: #99d98c;
+            --syntro-verde-oscuro: #76c893;
+            --syntro-turquesa-claro: #52b69a;
+            --syntro-turquesa: #34a0a4;
+            --syntro-azul-verde: #168aad;
+            --syntro-azul-medio: #1a759f;
+            --syntro-azul-oscuro: #1e6091;
+            --syntro-azul-muy-oscuro: #184e77;
+            --syntro-bg: #f0f7f4;
+            --syntro-card: #ffffff;
+            --syntro-text: #1e293b;
+            --syntro-border: #cbd5e1;
+            --syntro-danger: #dc2626;
+            --syntro-success: #22c55e;
+            --syntro-warning: #f59e0b;
+            --shadow: 0 4px 20px rgba(24, 78, 119, 0.12);
+            --radius: 12px;
+            --touch-size: 48px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--syntro-bg);
+            min-height: 100vh;
+            padding: 10px;
+            padding-bottom: 100px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #pantallaBienvenida {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--syntro-azul-muy-oscuro), var(--syntro-turquesa));
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: white;
+        }
+
+        #pantallaBienvenida h1 { font-size: 26px; font-weight: 800; margin-bottom: 8px; text-align: center; }
+        #pantallaBienvenida p { font-size: 14px; opacity: 0.9; margin-bottom: 30px; text-align: center; }
+
+        #pantallaBienvenida .card-bienvenida {
+            background: white;
+            color: var(--syntro-text);
+            padding: 25px 20px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        #pantallaBienvenida label {
+            display: block;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--syntro-azul-oscuro);
+            margin-bottom: 8px;
+        }
+
+        #pantallaBienvenida input {
+            width: 100%;
+            padding: 16px;
+            font-size: 18px;
+            border: 2px solid var(--syntro-border);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 700;
+            color: var(--syntro-azul-oscuro);
+        }
+
+        #pantallaBienvenida input:focus {
+            outline: none;
+            border-color: var(--syntro-turquesa);
+            box-shadow: 0 0 0 3px rgba(52, 160, 164, 0.15);
+        }
+
+        #pantallaBienvenida button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--syntro-turquesa), var(--syntro-azul-verde));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(52, 160, 164, 0.4);
+        }
+
+        #pantallaBienvenida button:active { transform: scale(0.97); }
+
+        .header {
+            background: linear-gradient(135deg, var(--syntro-azul-muy-oscuro) 0%, var(--syntro-azul-oscuro) 40%, var(--syntro-turquesa) 100%);
+            color: white;
+            padding: 14px 16px;
+            border-radius: var(--radius);
+            box-shadow: 0 8px 30px rgba(24, 78, 119, 0.35);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .header-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 200px; }
+
+        .logo-container img {
+            height: 40px;
+            width: auto;
+            display: block;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+        }
+
+        .header-titles h1 { font-size: 16px; font-weight: 700; line-height: 1.2; }
+        .header-titles p { font-size: 11px; opacity: 0.9; font-weight: 400; margin-top: 2px; }
+
+        .header-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.15);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .header-user:active { background: rgba(255,255,255,0.25); }
+
+        .container { max-width: 900px; margin: 0 auto; padding-bottom: 20px; }
+
+        .btn-compartir-todo {
+            width: 100%;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: white;
+            padding: 20px;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            min-height: 70px;
+            text-align: left;
+            line-height: 1.2;
+        }
+
+        .btn-compartir-todo:active { transform: scale(0.98); }
+
+        .btn-compartir-todo .texto-boton { display: flex; flex-direction: column; }
+        .btn-compartir-todo .texto-boton .titulo { font-size: 17px; font-weight: 800; }
+        .btn-compartir-todo .texto-boton .sub { font-size: 11px; opacity: 0.9; font-weight: 400; }
+
+        .menu-principal { display: none; }
+        .menu-principal.active { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+        .menu-card {
+            background: white;
+            padding: 20px 12px;
+            border-radius: 16px;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(24, 78, 119, 0.08);
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 130px;
+        }
+
+        .menu-card:active { transform: scale(0.97); background: #f8fafc; }
+
+        .menu-card .icono {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--syntro-turquesa);
+            display: block;
+            line-height: 1;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .menu-card .titulo { font-size: 14px; font-weight: 800; color: var(--syntro-azul-muy-oscuro); }
+        .menu-card .subtitulo { font-size: 11px; color: #64748b; }
+
+        .menu-card.inventario { border-top: 4px solid #168aad; }
+        .menu-card.nacimiento { border-top: 4px solid #52b69a; }
+        .menu-card.traslado { border-top: 4px solid #f59e0b; }
+        .menu-card.muerte { border-top: 4px solid #6b7280; }
+        .menu-card.graficos { border-top: 4px solid #8b5cf6; }
+        .menu-card.config { border-top: 4px solid #34a0a4; }
+
+        .vista-modulo { display: none; }
+        .vista-modulo.active { display: block; }
+
+        .btn-volver {
+            width: 100%;
+            padding: 14px;
+            background: white;
+            color: var(--syntro-azul-oscuro);
+            border: 2px solid var(--syntro-border);
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        .btn-volver:active { background: #f1f5f9; }
+
+        .module {
+            background: white;
+            padding: 16px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 15px;
+        }
+
+        .module-title {
+            font-size: 18px;
+            color: var(--syntro-azul-muy-oscuro);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--syntro-turquesa);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .module-title .badge-count {
+            background: var(--syntro-turquesa);
+            color: white;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .form-group { display: flex; flex-direction: column; }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--syntro-azul-oscuro);
+            margin-bottom: 4px;
+        }
+
+        .form-group label .required { color: var(--syntro-danger); font-weight: 700; }
+        .form-group label .optional { color: #94a3b8; font-weight: 400; font-size: 11px; }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px 14px;
+            border: 2px solid var(--syntro-border);
+            border-radius: 10px;
+            font-size: 15px;
+            background: #fafcfa;
+            transition: all 0.3s ease;
+            width: 100%;
+            min-height: var(--touch-size);
+            -webkit-appearance: none;
+            appearance: none;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--syntro-turquesa);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(52, 160, 164, 0.12);
+        }
+
+        .form-group input[readonly] {
+            background: #f1f5f9;
+            color: var(--syntro-azul-oscuro);
+            font-weight: 600;
+        }
+
+        .form-group input.editable-id {
+            background: #fffde7;
+            border-color: var(--syntro-warning);
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 1px;
+        }
+
+        .form-group input.buscar-chip {
+            background: #e6f3ff;
+            border-color: var(--syntro-azul-verde);
+        }
+
+        .form-group input.auto-lleno {
+            background: #dcfce7;
+            border-color: var(--syntro-success);
+            font-weight: 700;
+            color: #166534;
+        }
+
+        .chip-buscar-info {
+            grid-column: 1 / -1;
+            margin-top: 0;
+            margin-bottom: 8px;
+            padding: 14px 16px;
+            border-left: 5px solid var(--syntro-success);
+            border-radius: 8px;
+            font-size: 14px;
+            color: #166534;
+            display: none;
+            background: #dcfce7;
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+        .chip-buscar-info.error {
+            background: #fee2e2;
+            border-color: var(--syntro-danger);
+            color: #991b1b;
+        }
+
+        .chip-buscar-info .animal-detalle {
+            display: block;
+            margin-top: 8px;
+            font-size: 13px;
+            color: #065f46;
+            font-weight: 500;
+            padding-top: 8px;
+            border-top: 1px solid rgba(22, 101, 52, 0.2);
+        }
+
+        .sugerencia-text {
+            margin-top: 4px;
+            font-size: 12px;
+            color: var(--syntro-azul-oscuro);
+            background: #e6f3ff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border-left: 3px solid var(--syntro-azul-verde);
+        }
+
+        .btn {
+            padding: 16px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 56px;
+            width: 100%;
+        }
+
+        .btn:active { transform: scale(0.97); }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--syntro-turquesa), var(--syntro-turquesa-claro));
+            color: white;
+            box-shadow: 0 4px 15px rgba(52, 160, 164, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--syntro-azul-medio), var(--syntro-azul-oscuro));
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--syntro-verde), var(--syntro-verde-oscuro));
+            color: var(--syntro-azul-muy-oscuro);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, var(--syntro-danger));
+            color: white;
+        }
+
+        .btn-muerte {
+            background: linear-gradient(135deg, #6b7280, #1f2937);
+            color: white;
+        }
+
+        .btn-traslado {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+
+        .btn-sync {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-share {
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: white;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-sm { padding: 12px 16px; font-size: 14px; min-height: 44px; }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 12px 0;
+        }
+
+        .btn-group-row {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-group-row .btn { flex: 1; min-width: 120px; }
+
+        .alert {
+            padding: 14px 16px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 14px;
+            display: none;
+        }
+        .alert-success { background: #dcfce7; border: 1px solid var(--syntro-success); color: #166534; }
+        .alert-error { background: #fee2e2; border: 1px solid var(--syntro-danger); color: #991b1b; }
+        .alert-warning { background: #fef3c7; border: 1px solid var(--syntro-warning); color: #92400e; }
+        .alert-info { background: #dbeafe; border: 1px solid #3b82f6; color: #1e40af; }
+
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 10px;
+            border: 1px solid var(--syntro-border);
+            margin-top: 12px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            min-width: 500px;
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--syntro-azul-oscuro), var(--syntro-azul-verde));
+            color: white;
+            padding: 10px 10px;
+            text-align: left;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--syntro-border);
+        }
+
+        .btn-delete {
+            background: none;
+            border: none;
+            color: var(--syntro-danger);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 6px 10px;
+            border-radius: 6px;
+            min-height: 40px;
+            min-width: 40px;
+        }
+        .btn-delete:active { background: #fee2e2; }
+
+        .btn-edit {
+            background: none;
+            border: none;
+            color: var(--syntro-azul-verde);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 6px 10px;
+            border-radius: 6px;
+            min-height: 40px;
+            min-width: 40px;
+        }
+        .btn-edit:active { background: #e0f2fe; }
+
+        .badge-sin-chip {
+            background: var(--syntro-warning);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .badge-muerte {
+            background: #1f2937;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .badge-traslado {
+            background: var(--syntro-warning);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .badge-aborto {
+            background: #7c3aed;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .info-display {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--syntro-verde-claro), var(--syntro-verde-medio));
+            border-radius: 10px;
+            margin: 10px 0 15px 0;
+        }
+
+        .info-item { text-align: center; }
+        .info-item label { font-size: 11px; color: var(--syntro-azul-muy-oscuro); font-weight: 600; display: block; }
+        .info-item span { font-size: 17px; font-weight: 800; color: var(--syntro-azul-oscuro); }
+
+        .cria-card {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--syntro-verde-oscuro);
+        }
+        .cria-card.hidden { display: none; }
+        .cria-card h4 { color: var(--syntro-azul-verde); margin-bottom: 10px; font-size: 14px; }
+
+        .muerte-card {
+            background: #fef2f2;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--syntro-danger);
+        }
+        .muerte-card h4 { color: #991b1b; margin-bottom: 10px; font-size: 14px; }
+
+        .traslado-card {
+            background: #fffbeb;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--syntro-warning);
+        }
+        .traslado-card h4 { color: #92400e; margin-bottom: 10px; font-size: 14px; }
+
+        .config-card {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--syntro-azul-verde);
+        }
+        .config-card h4 { color: var(--syntro-azul-oscuro); margin-bottom: 10px; font-size: 14px; }
+
+        .sync-card {
+            background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #8b5cf6;
+        }
+        .sync-card h4 { color: #6d28d9; margin-bottom: 12px; font-size: 15px; }
+        .sync-section {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd6fe;
+        }
+        .sync-section h5 { font-size: 13px; color: var(--syntro-azul-oscuro); margin-bottom: 8px; }
+
+        .config-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 10px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .config-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            background: white;
+            border: 1px solid var(--syntro-border);
+            border-radius: 8px;
+            font-size: 13px;
+            gap: 8px;
+        }
+
+        .config-item span { flex: 1; word-break: break-word; }
+
+        .config-add-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .config-add-row input,
+        .config-add-row select {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px;
+            border: 2px solid var(--syntro-border);
+            border-radius: 8px;
+            font-size: 14px;
+            min-height: 46px;
+        }
+
+        .config-add-row .btn {
+            width: auto;
+            flex: 0 0 auto;
+            padding: 12px 18px;
+            font-size: 14px;
+            min-height: 46px;
+        }
+
+        .control-bar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 14px;
+            background: #f8fafc;
+            border-radius: 10px;
+            gap: 10px;
+            margin: 10px 0;
+            border-left: 4px solid var(--syntro-turquesa);
+            text-align: center;
+        }
+
+        .control-bar .total { font-weight: 600; color: var(--syntro-azul-muy-oscuro); font-size: 14px; }
+        .control-bar .total strong { color: var(--syntro-turquesa); font-size: 18px; }
+
+        .control-bar-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .control-bar-actions .btn { width: auto; flex: 1; min-width: 100px; }
+
+        .cria-nota {
+            background: #f3e8ff;
+            border-left: 4px solid #7c3aed;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #5b21b6;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: none;
+        }
+        .cria-nota.visible { display: block; }
+
+        .chart-container {
+            margin-top: 12px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 10px;
+            height: 240px;
+        }
+        .chart-container h3 { font-size: 13px; margin-bottom: 8px; text-align: center; color: var(--syntro-azul-muy-oscuro); }
+        .chart-wrapper { height: 190px; }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 2px solid var(--syntro-border);
+            display: none;
+            justify-content: space-around;
+            padding: 8px 6px;
+            z-index: 900;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+        }
+
+        .bottom-nav.visible { display: flex; }
+
+        .bottom-nav .nav-item {
+            flex: 1;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            border-radius: 8px;
+            min-height: 52px;
+            color: var(--syntro-azul-oscuro);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .bottom-nav .nav-item:active { background: #f1f5f9; }
+        .bottom-nav .nav-item .icono { font-size: 12px; font-weight: 800; letter-spacing: 0.5px; }
+
+        @media (min-width: 600px) {
+            .menu-principal.active { grid-template-columns: 1fr 1fr 1fr; }
+            .form-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="pantallaBienvenida">
+        <h1>Syntro Supervisor</h1>
+        <p>Sistema Pecuario Integral</p>
+        <div class="card-bienvenida">
+            <label>Su nombre:</label>
+            <input type="text" id="inputNombreSupervisor" placeholder="Ej: Juan Pérez" autocomplete="off">
+            <button onclick="guardarNombreSupervisor()">Entrar al Sistema</button>
+        </div>
+    </div>
+
+    <div class="header">
+        <div class="header-left">
+            <div class="logo-container">
+                <img src="logo.png" alt="Syntro" onerror="this.style.display='none'">
+            </div>
+            <div class="header-titles">
+                <h1>Syntro Supervisor</h1>
+                <p id="headerSupervisor">Supervisor</p>
+            </div>
+        </div>
+        <div class="header-user" onclick="editarNombreSupervisor()">
+            <span id="nombreCortoHeader">Usuario</span>
+            <span>Editar</span>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <button class="btn-compartir-todo" onclick="compartirTodo()">
+            <span class="texto-boton">
+                <span class="titulo">COMPARTIR TODO</span>
+                <span class="sub">Enviar todo el trabajo al dueño por WhatsApp</span>
+            </span>
+        </button>
+
+        <div class="menu-principal active" id="menuPrincipal">
+            <button class="menu-card inventario" onclick="abrirModulo('inventario')">
+                <span class="icono">INV</span>
+                <span class="titulo">Inventario</span>
+                <span class="subtitulo">Registrar animal</span>
+            </button>
+
+            <button class="menu-card nacimiento" onclick="abrirModulo('nacimiento')">
+                <span class="icono">NAC</span>
+                <span class="titulo">Nacimientos</span>
+                <span class="subtitulo">Registrar parto</span>
+            </button>
+
+            <button class="menu-card traslado" onclick="abrirModulo('traslado')">
+                <span class="icono">TRA</span>
+                <span class="titulo">Traslado</span>
+                <span class="subtitulo">Mover animal</span>
+            </button>
+
+            <button class="menu-card muerte" onclick="abrirModulo('muerte')">
+                <span class="icono">MUE</span>
+                <span class="titulo">Muertes</span>
+                <span class="subtitulo">Registrar baja</span>
+            </button>
+
+            <button class="menu-card graficos" onclick="abrirModulo('graficos')">
+                <span class="icono">GRA</span>
+                <span class="titulo">Gráficos</span>
+                <span class="subtitulo">Ver estadísticas</span>
+            </button>
+
+            <button class="menu-card config" onclick="abrirModulo('configuracion')">
+                <span class="icono">CFG</span>
+                <span class="titulo">Configuración</span>
+                <span class="subtitulo">Ajustes</span>
+            </button>
+        </div>
+
+        <!-- VISTA INVENTARIO -->
+        <div class="vista-modulo" id="vista-inventario">
+            <button class="btn-volver" onclick="cerrarModulo()">Volver al menú</button>
+
+            <div class="module">
+                <div class="module-title">
+                    Inventario de Animales
+                    <span class="badge-count" id="totalInventarioBadge">0</span>
+                </div>
+
+                <div id="alertInventario" class="alert"></div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Microchip <span class="optional">(Opcional)</span></label>
+                        <input type="text" id="invChip" placeholder="Escanee chip o déjelo vacío">
+                    </div>
+                    <div class="form-group">
+                        <label>Arete <span class="required">*</span></label>
+                        <input type="text" id="invArete" placeholder="Número de arete">
+                    </div>
+                    <div class="form-group">
+                        <label>Especie <span class="required">*</span></label>
+                        <select id="invEspecie"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Lote</label>
+                        <select id="invLote"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Finca</label>
+                        <select id="invFinca"></select>
+                    </div>
+                    <div class="form-group" style="justify-content: flex-end;">
+                        <button class="btn btn-primary" onclick="registrarInventario()">Guardar</button>
+                    </div>
+                </div>
+
+                <div class="control-bar">
+                    <span class="total">Total: <strong id="totalInventario">0</strong></span>
+                    <div class="control-bar-actions">
+                        <button class="btn btn-share btn-sm" onclick="exportarInventarioCSV()">Compartir CSV</button>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Chip</th><th>Arete</th><th>Especie</th><th>Lote</th><th>Finca</th><th>Fecha</th><th>Acciones</th></tr></thead>
+                        <tbody id="tablaInventario"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- VISTA NACIMIENTO -->
+        <div class="vista-modulo" id="vista-nacimiento">
+            <button class="btn-volver" onclick="cerrarModulo()">Volver al menú</button>
+
+            <div class="module">
+                <div class="module-title">
+                    Registrar Nacimiento
+                    <span class="badge-count" id="totalNacimientosBadge">0</span>
+                </div>
+
+                <div id="alertNacimiento" class="alert"></div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Fecha del Parto</label>
+                        <input type="date" id="nacFecha">
+                    </div>
+                    <div class="form-group">
+                        <label>Finca</label>
+                        <select id="nacFinca"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Chip de la Madre <span class="optional">(Opcional)</span></label>
+                        <input type="text" id="nacMadreChip" class="buscar-chip" placeholder="Escanee chip" oninput="sincronizarMadrePorChip(this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>Arete de la Madre <span class="required">*</span></label>
+                        <input type="text" id="nacMadre" placeholder="Escriba arete" oninput="sincronizarMadrePorArete(this.value)">
+                    </div>
+                    <div id="chipBuscarInfo" class="chip-buscar-info" style="grid-column: 1 / -1;"></div>
+                    <div class="form-group">
+                        <label>Toro (Arete) <span class="required">*</span></label>
+                        <input type="text" id="nacToro" placeholder="-" value="-">
+                    </div>
+                    <div class="form-group">
+                        <label>N° de Parto</label>
+                        <input type="number" id="nacNumParto" readonly placeholder="-">
+                    </div>
+                    <div class="form-group">
+                        <label>Especie</label>
+                        <select id="nacEspecie" onchange="actualizarDiasPorEspecie()"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Días de Gestación</label>
+                        <input type="number" id="nacDiasGestacion" value="283" min="1" max="500">
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo de Parto <span class="required">*</span></label>
+                        <select id="nacTipoParto" onchange="cambiarTipoParto()">
+                            <option value="">Seleccionar...</option>
+                            <option value="Normal">Normal</option>
+                            <option value="Gemelar">Gemelar</option>
+                            <option value="Distócico">Distócico</option>
+                            <option value="Aborto">Aborto</option>
+                            <option value="Mortinato">Mortinato</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Lote para Crías</label>
+                        <select id="nacLote" disabled>
+                            <option value="Lote Cría">Lote Cría</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="info-display">
+                    <div class="info-item"><label>N° de Parto</label><span id="nacNumPartoDisplay">-</span></div>
+                    <div class="info-item"><label>IPP Calculado</label><span id="nacIPPCalculado">- días</span></div>
+                </div>
+
+                <div class="cria-nota" id="criaNota">
+                    Este tipo de parto (Aborto/Mortinato) no genera crías registradas.
+                </div>
+
+                <div class="cria-card" id="nacCria1Section">
+                    <h4>CRÍA 1</h4>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>ID de la Cría <span class="required">*</span></label>
+                            <input type="text" id="nacCria1Id" class="editable-id" placeholder="-" value="-">
+                            <div class="sugerencia-text">
+                                Sugerencia: <strong id="sugerenciaCria1">---</strong>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Chip <span class="optional">(Opcional)</span></label>
+                            <input type="text" id="nacCria1Chip" placeholder="Chip o déjelo vacío">
+                        </div>
+                        <div class="form-group">
+                            <label>Sexo <span class="required">*</span></label>
+                            <select id="nacCria1Sexo">
+                                <option value="">Seleccionar...</option>
+                                <option value="Hembra">Hembra</option>
+                                <option value="Macho">Macho</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Peso (Kg) <span class="required">*</span></label>
+                            <input type="number" id="nacCria1Peso" placeholder="Peso en kg" step="0.1" min="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cria-card hidden" id="nacCria2Section">
+                    <h4>CRÍA 2 (Gemelar)</h4>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>ID de la Cría <span class="required">*</span></label>
+                            <input type="text" id="nacCria2Id" class="editable-id" placeholder="-" value="-">
+                        </div>
+                        <div class="form-group">
+                            <label>Chip <span class="optional">(Opcional)</span></label>
+                            <input type="text" id="nacCria2Chip" placeholder="Chip">
+                        </div>
+                        <div class="form-group">
+                            <label>Sexo <span class="required">*</span></label>
+                            <select id="nacCria2Sexo">
+                                <option value="">Seleccionar...</option>
+                                <option value="Hembra">Hembra</option>
+                                <option value="Macho">Macho</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Peso (Kg) <span class="required">*</span></label>
+                            <input type="number" id="nacCria2Peso" placeholder="Peso en kg" step="0.1" min="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="guardarNacimiento()">Guardar Parto</button>
+                </div>
+
+                <div class="control-bar">
+                    <span class="total">Total: <strong id="totalNacimientos">0</strong></span>
+                    <div class="control-bar-actions">
+                        <button class="btn btn-share btn-sm" onclick="exportarCSVNacimientos()">Compartir CSV</button>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Fecha</th><th>Finca</th><th>Madre</th><th>Chip Madre</th><th>Toro</th><th>N°</th><th>Tipo</th><th>Días</th><th>Cría ID</th><th>Chip</th><th>Sexo</th><th>Peso</th><th>IPP</th><th>Acción</th></tr></thead>
+                        <tbody id="tablaNacimientos"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- VISTA TRASLADO -->
+        <div class="vista-modulo" id="vista-traslado">
+            <button class="btn-volver" onclick="cerrarModulo()">Volver al menú</button>
+
+            <div class="module">
+                <div class="module-title">
+                    Registrar Traslado
+                    <span class="badge-count" id="totalTrasladosBadge">0</span>
+                </div>
+
+                <div id="alertTraslado" class="alert"></div>
+
+                <div class="traslado-card">
+                    <h4>Datos del Traslado</h4>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Fecha <span class="required">*</span></label>
+                            <input type="date" id="traFecha">
+                        </div>
+                        <div class="form-group">
+                            <label>Chip del Animal</label>
+                            <input type="text" id="traChip" class="buscar-chip" placeholder="Escanee chip" oninput="sincronizarTrasladoPorChip(this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label>Arete del Animal <span class="required">*</span></label>
+                            <input type="text" id="traArete" placeholder="Escriba arete" oninput="sincronizarTrasladoPorArete(this.value)">
+                        </div>
+                        <div id="chipTrasladoInfo" class="chip-buscar-info" style="grid-column: 1 / -1;"></div>
+                        <div class="form-group">
+                            <label>Finca Origen</label>
+                            <input type="text" id="traFincaOrigen" readonly placeholder="Se autocompleta">
+                        </div>
+                        <div class="form-group">
+                            <label>Lote Origen</label>
+                            <input type="text" id="traLoteOrigen" readonly placeholder="Se autocompleta">
+                        </div>
+                        <div class="form-group">
+                            <label>Finca Destino <span class="required">*</span></label>
+                            <select id="traFincaDestino" onchange="actualizarLotesDestino()"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Lote Destino <span class="required">*</span></label>
+                            <select id="traLoteDestino"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Motivo</label>
+                            <select id="traMotivo">
+                                <option value="Manejo">Manejo</option>
+                                <option value="Rotación de potreros">Rotación de potreros</option>
+                                <option value="Venta">Venta</option>
+                                <option value="Compra">Compra</option>
+                                <option value="Sanidad">Sanidad</option>
+                                <option value="Reproducción">Reproducción</option>
+                                <option value="Destete">Destete</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>Observaciones <span class="optional">(Opcional)</span></label>
+                            <textarea id="traObservaciones" rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-traslado" onclick="registrarTraslado()">Registrar Traslado</button>
+                </div>
+
+                <div class="control-bar">
+                    <span class="total">Total: <strong id="totalTraslados">0</strong></span>
+                    <div class="control-bar-actions">
+                        <button class="btn btn-share btn-sm" onclick="exportarCSVTraslados()">Compartir CSV</button>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Chip</th>
+                                <th>Arete</th>
+                                <th>Finca Origen</th>
+                                <th>Lote Origen</th>
+                                <th>Finca Destino</th>
+                                <th>Lote Destino</th>
+                                <th>Motivo</th>
+                                <th>Obs.</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaTraslados"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- VISTA MUERTE -->
+        <div class="vista-modulo" id="vista-muerte">
+            <button class="btn-volver" onclick="cerrarModulo()">Volver al menú</button>
+
+            <div class="module">
+                <div class="module-title">
+                    Registrar Muerte
+                    <span class="badge-count" id="totalMuertesBadge">0</span>
+                </div>
+
+                <div id="alertMuerte" class="alert"></div>
+
+                <div class="muerte-card">
+                    <h4>Datos de la Baja</h4>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Fecha <span class="required">*</span></label>
+                            <input type="date" id="mueFecha">
+                        </div>
+                        <div class="form-group">
+                            <label>Finca <span class="required">*</span></label>
+                            <select id="mueFinca"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Chip del Animal</label>
+                            <input type="text" id="mueChip" class="buscar-chip" placeholder="Escanee chip" oninput="sincronizarMuertePorChip(this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label>Arete del Animal <span class="required">*</span></label>
+                            <input type="text" id="mueArete" placeholder="Escriba arete" oninput="sincronizarMuertePorArete(this.value)">
+                        </div>
+                        <div id="chipMuerteInfo" class="chip-buscar-info" style="grid-column: 1 / -1;"></div>
+                        <div class="form-group">
+                            <label>Lote</label>
+                            <input type="text" id="mueLote" readonly placeholder="Se autocompleta">
+                        </div>
+                        <div class="form-group">
+                            <label>Causa <span class="required">*</span></label>
+                            <select id="mueCausa">
+                                <option value="">Seleccionar...</option>
+                                <option value="Enfermedad">Enfermedad</option>
+                                <option value="Accidente">Accidente</option>
+                                <option value="Depredador">Depredador</option>
+                                <option value="Parto">Complicación de Parto</option>
+                                <option value="Neonatal">Muerte Neonatal</option>
+                                <option value="Vejez">Vejez</option>
+                                <option value="Sacrificio">Sacrificio</option>
+                                <option value="Desconocida">Desconocida</option>
+                                <option value="Otra">Otra</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Categoría</label>
+                            <select id="mueCategoria">
+                                <option value="Cría">Cría</option>
+                                <option value="Levante">Levante</option>
+                                <option value="Vientre">Vientre</option>
+                                <option value="Toro">Toro</option>
+                                <option value="Adulto">Adulto</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Peso (Kg)</label>
+                            <input type="number" id="muePeso" placeholder="Peso en kg" step="0.1" min="0">
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>Observaciones</label>
+                            <textarea id="mueObservaciones" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-muerte" onclick="registrarMuerte()">Registrar Muerte</button>
+                </div>
+
+                <div class="control-bar">
+                    <span class="total">Total: <strong id="totalMuertes">0</strong></span>
+                    <div class="control-bar-actions">
+                        <button class="btn btn-share btn-sm" onclick="exportarCSVMuertes()">Compartir CSV</button>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Finca</th>
+                                <th>Chip</th>
+                                <th>Arete</th>
+                                <th>Lote</th>
+                                <th>Causa</th>
+                                <th>Categoría</th>
+                                <th>Peso</th>
+                                <th>Observaciones</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaMuertes"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- VISTA GRÁFICOS -->
+        <div class="vista-modulo" id="vista-graficos">
+            <button class="btn-volver" onclick="cerrarModulo()">Volver al menú</button>
+
+            <div class="module">
+                <div class="module-title">Mis Estadísticas</div>
+
+                <div class="chart-container"><h3>Tipos de Parto</h3><div class="chart-wrapper"><canvas id="chartTipos"></canvas></div></div>
+                <div class="chart-container"><h3>Distribución por Sexo</h3><div class="chart-wrapper"><canvas id="chartSexo"></canvas></div></div>
+                <div class="chart-container"><h3>Causas de Muerte</h3><div class="chart-wrapper"><canvas id="chartMuertes"></canvas></div></div>
+                <div class="chart-container"><h3>Traslados por Motivo</h3><div class="chart-wrapper"><canvas id="chartTraslados"></canvas></div></div>
+            </div>
+        </div>
+
+        <!-- VISTA CONFIGURACIÓN -->
+        <div class="vista-modulo" id="vista-configuracion">
+            <button class="btn-volver" onclick="cerrarModulo()">Volver al menú</button>
+
+            <div class="module">
+                <div class="module-title">Configuración</div>
+
+                <div id="alertConfig" class="alert"></div>
+
+                <div class="sync-card">
+                    <h4>Importar del Maestro</h4>
+                    <p style="font-size: 12px; color: #5b21b6; margin-bottom: 12px; line-height: 1.5;">
+                        Importa el inventario que le envió el dueño. Así podrá consultar cualquier animal.
+                    </p>
+                    <button class="btn btn-sync" onclick="document.getElementById('inputImportarInventario').click()">Importar Inventario del Maestro</button>
+                    <input type="file" id="inputImportarInventario" accept=".json,application/json" style="display:none" onchange="importarInventarioMaestro(event)">
+                </div>
+
+                <div class="sync-card">
+                    <h4>Mi Respaldo</h4>
+                    <p style="font-size: 12px; color: #5b21b6; margin-bottom: 12px; line-height: 1.5;">
+                        Guarda o restaura todo su trabajo.
+                    </p>
+                    <div class="btn-group-row">
+                        <button class="btn btn-share btn-sm" onclick="exportarMiRespaldo()">Compartir Respaldo</button>
+                        <button class="btn btn-sync btn-sm" onclick="document.getElementById('inputImportarRespaldo').click()">Restaurar Respaldo</button>
+                        <input type="file" id="inputImportarRespaldo" accept=".json,application/json" style="display:none" onchange="importarMiRespaldo(event)">
+                    </div>
+                </div>
+
+                <div class="config-card">
+                    <h4>Fincas</h4>
+                    <div class="config-add-row">
+                        <input type="text" id="cfgNuevaFinca" placeholder="Nombre de la finca">
+                        <button class="btn btn-primary btn-sm" onclick="agregarFinca()">Agregar</button>
+                    </div>
+                    <div class="config-list" id="listaFincas"></div>
+                </div>
+
+                <div class="config-card">
+                    <h4>Lotes</h4>
+                    <div class="config-add-row">
+                        <input type="text" id="cfgNuevoLote" placeholder="Nombre del lote">
+                        <select id="cfgLoteFinca"></select>
+                        <button class="btn btn-primary btn-sm" onclick="agregarLote()">Agregar</button>
+                    </div>
+                    <div class="config-list" id="listaLotes"></div>
+                </div>
+
+                <div class="config-card">
+                    <h4>Especies</h4>
+                    <div class="config-add-row">
+                        <input type="text" id="cfgNuevaEspecie" placeholder="Nombre">
+                        <input type="number" id="cfgNuevosDiasGestacion" placeholder="Días gestación" min="1" max="500">
+                        <button class="btn btn-primary btn-sm" onclick="agregarEspecie()">Agregar</button>
+                    </div>
+                    <div class="config-list" id="listaEspecies"></div>
+                </div>
+
+                <div class="config-card" style="border-left-color: var(--syntro-danger);">
+                    <h4 style="color:#991b1b;">Zona de Peligro</h4>
+                    <button class="btn btn-danger" onclick="borrarTodo()">Borrar Todos Mis Datos</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bottom-nav" id="bottomNav">
+        <button class="nav-item" onclick="abrirModulo('inventario')">
+            <span class="icono">INV</span>
+            <span>Inv.</span>
+        </button>
+        <button class="nav-item" onclick="abrirModulo('nacimiento')">
+            <span class="icono">NAC</span>
+            <span>Nac.</span>
+        </button>
+        <button class="nav-item" onclick="abrirModulo('traslado')">
+            <span class="icono">TRA</span>
+            <span>Tras.</span>
+        </button>
+        <button class="nav-item" onclick="abrirModulo('muerte')">
+            <span class="icono">MUE</span>
+            <span>Mue.</span>
+        </button>
+        <button class="nav-item" onclick="cerrarModulo()">
+            <span class="icono">HOME</span>
+            <span>Inicio</span>
+        </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        async function compartirODescargar(nombreArchivo, contenido, tipoMime, titulo, texto) {
+            let blob = new Blob([contenido], { type: tipoMime });
+            if (navigator.canShare && typeof File !== 'undefined') {
+                try {
+                    let archivo = new File([blob], nombreArchivo, { type: tipoMime });
+                    if (navigator.canShare({ files: [archivo] })) {
+                        await navigator.share({ files: [archivo], title: titulo || 'Syntro', text: texto || '' });
+                        return 'compartido';
+                    }
+                } catch (err) {
+                    if (err.name === 'AbortError') return 'cancelado';
+                }
+            }
+            let link = document.createElement('a');
+            let url = URL.createObjectURL(blob);
+            link.href = url;
+            link.download = nombreArchivo;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            setTimeout(() => URL.revokeObjectURL(url), 30000);
+            return 'descargado';
+        }
+
+        function fechaArchivo() {
+            let hoy = new Date();
+            return hoy.getFullYear() + '-' + String(hoy.getMonth() + 1).padStart(2, '0') + '-' + String(hoy.getDate()).padStart(2, '0');
+        }
+
+        function getData(key) {
+            try { return JSON.parse(localStorage.getItem('syntro_' + key)) || []; } catch { return []; }
+        }
+
+        function setData(key, data) {
+            localStorage.setItem('syntro_' + key, JSON.stringify(data));
+        }
+
+        function getSupervisorNombre() {
+            return localStorage.getItem('syntro_supervisor_nombre') || '';
+        }
+
+        function setSupervisorNombre(nombre) {
+            localStorage.setItem('syntro_supervisor_nombre', nombre);
+        }
+
+        function initDatos() {
+            if (getData('fincas').length === 0) {
+                setData('fincas', [{ nombre: 'Finca Matriz Syntro' }, { nombre: 'RIECITO' }]);
+            }
+            if (getData('lotes').length === 0) {
+                setData('lotes', [
+                    { id: 1, nombre: 'Lote Cría', finca: 'Finca Matriz Syntro' },
+                    { id: 2, nombre: 'Lote Recría', finca: 'Finca Matriz Syntro' },
+                    { id: 3, nombre: 'Lote Vientres', finca: 'Finca Matriz Syntro' },
+                    { id: 4, nombre: 'Lote Toros', finca: 'Finca Matriz Syntro' },
+                    { id: 5, nombre: 'Maternidad', finca: 'RIECITO' }
+                ]);
+            }
+            if (getData('especies').length === 0) {
+                setData('especies', [
+                    { nombre: 'Bovino', dias: 283 },
+                    { nombre: 'Búfala', dias: 315 },
+                    { nombre: 'Ovino', dias: 150 },
+                    { nombre: 'Caprino', dias: 150 },
+                    { nombre: 'Porcino', dias: 115 },
+                    { nombre: 'Equino', dias: 340 }
+                ]);
+            }
+        }
+
+        function guardarNombreSupervisor() {
+            let nombre = document.getElementById('inputNombreSupervisor').value.trim();
+            if (!nombre) { alert('Por favor escriba su nombre'); return; }
+            setSupervisorNombre(nombre);
+            document.getElementById('pantallaBienvenida').style.display = 'none';
+            actualizarNombreUI();
+        }
+
+        function editarNombreSupervisor() {
+            let actual = getSupervisorNombre();
+            let nuevo = prompt('Su nombre:', actual);
+            if (nuevo && nuevo.trim()) {
+                setSupervisorNombre(nuevo.trim());
+                actualizarNombreUI();
+            }
+        }
+
+        function actualizarNombreUI() {
+            let nombre = getSupervisorNombre();
+            document.getElementById('headerSupervisor').textContent = nombre;
+            document.getElementById('nombreCortoHeader').textContent = nombre.split(' ')[0] || 'Usuario';
+        }
+
+        function abrirModulo(mod) {
+            document.getElementById('menuPrincipal').classList.remove('active');
+            document.querySelectorAll('.vista-modulo').forEach(el => el.classList.remove('active'));
+            document.getElementById('vista-' + mod).classList.add('active');
+            document.getElementById('bottomNav').classList.add('visible');
+            window.scrollTo(0, 0);
+
+            if (mod === 'inventario') cargarTablaInventario();
+            if (mod === 'nacimiento') cargarTablaNacimientos();
+            if (mod === 'traslado') cargarTablaTraslados();
+            if (mod === 'muerte') cargarTablaMuertes();
+            if (mod === 'graficos') verGraficos();
+            if (mod === 'configuracion') renderConfiguracion();
+        }
+
+        function cerrarModulo() {
+            document.querySelectorAll('.vista-modulo').forEach(el => el.classList.remove('active'));
+            document.getElementById('menuPrincipal').classList.add('active');
+            document.getElementById('bottomNav').classList.remove('visible');
+            window.scrollTo(0, 0);
+        }
+
+        function mostrarAlerta(id, mensaje, tipo) {
+            let alert = document.getElementById(id);
+            if (!alert) return;
+            alert.className = 'alert alert-' + tipo;
+            alert.textContent = mensaje;
+            alert.style.display = 'block';
+            setTimeout(() => { alert.style.display = 'none'; }, 5000);
+        }
+
+        function cargarSelects() {
+            let fincas = getData('fincas');
+            let lotes = getData('lotes');
+            let especies = getData('especies');
+
+            ['invFinca', 'nacFinca', 'mueFinca', 'traFincaDestino', 'cfgLoteFinca'].forEach(id => {
+                let sel = document.getElementById(id);
+                if (!sel) return;
+                let v = sel.value;
+                sel.innerHTML = '';
+                fincas.forEach(f => {
+                    let opt = document.createElement('option');
+                    opt.value = f.nombre;
+                    opt.textContent = f.nombre;
+                    sel.appendChild(opt);
+                });
+                if (v && fincas.find(f => f.nombre === v)) sel.value = v;
+            });
+
+            ['invEspecie', 'nacEspecie'].forEach(id => {
+                let sel = document.getElementById(id);
+                if (!sel) return;
+                let v = sel.value;
+                sel.innerHTML = '';
+                especies.forEach(e => {
+                    let opt = document.createElement('option');
+                    opt.value = e.nombre;
+                    opt.textContent = e.nombre;
+                    sel.appendChild(opt);
+                });
+                if (v && especies.find(e => e.nombre === v)) sel.value = v;
+            });
+
+            let selLoteInv = document.getElementById('invLote');
+            if (selLoteInv) {
+                let v = selLoteInv.value;
+                selLoteInv.innerHTML = '<option value="">Seleccione...</option>';
+                lotes.forEach(l => {
+                    let opt = document.createElement('option');
+                    opt.value = l.nombre;
+                    opt.textContent = l.nombre + (l.finca ? ' (' + l.finca + ')' : '');
+                    selLoteInv.appendChild(opt);
+                });
+                if (v) selLoteInv.value = v;
+            }
+
+            actualizarLotesDestino();
+        }
+
+        function actualizarLotesDestino() {
+            let fincaDestino = document.getElementById('traFincaDestino').value;
+            let selLote = document.getElementById('traLoteDestino');
+            if (!selLote) return;
+            let lotes = getData('lotes').filter(l => !fincaDestino || l.finca === fincaDestino);
+            let v = selLote.value;
+            selLote.innerHTML = '<option value="">Seleccione...</option>';
+            lotes.forEach(l => {
+                let opt = document.createElement('option');
+                opt.value = l.nombre;
+                opt.textContent = l.nombre;
+                selLote.appendChild(opt);
+            });
+            if (v && lotes.find(l => l.nombre === v)) selLote.value = v;
+        }
+
+        // ==================== INVENTARIO ====================
+        function registrarInventario() {
+            let chip = document.getElementById('invChip').value.trim();
+            let arete = document.getElementById('invArete').value.trim();
+            let especie = document.getElementById('invEspecie').value;
+            let lote = document.getElementById('invLote').value;
+            let finca = document.getElementById('invFinca').value;
+
+            if (!arete) { mostrarAlerta('alertInventario', 'El arete es obligatorio.', 'error'); return; }
+            if (!especie) { mostrarAlerta('alertInventario', 'Seleccione una especie.', 'error'); return; }
+
+            let inventario = getData('inventario');
+            if (inventario.find(a => a.arete === arete)) {
+                mostrarAlerta('alertInventario', 'El arete ' + arete + ' ya existe.', 'error');
+                return;
+            }
+            if (chip && inventario.find(a => a.chip === chip)) {
+                mostrarAlerta('alertInventario', 'El chip ' + chip + ' ya existe.', 'error');
+                return;
+            }
+
+            inventario.push({
+                chip: chip || '',
+                arete: arete,
+                especie: especie,
+                lote: lote,
+                finca: finca,
+                fecha: new Date().toLocaleDateString(),
+                supervisor: getSupervisorNombre(),
+                _id: 'inv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6)
+            });
+
+            setData('inventario', inventario);
+            mostrarAlerta('alertInventario', 'Animal registrado: ' + arete, 'success');
+            document.getElementById('invChip').value = '';
+            document.getElementById('invArete').value = '';
+            cargarTablaInventario();
+            actualizarTotales();
+        }
+
+        function eliminarAnimal(arete) {
+            if (!confirm('Eliminar animal con arete "' + arete + '"?')) return;
+            let inventario = getData('inventario');
+            setData('inventario', inventario.filter(a => a.arete !== arete));
+            cargarTablaInventario();
+            actualizarTotales();
+        }
+
+        function editarChipInventario(arete) {
+            let inventario = getData('inventario');
+            let animal = inventario.find(a => a.arete === arete);
+            if (!animal) return;
+            let nuevo = prompt('Chip para arete ' + arete + ':', animal.chip || '');
+            if (nuevo === null) return;
+            nuevo = nuevo.trim();
+            if (nuevo && inventario.find(a => a.chip === nuevo && a.arete !== arete)) {
+                alert('Ese chip ya está asignado.');
+                return;
+            }
+            animal.chip = nuevo;
+            setData('inventario', inventario);
+            cargarTablaInventario();
+        }
+
+        function cargarTablaInventario() {
+            let data = getData('inventario');
+            let tbody = document.getElementById('tablaInventario');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#94a3b8; padding:20px;">No hay animales registrados</td></tr>';
+                return;
+            }
+            data.forEach(a => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${a.chip || '<span class="badge-sin-chip">Sin chip</span>'}</td>
+                        <td><strong>${a.arete}</strong></td>
+                        <td>${a.especie || '-'}</td>
+                        <td>${a.lote || '-'}</td>
+                        <td>${a.finca || '-'}</td>
+                        <td>${a.fecha || '-'}</td>
+                        <td>
+                            <button class="btn-edit" onclick="editarChipInventario('${a.arete}')">Chip</button>
+                            <button class="btn-delete" onclick="eliminarAnimal('${a.arete}')">Borrar</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            document.getElementById('totalInventarioBadge').textContent = data.length;
+            document.getElementById('totalInventario').textContent = data.length;
+        }
+
+        function actualizarTotales() {
+            let inv = getData('inventario').length;
+            let nac = getData('nacimientos').length;
+            let tra = getData('traslados').length;
+            let mue = getData('muertes').length;
+
+            document.getElementById('totalInventarioBadge').textContent = inv;
+            document.getElementById('totalInventario').textContent = inv;
+            document.getElementById('totalNacimientosBadge').textContent = nac;
+            document.getElementById('totalNacimientos').textContent = nac;
+            document.getElementById('totalTrasladosBadge').textContent = tra;
+            document.getElementById('totalTraslados').textContent = tra;
+            document.getElementById('totalMuertesBadge').textContent = mue;
+            document.getElementById('totalMuertes').textContent = mue;
+        }
+
+        // ==================== CSV EXPORTS POR MÓDULO ====================
+        async function exportarInventarioCSV() {
+            let inventario = getData('inventario');
+            if (inventario.length === 0) { alert('No hay inventario para exportar.'); return; }
+            let csv = 'Chip,Arete,Especie,Lote,Finca,Fecha\n';
+            inventario.forEach(a => {
+                csv += [a.chip || '', a.arete, a.especie || '', a.lote || '', a.finca || '', a.fecha || ''].join(',') + '\n';
+            });
+            let nombre = 'syntro_inventario_' + fechaArchivo() + '.csv';
+            let r = await compartirODescargar(nombre, csv, 'text/csv', 'Inventario Syntro', 'Inventario');
+            mostrarAlerta('alertInventario', r === 'compartido' ? 'Inventario compartido.' : 'CSV descargado.', 'success');
+        }
+
+        async function exportarCSVNacimientos() {
+            let nacimientos = getData('nacimientos');
+            if (nacimientos.length === 0) { alert('No hay nacimientos para exportar.'); return; }
+            let headers = ['Fecha', 'Finca', 'Madre', 'Chip Madre', 'Toro', 'N° Parto', 'Tipo', 'Días Gest.', 'Cría ID', 'Chip Cría', 'Sexo', 'Peso', 'IPP'];
+            let csv = headers.join(',') + '\n';
+            nacimientos.forEach(r => {
+                if (!r.crias || r.crias.length === 0) {
+                    csv += [r.fecha, r.finca, r.madre, r.madreChip || '', r.toro, r.numParto, r.tipoParto, r.diasGestacion, 'SIN CRÍA', '', '', '', r.ipp > 0 ? r.ipp : ''].join(',') + '\n';
+                } else {
+                    r.crias.forEach(c => {
+                        csv += [r.fecha, r.finca, r.madre, r.madreChip || '', r.toro, r.numParto, r.tipoParto, r.diasGestacion, c.id, c.chip || '', c.sexo, c.peso, r.ipp > 0 ? r.ipp : ''].join(',') + '\n';
+                    });
+                }
+            });
+            let nombre = 'syntro_nacimientos_' + fechaArchivo() + '.csv';
+            let res = await compartirODescargar(nombre, csv, 'text/csv', 'Nacimientos Syntro', 'Nacimientos');
+            mostrarAlerta('alertNacimiento', res === 'compartido' ? 'Nacimientos compartidos.' : 'CSV descargado.', 'success');
+        }
+
+        async function exportarCSVTraslados() {
+            let traslados = getData('traslados');
+            if (traslados.length === 0) { alert('No hay traslados para exportar.'); return; }
+            let headers = ['Fecha', 'Chip', 'Arete', 'Finca Origen', 'Lote Origen', 'Finca Destino', 'Lote Destino', 'Motivo', 'Observaciones'];
+            let csv = headers.join(',') + '\n';
+            traslados.forEach(t => {
+                csv += [t.fecha, t.chip || '', t.arete, t.fincaOrigen, t.loteOrigen, t.fincaDestino, t.loteDestino, t.motivo, '"' + (t.observaciones || '').replace(/"/g, '""') + '"'].join(',') + '\n';
+            });
+            let nombre = 'syntro_traslados_' + fechaArchivo() + '.csv';
+            let r = await compartirODescargar(nombre, csv, 'text/csv', 'Traslados Syntro', 'Traslados');
+            mostrarAlerta('alertTraslado', r === 'compartido' ? 'Traslados compartidos.' : 'CSV descargado.', 'success');
+        }
+
+        async function exportarCSVMuertes() {
+            let muertes = getData('muertes');
+            if (muertes.length === 0) { alert('No hay muertes para exportar.'); return; }
+            let headers = ['Fecha', 'Finca', 'Chip', 'Arete', 'Lote', 'Causa', 'Categoría', 'Peso (Kg)', 'Observaciones'];
+            let csv = headers.join(',') + '\n';
+            muertes.forEach(m => {
+                csv += [m.fecha, m.finca, m.chip || '', m.arete, m.lote, m.causa, m.categoria, m.peso || '', '"' + (m.observaciones || '').replace(/"/g, '""') + '"'].join(',') + '\n';
+            });
+            let nombre = 'syntro_muertes_' + fechaArchivo() + '.csv';
+            let r = await compartirODescargar(nombre, csv, 'text/csv', 'Muertes Syntro', 'Muertes');
+            mostrarAlerta('alertMuerte', r === 'compartido' ? 'Muertes compartidas.' : 'CSV descargado.', 'success');
+        }
+
+        // ==================== SINCRONIZACIÓN CHIP/ARETE ====================
+        function limpiarAuto(el) { if (el) el.classList.remove('auto-lleno'); }
+        function marcarAuto(el) { if (el) el.classList.add('auto-lleno'); }
+
+        function formatearInfo(animal) {
+            return `<strong>${animal.arete}</strong> | ${animal.especie || '-'}<span class="animal-detalle">Lote: ${animal.lote || '-'} | Finca: ${animal.finca || '-'}</span>`;
+        }
+
+        function sincronizarMadrePorChip(valor) {
+            let info = document.getElementById('chipBuscarInfo');
+            let campo = document.getElementById('nacMadre');
+            valor = (valor || '').trim();
+            if (!valor) { limpiarAuto(campo); info.style.display = 'none'; info.className = 'chip-buscar-info'; return; }
+            let a = getData('inventario').find(x => x.chip === valor);
+            if (a) {
+                campo.value = a.arete; marcarAuto(campo);
+                info.className = 'chip-buscar-info'; info.style.display = 'block';
+                info.innerHTML = 'Animal encontrado: ' + formatearInfo(a);
+                calcularNumParto();
+            } else {
+                campo.value = ''; limpiarAuto(campo);
+                info.className = 'chip-buscar-info error'; info.style.display = 'block';
+                info.innerHTML = 'No se encontró ningún animal con ese chip.';
+            }
+        }
+
+        function sincronizarMadrePorArete(valor) {
+            let info = document.getElementById('chipBuscarInfo');
+            let campo = document.getElementById('nacMadreChip');
+            valor = (valor || '').trim();
+            if (!valor) { limpiarAuto(campo); info.style.display = 'none'; info.className = 'chip-buscar-info'; calcularNumParto(); return; }
+            let a = getData('inventario').find(x => x.arete === valor);
+            if (a) {
+                campo.value = a.chip || ''; if (a.chip) marcarAuto(campo);
+                info.className = 'chip-buscar-info'; info.style.display = 'block';
+                info.innerHTML = 'Animal encontrado: ' + formatearInfo(a);
+            } else {
+                campo.value = ''; limpiarAuto(campo);
+                info.className = 'chip-buscar-info error'; info.style.display = 'block';
+                info.innerHTML = 'Ese arete no está en el inventario.';
+            }
+            calcularNumParto();
+        }
+
+        function sincronizarTrasladoPorChip(valor) {
+            let info = document.getElementById('chipTrasladoInfo');
+            let cA = document.getElementById('traArete');
+            let cF = document.getElementById('traFincaOrigen');
+            let cL = document.getElementById('traLoteOrigen');
+            valor = (valor || '').trim();
+            if (!valor) { limpiarAuto(cA); cF.value = ''; cL.value = ''; info.style.display = 'none'; info.className = 'chip-buscar-info'; return; }
+            let a = getData('inventario').find(x => x.chip === valor);
+            if (a) {
+                cA.value = a.arete; cF.value = a.finca || ''; cL.value = a.lote || '';
+                marcarAuto(cA);
+                info.className = 'chip-buscar-info'; info.style.display = 'block';
+                info.innerHTML = 'Animal encontrado: ' + formatearInfo(a);
+            } else {
+                cA.value = ''; limpiarAuto(cA);
+                info.className = 'chip-buscar-info error'; info.style.display = 'block';
+                info.innerHTML = 'No se encontró ningún animal con ese chip.';
+            }
+        }
+
+        function sincronizarTrasladoPorArete(valor) {
+            let info = document.getElementById('chipTrasladoInfo');
+            let cC = document.getElementById('traChip');
+            let cF = document.getElementById('traFincaOrigen');
+            let cL = document.getElementById('traLoteOrigen');
+            valor = (valor || '').trim();
+            if (!valor) { limpiarAuto(cC); cF.value = ''; cL.value = ''; info.style.display = 'none'; info.className = 'chip-buscar-info'; return; }
+            let a = getData('inventario').find(x => x.arete === valor);
+            if (a) {
+                cC.value = a.chip || ''; cF.value = a.finca || ''; cL.value = a.lote || '';
+                if (a.chip) marcarAuto(cC);
+                info.className = 'chip-buscar-info'; info.style.display = 'block';
+                info.innerHTML = 'Animal encontrado: ' + formatearInfo(a);
+            } else {
+                cC.value = ''; limpiarAuto(cC);
+                info.className = 'chip-buscar-info error'; info.style.display = 'block';
+                info.innerHTML = 'Ese arete no está en el inventario.';
+            }
+        }
+
+        function sincronizarMuertePorChip(valor) {
+            let info = document.getElementById('chipMuerteInfo');
+            let cA = document.getElementById('mueArete');
+            let cL = document.getElementById('mueLote');
+            let cF = document.getElementById('mueFinca');
+            valor = (valor || '').trim();
+            if (!valor) { limpiarAuto(cA); cL.value = ''; info.style.display = 'none'; info.className = 'chip-buscar-info'; return; }
+            let a = getData('inventario').find(x => x.chip === valor);
+            if (a) {
+                cA.value = a.arete; cL.value = a.lote || '-'; if (a.finca) cF.value = a.finca;
+                marcarAuto(cA);
+                info.className = 'chip-buscar-info'; info.style.display = 'block';
+                info.innerHTML = 'Animal encontrado: ' + formatearInfo(a);
+            } else {
+                cA.value = ''; cL.value = ''; limpiarAuto(cA);
+                info.className = 'chip-buscar-info error'; info.style.display = 'block';
+                info.innerHTML = 'No se encontró ningún animal con ese chip.';
+            }
+        }
+
+        function sincronizarMuertePorArete(valor) {
+            let info = document.getElementById('chipMuerteInfo');
+            let cC = document.getElementById('mueChip');
+            let cL = document.getElementById('mueLote');
+            let cF = document.getElementById('mueFinca');
+            valor = (valor || '').trim();
+            if (!valor) { limpiarAuto(cC); cL.value = ''; info.style.display = 'none'; info.className = 'chip-buscar-info'; return; }
+            let a = getData('inventario').find(x => x.arete === valor);
+            if (a) {
+                cC.value = a.chip || ''; cL.value = a.lote || '-'; if (a.finca) cF.value = a.finca;
+                if (a.chip) marcarAuto(cC);
+                info.className = 'chip-buscar-info'; info.style.display = 'block';
+                info.innerHTML = 'Animal encontrado: ' + formatearInfo(a);
+            } else {
+                cC.value = ''; cL.value = ''; limpiarAuto(cC);
+                info.className = 'chip-buscar-info error'; info.style.display = 'block';
+                info.innerHTML = 'Ese arete no está en el inventario.';
+            }
+        }
+
+        // ==================== NACIMIENTO ====================
+        function actualizarDiasPorEspecie() {
+            let esp = document.getElementById('nacEspecie').value;
+            let e = getData('especies').find(x => x.nombre === esp);
+            if (e) document.getElementById('nacDiasGestacion').value = e.dias;
+        }
+
+        function cambiarTipoParto() {
+            let tipo = document.getElementById('nacTipoParto').value;
+            let esSinCria = (tipo === 'Aborto' || tipo === 'Mortinato');
+            document.getElementById('nacCria1Section').classList.toggle('hidden', esSinCria);
+            document.getElementById('nacCria2Section').classList.toggle('hidden', tipo !== 'Gemelar');
+            document.getElementById('criaNota').classList.toggle('visible', esSinCria);
+        }
+
+        function calcularNumParto() {
+            let madre = document.getElementById('nacMadre').value.trim();
+            let fecha = document.getElementById('nacFecha').value;
+            if (!madre || !fecha) {
+                document.getElementById('nacNumPartoDisplay').textContent = '-';
+                document.getElementById('nacIPPCalculado').textContent = '- días';
+                return;
+            }
+            let fechaActual = new Date(fecha);
+            let partos = getData('nacimientos').filter(r => {
+                let f = new Date(r.fecha);
+                return r.madre === madre && f < fechaActual && r.tipoParto !== 'Aborto' && r.tipoParto !== 'Mortinato';
+            });
+            let num = partos.length + 1;
+            document.getElementById('nacNumParto').value = num;
+            document.getElementById('nacNumPartoDisplay').textContent = num;
+            if (partos.length > 0) {
+                let ord = partos.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+                let diff = Math.floor((fechaActual - new Date(ord[0].fecha)) / (1000 * 60 * 60 * 24));
+                document.getElementById('nacIPPCalculado').textContent = diff + ' días';
+            } else {
+                document.getElementById('nacIPPCalculado').textContent = 'Primer parto';
+            }
+            generarSugerenciaId();
+        }
+
+        function contarCriasAnio(year) {
+            let c = 0;
+            getData('nacimientos').forEach(r => {
+                if (new Date(r.fecha).getFullYear() === year && r.crias) c += r.crias.length;
+            });
+            return c;
+        }
+
+        function generarSugerenciaId() {
+            let fecha = document.getElementById('nacFecha').value;
+            if (!fecha) return;
+            let year = new Date(fecha).getFullYear();
+            let short = year.toString().slice(-2);
+            let total = contarCriasAnio(year);
+            let id1 = short + String(total + 1).padStart(2, '0');
+            document.getElementById('sugerenciaCria1').textContent = id1;
+            let campo = document.getElementById('nacCria1Id');
+            if (!campo.value || campo.value === '-') campo.value = id1;
+        }
+
+        document.getElementById('nacFecha').addEventListener('change', function() {
+            generarSugerenciaId();
+            calcularNumParto();
+        });
+
+        function guardarNacimiento() {
+            let fecha = document.getElementById('nacFecha').value;
+            let finca = document.getElementById('nacFinca').value;
+            let madre = document.getElementById('nacMadre').value.trim();
+            let madreChip = document.getElementById('nacMadreChip').value.trim();
+            let toro = document.getElementById('nacToro').value.trim();
+            let numParto = parseInt(document.getElementById('nacNumParto').value) || 1;
+            let diasGestacion = parseInt(document.getElementById('nacDiasGestacion').value) || 283;
+            let tipo = document.getElementById('nacTipoParto').value;
+            let especie = document.getElementById('nacEspecie').value;
+            let lote = "Lote Cría";
+
+            if (!fecha || !finca || !madre || !toro || !tipo) {
+                mostrarAlerta('alertNacimiento', 'Complete los campos.', 'error');
+                return;
+            }
+
+            let esSinCria = (tipo === 'Aborto' || tipo === 'Mortinato');
+            let crias = [];
+
+            if (!esSinCria) {
+                let c1Id = document.getElementById('nacCria1Id').value.trim();
+                let c1Chip = document.getElementById('nacCria1Chip').value.trim();
+                let c1Sexo = document.getElementById('nacCria1Sexo').value;
+                let c1Peso = parseFloat(document.getElementById('nacCria1Peso').value);
+                if (!c1Id || c1Id === '-' || !c1Sexo || isNaN(c1Peso)) {
+                    mostrarAlerta('alertNacimiento', 'Complete la cría 1.', 'error');
+                    return;
+                }
+                crias.push({ id: c1Id, chip: c1Chip || '', sexo: c1Sexo, peso: c1Peso });
+                if (tipo === 'Gemelar') {
+                    let c2Id = document.getElementById('nacCria2Id').value.trim();
+                    let c2Chip = document.getElementById('nacCria2Chip').value.trim();
+                    let c2Sexo = document.getElementById('nacCria2Sexo').value;
+                    let c2Peso = parseFloat(document.getElementById('nacCria2Peso').value);
+                    if (!c2Id || c2Id === '-' || !c2Sexo || isNaN(c2Peso)) {
+                        mostrarAlerta('alertNacimiento', 'Complete la cría 2.', 'error');
+                        return;
+                    }
+                    crias.push({ id: c2Id, chip: c2Chip || '', sexo: c2Sexo, peso: c2Peso });
+                }
+            }
+
+            let partosAnt = getData('nacimientos').filter(r => {
+                let f = new Date(r.fecha);
+                return r.madre === madre && f < new Date(fecha) && r.tipoParto !== 'Aborto' && r.tipoParto !== 'Mortinato';
+            });
+            let ipp = 0;
+            if (partosAnt.length > 0) {
+                let ord = partosAnt.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+                ipp = Math.floor((new Date(fecha) - new Date(ord[0].fecha)) / (1000 * 60 * 60 * 24));
+            }
+
+            let inventario = getData('inventario');
+            if (!inventario.find(a => a.arete === madre)) {
+                inventario.push({ chip: madreChip || '', arete: madre, especie, lote, finca, fecha: new Date().toLocaleDateString() });
+            }
+            if (toro !== '-' && !inventario.find(a => a.arete === toro)) {
+                inventario.push({ chip: '', arete: toro, especie, lote, finca, fecha: new Date().toLocaleDateString() });
+            }
+            crias.forEach(c => {
+                if (!inventario.find(a => a.arete === c.id)) {
+                    inventario.push({ chip: c.chip || '', arete: c.id, especie, lote, finca, fecha: new Date().toLocaleDateString() });
+                }
+            });
+            setData('inventario', inventario);
+
+            let nacimientos = getData('nacimientos');
+            nacimientos.push({
+                fecha, finca, madre, madreChip, toro, numParto, diasGestacion, tipoParto: tipo,
+                especie, ipp, crias, sinCria: esSinCria,
+                supervisor: getSupervisorNombre(),
+                _id: 'nac_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6)
+            });
+            setData('nacimientos', nacimientos);
+
+            mostrarAlerta('alertNacimiento', 'Parto guardado. No olvide COMPARTIR TODO.', 'success');
+
+            document.getElementById('nacMadre').value = '';
+            document.getElementById('nacMadreChip').value = '';
+            document.getElementById('nacToro').value = '-';
+            document.getElementById('nacNumParto').value = '';
+            document.getElementById('nacNumPartoDisplay').textContent = '-';
+            document.getElementById('nacIPPCalculado').textContent = '- días';
+            document.getElementById('nacCria1Id').value = '-';
+            document.getElementById('nacCria1Chip').value = '';
+            document.getElementById('nacCria1Sexo').value = '';
+            document.getElementById('nacCria1Peso').value = '';
+            document.getElementById('nacCria2Section').classList.add('hidden');
+            document.getElementById('nacCria1Section').classList.remove('hidden');
+            document.getElementById('criaNota').classList.remove('visible');
+            document.getElementById('nacTipoParto').value = '';
+            document.getElementById('chipBuscarInfo').style.display = 'none';
+            cargarTablaNacimientos();
+            actualizarTotales();
+        }
+
+        function cargarTablaNacimientos() {
+            let data = getData('nacimientos');
+            let tbody = document.getElementById('tablaNacimientos');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="14" style="text-align:center; color:#94a3b8; padding:20px;">No hay nacimientos registrados</td></tr>';
+                return;
+            }
+            data.forEach((reg, index) => {
+                if (!reg.crias || reg.crias.length === 0) {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${reg.fecha}</td>
+                            <td>${reg.finca}</td>
+                            <td>${reg.madre}</td>
+                            <td>${reg.madreChip || '<span class="badge-sin-chip">Sin chip</span>'}</td>
+                            <td>${reg.toro}</td>
+                            <td>${reg.numParto}</td>
+                            <td><span class="badge-aborto">${reg.tipoParto}</span></td>
+                            <td>${reg.diasGestacion}</td>
+                            <td colspan="4" style="text-align:center; color:#7c3aed; font-style:italic;">Sin cría (${reg.tipoParto})</td>
+                            <td>${reg.ipp > 0 ? reg.ipp : '-'}</td>
+                            <td><button class="btn-delete" onclick="eliminarNacimientoTabla(${index})">Borrar</button></td>
+                        </tr>
+                    `;
+                } else {
+                    reg.crias.forEach(c => {
+                        tbody.innerHTML += `
+                            <tr>
+                                <td>${reg.fecha}</td>
+                                <td>${reg.finca}</td>
+                                <td>${reg.madre}</td>
+                                <td>${reg.madreChip || '<span class="badge-sin-chip">Sin chip</span>'}</td>
+                                <td>${reg.toro}</td>
+                                <td>${reg.numParto}</td>
+                                <td>${reg.tipoParto}</td>
+                                <td>${reg.diasGestacion}</td>
+                                <td>${c.id}</td>
+                                <td>${c.chip || '<span class="badge-sin-chip">Sin chip</span>'}</td>
+                                <td>${c.sexo}</td>
+                                <td>${c.peso} Kg</td>
+                                <td>${reg.ipp > 0 ? reg.ipp : '-'}</td>
+                                <td><button class="btn-delete" onclick="eliminarNacimientoTabla(${index})">Borrar</button></td>
+                            </tr>
+                        `;
+                    });
+                }
+            });
+        }
+
+        function eliminarNacimientoTabla(index) {
+            if (!confirm('Eliminar este parto?')) return;
+            let nacimientos = getData('nacimientos');
+            nacimientos.splice(index, 1);
+            setData('nacimientos', nacimientos);
+            cargarTablaNacimientos();
+            actualizarTotales();
+        }
+
+        // ==================== TRASLADO ====================
+        function registrarTraslado() {
+            let fecha = document.getElementById('traFecha').value;
+            let arete = document.getElementById('traArete').value.trim();
+            let fincaOrigen = document.getElementById('traFincaOrigen').value.trim();
+            let loteOrigen = document.getElementById('traLoteOrigen').value.trim();
+            let fincaDestino = document.getElementById('traFincaDestino').value;
+            let loteDestino = document.getElementById('traLoteDestino').value;
+            let motivo = document.getElementById('traMotivo').value;
+            let observaciones = document.getElementById('traObservaciones').value.trim();
+
+            if (!fecha || !arete || !fincaDestino || !loteDestino) {
+                mostrarAlerta('alertTraslado', 'Complete los campos.', 'error');
+                return;
+            }
+
+            let inventario = getData('inventario');
+            let animal = inventario.find(a => a.arete === arete);
+            if (animal) {
+                animal.finca = fincaDestino;
+                animal.lote = loteDestino;
+                setData('inventario', inventario);
+            }
+
+            let traslados = getData('traslados');
+            traslados.push({
+                fecha, chip: document.getElementById('traChip').value.trim(), arete,
+                fincaOrigen, loteOrigen, fincaDestino, loteDestino, motivo, observaciones,
+                supervisor: getSupervisorNombre(),
+                _id: 'tra_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6)
+            });
+            setData('traslados', traslados);
+
+            mostrarAlerta('alertTraslado', 'Traslado guardado. No olvide COMPARTIR TODO.', 'success');
+
+            document.getElementById('traChip').value = '';
+            document.getElementById('traArete').value = '';
+            document.getElementById('traFincaOrigen').value = '';
+            document.getElementById('traLoteOrigen').value = '';
+            document.getElementById('traLoteDestino').value = '';
+            document.getElementById('traObservaciones').value = '';
+            document.getElementById('chipTrasladoInfo').style.display = 'none';
+            cargarTablaTraslados();
+            actualizarTotales();
+        }
+
+        function cargarTablaTraslados() {
+            let data = getData('traslados');
+            let tbody = document.getElementById('tablaTraslados');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; color:#94a3b8; padding:20px;">No hay traslados registrados</td></tr>';
+                return;
+            }
+            data.forEach((t, index) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${t.fecha}</td>
+                        <td>${t.chip || '<span class="badge-sin-chip">Sin chip</span>'}</td>
+                        <td><strong>${t.arete}</strong></td>
+                        <td>${t.fincaOrigen}</td>
+                        <td>${t.loteOrigen}</td>
+                        <td><span class="badge-traslado">${t.fincaDestino}</span></td>
+                        <td><span class="badge-traslado">${t.loteDestino}</span></td>
+                        <td>${t.motivo}</td>
+                        <td>${t.observaciones || '-'}</td>
+                        <td><button class="btn-delete" onclick="eliminarTrasladoTabla(${index})">Borrar</button></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function eliminarTrasladoTabla(index) {
+            if (!confirm('Eliminar este traslado?')) return;
+            let traslados = getData('traslados');
+            traslados.splice(index, 1);
+            setData('traslados', traslados);
+            cargarTablaTraslados();
+            actualizarTotales();
+        }
+
+        // ==================== MUERTE ====================
+        function registrarMuerte() {
+            let fecha = document.getElementById('mueFecha').value;
+            let finca = document.getElementById('mueFinca').value;
+            let chip = document.getElementById('mueChip').value.trim();
+            let arete = document.getElementById('mueArete').value.trim();
+            let lote = document.getElementById('mueLote').value.trim();
+            let causa = document.getElementById('mueCausa').value;
+            let categoria = document.getElementById('mueCategoria').value;
+            let peso = parseFloat(document.getElementById('muePeso').value) || 0;
+            let observaciones = document.getElementById('mueObservaciones').value.trim();
+
+            if (!fecha || !finca || !arete || !causa) {
+                mostrarAlerta('alertMuerte', 'Complete los campos.', 'error');
+                return;
+            }
+
+            let muertes = getData('muertes');
+            muertes.push({
+                fecha, finca, chip: chip || '', arete, lote: lote || '-',
+                causa, categoria, peso, observaciones,
+                supervisor: getSupervisorNombre(),
+                _id: 'mue_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6)
+            });
+            setData('muertes', muertes);
+
+            let inventario = getData('inventario');
+            inventario = inventario.filter(a => a.arete !== arete);
+            setData('inventario', inventario);
+
+            mostrarAlerta('alertMuerte', 'Muerte guardada. No olvide COMPARTIR TODO.', 'success');
+
+            document.getElementById('mueChip').value = '';
+            document.getElementById('mueArete').value = '';
+            document.getElementById('mueLote').value = '';
+            document.getElementById('mueCausa').value = '';
+            document.getElementById('muePeso').value = '';
+            document.getElementById('mueObservaciones').value = '';
+            document.getElementById('chipMuerteInfo').style.display = 'none';
+            cargarTablaMuertes();
+            actualizarTotales();
+        }
+
+        function cargarTablaMuertes() {
+            let data = getData('muertes');
+            let tbody = document.getElementById('tablaMuertes');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; color:#94a3b8; padding:20px;">No hay muertes registradas</td></tr>';
+                return;
+            }
+            data.forEach((m, index) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${m.fecha}</td>
+                        <td>${m.finca}</td>
+                        <td>${m.chip || '<span class="badge-sin-chip">Sin chip</span>'}</td>
+                        <td><strong>${m.arete}</strong></td>
+                        <td>${m.lote}</td>
+                        <td><span class="badge-muerte">${m.causa}</span></td>
+                        <td>${m.categoria}</td>
+                        <td>${m.peso > 0 ? m.peso + ' Kg' : '-'}</td>
+                        <td>${m.observaciones || '-'}</td>
+                        <td><button class="btn-delete" onclick="eliminarMuerteTabla(${index})">Borrar</button></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function eliminarMuerteTabla(index) {
+            if (!confirm('Eliminar esta muerte?')) return;
+            let muertes = getData('muertes');
+            muertes.splice(index, 1);
+            setData('muertes', muertes);
+            cargarTablaMuertes();
+            actualizarTotales();
+        }
+
+        // ==================== COMPARTIR TODO ====================
+        async function compartirTodo() {
+            let supervisor = getSupervisorNombre();
+            if (!supervisor) { alert('Primero ingrese su nombre.'); return; }
+
+            let trabajo = {
+                tipo: 'syntro_trabajo_supervisor',
+                version: '1.0',
+                supervisor: supervisor,
+                fecha: new Date().toISOString(),
+                inventario: getData('inventario'),
+                nacimientos: getData('nacimientos'),
+                traslados: getData('traslados'),
+                muertes: getData('muertes'),
+                fincas: getData('fincas'),
+                lotes: getData('lotes'),
+                especies: getData('especies')
+            };
+
+            let totInv = trabajo.inventario.length;
+            let totN = trabajo.nacimientos.length;
+            let totT = trabajo.traslados.length;
+            let totM = trabajo.muertes.length;
+
+            if (totInv === 0 && totN === 0 && totT === 0 && totM === 0) {
+                if (!confirm('No hay registros.\n\n¿Compartir igual?')) return;
+            }
+
+            let json = JSON.stringify(trabajo, null, 2);
+            let nombreArchivo = 'trabajo_' + supervisor.replace(/\s+/g, '_') + '_' + fechaArchivo() + '.json';
+
+            let r = await compartirODescargar(
+                nombreArchivo,
+                json,
+                'application/json',
+                'Trabajo de ' + supervisor,
+                'Inventario: ' + totInv + ' · Nacimientos: ' + totN + ' · Traslados: ' + totT + ' · Muertes: ' + totM
+            );
+
+            if (r === 'compartido') {
+                alert('Enviado al dueño.');
+            } else if (r === 'descargado') {
+                alert('Archivo descargado. Búscalo en Descargas y mándalo por WhatsApp.');
+            }
+        }
+
+        // ==================== GRÁFICOS ====================
+        let chartTipos = null, chartSexo = null, chartMuertes = null, chartTraslados = null;
+
+        function verGraficos() {
+            let nac = getData('nacimientos');
+            let mue = getData('muertes');
+            let tra = getData('traslados');
+
+            let causas = {};
+            mue.forEach(m => { causas[m.causa] = (causas[m.causa] || 0) + 1; });
+            if (chartMuertes) chartMuertes.destroy();
+            if (Object.keys(causas).length > 0) {
+                chartMuertes = new Chart(document.getElementById('chartMuertes'), {
+                    type: 'pie',
+                    data: { labels: Object.keys(causas), datasets: [{ data: Object.values(causas),
+                        backgroundColor: ['#dc2626', '#f59e0b', '#168aad', '#52b69a', '#76c893'] }] },
+                    options: { responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } } }
+                });
+            }
+
+            let motivos = {};
+            tra.forEach(t => { motivos[t.motivo] = (motivos[t.motivo] || 0) + 1; });
+            if (chartTraslados) chartTraslados.destroy();
+            if (Object.keys(motivos).length > 0) {
+                chartTraslados = new Chart(document.getElementById('chartTraslados'), {
+                    type: 'bar',
+                    data: { labels: Object.keys(motivos), datasets: [{ label: 'Cantidad', data: Object.values(motivos),
+                        backgroundColor: ['#f59e0b', '#d97706', '#168aad', '#52b69a'], borderRadius: 6 }] },
+                    options: { responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                });
+            }
+
+            if (nac.length === 0) return;
+
+            let tipos = {}, sexos = { Hembra: 0, Macho: 0 };
+            nac.forEach(r => {
+                tipos[r.tipoParto] = (tipos[r.tipoParto] || 0) + 1;
+                if (r.crias) r.crias.forEach(c => sexos[c.sexo]++);
+            });
+
+            if (chartTipos) chartTipos.destroy();
+            chartTipos = new Chart(document.getElementById('chartTipos'), {
+                type: 'bar',
+                data: { labels: Object.keys(tipos), datasets: [{ label: 'Cantidad', data: Object.values(tipos),
+                    backgroundColor: ['#52b69a', '#34a0a4', '#168aad', '#1a759f', '#76c893', '#7c3aed'], borderRadius: 6 }] },
+                options: { responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+            });
+
+            if (chartSexo) chartSexo.destroy();
+            chartSexo = new Chart(document.getElementById('chartSexo'), {
+                type: 'doughnut',
+                data: { labels: Object.keys(sexos), datasets: [{ data: Object.values(sexos),
+                    backgroundColor: ['#52b69a', '#1a759f'], borderWidth: 0 }] },
+                options: { responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } } }
+            });
+        }
+
+        // ==================== IMPORTAR / RESPALDO ====================
+        function importarInventarioMaestro(event) {
+            let file = event.target.files[0];
+            if (!file) return;
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    let data = JSON.parse(e.target.result);
+                    let inventario = null;
+                    if (data.tipo === 'syntro_inventario' && data.inventario) inventario = data.inventario;
+                    else if (data.inventario) inventario = data.inventario;
+                    else if (Array.isArray(data)) inventario = data;
+
+                    if (!inventario || inventario.length === 0) { alert('No se encontró inventario en el archivo.'); return; }
+                    if (!confirm('Importar ' + inventario.length + ' animales del maestro?')) return;
+
+                    setData('inventario', inventario);
+                    if (data.fincas && data.fincas.length) setData('fincas', data.fincas);
+                    if (data.lotes && data.lotes.length) setData('lotes', data.lotes);
+                    if (data.especies && data.especies.length) setData('especies', data.especies);
+
+                    cargarSelects();
+                    renderConfiguracion();
+                    actualizarTotales();
+                    cargarTablaInventario();
+                    mostrarAlerta('alertConfig', 'Inventario importado: ' + inventario.length + ' animales.', 'success');
+                } catch (err) { alert('Error: ' + err.message); }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        async function exportarMiRespaldo() {
+            let data = {
+                tipo: 'syntro_trabajo_supervisor',
+                version: '1.0',
+                supervisor: getSupervisorNombre(),
+                fecha: new Date().toISOString(),
+                inventario: getData('inventario'),
+                nacimientos: getData('nacimientos'),
+                traslados: getData('traslados'),
+                muertes: getData('muertes'),
+                fincas: getData('fincas'),
+                lotes: getData('lotes'),
+                especies: getData('especies')
+            };
+            let json = JSON.stringify(data, null, 2);
+            let nombre = 'mi_respaldo_' + fechaArchivo() + '.json';
+            let r = await compartirODescargar(nombre, json, 'application/json', 'Mi respaldo', '');
+            mostrarAlerta('alertConfig', r === 'compartido' ? 'Compartido.' : 'Descargado.', 'success');
+        }
+
+        function importarMiRespaldo(event) {
+            let file = event.target.files[0];
+            if (!file) return;
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    let data = JSON.parse(e.target.result);
+                    if (!data.tipo || !data.tipo.includes('supervisor')) { alert('No es un respaldo válido.'); return; }
+                    if (!confirm('Reemplazará sus datos actuales. ¿Continuar?')) return;
+
+                    if (data.inventario) setData('inventario', data.inventario);
+                    if (data.nacimientos) setData('nacimientos', data.nacimientos);
+                    if (data.traslados) setData('traslados', data.traslados);
+                    if (data.muertes) setData('muertes', data.muertes);
+                    if (data.fincas) setData('fincas', data.fincas);
+                    if (data.lotes) setData('lotes', data.lotes);
+                    if (data.especies) setData('especies', data.especies);
+
+                    cargarSelects();
+                    renderConfiguracion();
+                    actualizarTotales();
+                    cargarTablaInventario();
+                    mostrarAlerta('alertConfig', 'Respaldo restaurado.', 'success');
+                } catch (err) { alert('Error: ' + err.message); }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // ==================== CONFIGURACIÓN ====================
+        function renderConfiguracion() {
+            let lf = document.getElementById('listaFincas');
+            lf.innerHTML = '';
+            getData('fincas').forEach((f, i) => {
+                lf.innerHTML += `<div class="config-item"><span><strong>${f.nombre}</strong></span><button class="btn-delete" onclick="eliminarFinca(${i})">Borrar</button></div>`;
+            });
+
+            let ll = document.getElementById('listaLotes');
+            ll.innerHTML = '';
+            getData('lotes').forEach((l, i) => {
+                ll.innerHTML += `<div class="config-item"><span><strong>${l.nombre}</strong> (${l.finca || '-'})</span><button class="btn-delete" onclick="eliminarLote(${i})">Borrar</button></div>`;
+            });
+
+            let le = document.getElementById('listaEspecies');
+            le.innerHTML = '';
+            getData('especies').forEach((e, i) => {
+                le.innerHTML += `<div class="config-item"><span><strong>${e.nombre}</strong> (${e.dias} días)</span><button class="btn-delete" onclick="eliminarEspecie(${i})">Borrar</button></div>`;
+            });
+        }
+
+        function agregarFinca() {
+            let n = document.getElementById('cfgNuevaFinca').value.trim();
+            if (!n) return;
+            let f = getData('fincas');
+            if (!f.find(x => x.nombre.toLowerCase() === n.toLowerCase())) {
+                f.push({ nombre: n });
+                setData('fincas', f);
+                document.getElementById('cfgNuevaFinca').value = '';
+                cargarSelects();
+                renderConfiguracion();
+            }
+        }
+
+        function eliminarFinca(i) {
+            if (!confirm('¿Eliminar finca?')) return;
+            let f = getData('fincas');
+            f.splice(i, 1);
+            setData('fincas', f);
+            cargarSelects();
+            renderConfiguracion();
+        }
+
+        function agregarLote() {
+            let n = document.getElementById('cfgNuevoLote').value.trim();
+            let f = document.getElementById('cfgLoteFinca').value;
+            if (!n || !f) return;
+            let l = getData('lotes');
+            l.push({ id: l.length + 1, nombre: n, finca: f });
+            setData('lotes', l);
+            document.getElementById('cfgNuevoLote').value = '';
+            cargarSelects();
+            renderConfiguracion();
+        }
+
+        function eliminarLote(i) {
+            if (!confirm('¿Eliminar lote?')) return;
+            let l = getData('lotes');
+            l.splice(i, 1);
+            setData('lotes', l);
+            cargarSelects();
+            renderConfiguracion();
+        }
+
+        function agregarEspecie() {
+            let n = document.getElementById('cfgNuevaEspecie').value.trim();
+            let d = parseInt(document.getElementById('cfgNuevosDiasGestacion').value);
+            if (!n || !d) return;
+            let e = getData('especies');
+            e.push({ nombre: n, dias: d });
+            setData('especies', e);
+            document.getElementById('cfgNuevaEspecie').value = '';
+            document.getElementById('cfgNuevosDiasGestacion').value = '';
+            cargarSelects();
+            renderConfiguracion();
+        }
+
+        function eliminarEspecie(i) {
+            if (!confirm('¿Eliminar especie?')) return;
+            let e = getData('especies');
+            e.splice(i, 1);
+            setData('especies', e);
+            cargarSelects();
+            renderConfiguracion();
+        }
+
+        function borrarTodo() {
+            if (!confirm('¿Borrar TODOS sus datos?')) return;
+            if (!confirm('CONFIRMACIÓN FINAL. ¿Continuar?')) return;
+            ['inventario', 'nacimientos', 'traslados', 'muertes', 'fincas', 'lotes', 'especies'].forEach(k => {
+                localStorage.removeItem('syntro_' + k);
+            });
+            initDatos();
+            cargarSelects();
+            renderConfiguracion();
+            actualizarTotales();
+            cargarTablaInventario();
+            alert('Datos borrados.');
+        }
+
+        // ==================== INIT ====================
+        function init() {
+            let nombre = getSupervisorNombre();
+            if (nombre) {
+                document.getElementById('pantallaBienvenida').style.display = 'none';
+                actualizarNombreUI();
+            } else {
+                setTimeout(() => { document.getElementById('inputNombreSupervisor').focus(); }, 300);
+            }
+
+            initDatos();
+            cargarSelects();
+            document.getElementById('nacFecha').valueAsDate = new Date();
+            document.getElementById('mueFecha').valueAsDate = new Date();
+            document.getElementById('traFecha').valueAsDate = new Date();
+
+            actualizarTotales();
+            cargarTablaInventario();
+            cargarTablaNacimientos();
+            cargarTablaTraslados();
+            cargarTablaMuertes();
+
+            document.getElementById('inputNombreSupervisor').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') guardarNombreSupervisor();
+            });
+        }
+
+        init();
+    </script>
+</body>
+</html>

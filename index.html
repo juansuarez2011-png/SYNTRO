@@ -1,0 +1,3135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Syntro Maestro - Sistema Pecuario Integral</title>
+    <style>
+        :root {
+            --syntro-verde-claro: #d9ed92;
+            --syntro-verde-medio: #b5e48c;
+            --syntro-verde: #99d98c;
+            --syntro-verde-oscuro: #76c893;
+            --syntro-turquesa-claro: #52b69a;
+            --syntro-turquesa: #34a0a4;
+            --syntro-azul-verde: #168aad;
+            --syntro-azul-medio: #1a759f;
+            --syntro-azul-oscuro: #1e6091;
+            --syntro-azul-muy-oscuro: #184e77;
+            --syntro-bg: #f0f7f4;
+            --syntro-card: #ffffff;
+            --syntro-text: #1e293b;
+            --syntro-border: #cbd5e1;
+            --syntro-danger: #dc2626;
+            --syntro-success: #22c55e;
+            --syntro-warning: #f59e0b;
+            --syntro-violeta: #8b5cf6;
+            --shadow: 0 4px 20px rgba(24, 78, 119, 0.12);
+            --radius: 12px;
+            --touch-size: 48px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--syntro-bg);
+            min-height: 100vh;
+            padding: 10px;
+            padding-bottom: 100px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--syntro-azul-muy-oscuro) 0%, var(--syntro-azul-oscuro) 40%, var(--syntro-turquesa) 100%);
+            color: white;
+            padding: 14px 18px;
+            border-radius: var(--radius);
+            box-shadow: 0 8px 30px rgba(24, 78, 119, 0.35);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .header-left { display: flex; align-items: center; gap: 12px; }
+
+        .logo-container img {
+            height: 42px;
+            width: auto;
+            display: block;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+        }
+
+        .header-titles h1 { font-size: 18px; font-weight: 700; line-height: 1.2; }
+        .header-titles p { font-size: 11px; opacity: 0.85; font-weight: 300; }
+
+        .header-badge {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #78350f;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-tab {
+            background: white;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 12px;
+            color: var(--syntro-azul-oscuro);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: 2px solid transparent;
+            min-height: var(--touch-size);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            touch-action: manipulation;
+        }
+
+        .nav-tab:active { transform: scale(0.96); }
+        .nav-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(52, 160, 164, 0.2);
+            border-color: var(--syntro-turquesa-claro);
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, var(--syntro-azul-verde) 0%, var(--syntro-turquesa) 100%);
+            color: white;
+            box-shadow: 0 4px 20px rgba(52, 160, 164, 0.35);
+        }
+
+        .nav-tab.analisis.active {
+            background: linear-gradient(135deg, var(--syntro-violeta), #6d28d9);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.35);
+        }
+
+        .nav-tab .icon { margin-right: 2px; font-size: 14px; }
+
+        .module {
+            display: none;
+            background: white;
+            padding: 18px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 15px;
+        }
+
+        .module.active { display: block; animation: fadeIn 0.3s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .module-title {
+            font-size: 18px;
+            color: var(--syntro-azul-muy-oscuro);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--syntro-turquesa);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .module-title.analisis { border-bottom-color: var(--syntro-violeta); }
+
+        .module-title .badge-count {
+            background: var(--syntro-turquesa);
+            color: white;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .form-group { display: flex; flex-direction: column; }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--syntro-azul-oscuro);
+            margin-bottom: 4px;
+        }
+
+        .form-group label .required { color: var(--syntro-danger); font-weight: 700; }
+        .form-group label .optional { color: #94a3b8; font-weight: 400; font-size: 11px; }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px 14px;
+            border: 2px solid var(--syntro-border);
+            border-radius: 10px;
+            font-size: 15px;
+            background: #fafcfa;
+            transition: all 0.3s ease;
+            width: 100%;
+            min-height: var(--touch-size);
+            -webkit-appearance: none;
+            appearance: none;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--syntro-turquesa);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(52, 160, 164, 0.12);
+        }
+
+        .form-group input[readonly] {
+            background: #f1f5f9;
+            color: var(--syntro-azul-oscuro);
+            font-weight: 600;
+        }
+
+        .form-group input.editable-id {
+            background: #fffde7;
+            border-color: var(--syntro-warning);
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 1px;
+        }
+
+        .form-group input.buscar-chip {
+            background: #e6f3ff;
+            border-color: var(--syntro-azul-verde);
+        }
+
+        .form-group input.auto-lleno {
+            background: #dcfce7;
+            border-color: var(--syntro-success);
+            font-weight: 700;
+            color: #166534;
+        }
+
+        .chip-buscar-info {
+            grid-column: 1 / -1;
+            margin-top: 0;
+            margin-bottom: 8px;
+            padding: 14px 16px;
+            border-left: 5px solid var(--syntro-success);
+            border-radius: 8px;
+            font-size: 14px;
+            color: #166534;
+            display: none;
+            background: #dcfce7;
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+        .chip-buscar-info.error {
+            background: #fee2e2;
+            border-color: var(--syntro-danger);
+            color: #991b1b;
+        }
+
+        .chip-buscar-info .animal-detalle {
+            display: block;
+            margin-top: 8px;
+            font-size: 13px;
+            color: #065f46;
+            font-weight: 500;
+            padding-top: 8px;
+            border-top: 1px solid rgba(22, 101, 52, 0.2);
+        }
+
+        .sugerencia-text {
+            margin-top: 4px;
+            font-size: 12px;
+            color: var(--syntro-azul-oscuro);
+            background: #e6f3ff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border-left: 3px solid var(--syntro-azul-verde);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sugerencia-text .correlativo-anterior {
+            background: var(--syntro-warning);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 11px;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: var(--touch-size);
+            width: 100%;
+        }
+
+        .btn:active { transform: scale(0.96); }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--syntro-turquesa), var(--syntro-turquesa-claro));
+            color: white;
+            box-shadow: 0 4px 15px rgba(52, 160, 164, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--syntro-azul-medio), var(--syntro-azul-oscuro));
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--syntro-verde), var(--syntro-verde-oscuro));
+            color: var(--syntro-azul-muy-oscuro);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, var(--syntro-danger));
+            color: white;
+        }
+
+        .btn-muerte {
+            background: linear-gradient(135deg, #6b7280, #1f2937);
+            color: white;
+        }
+
+        .btn-traslado {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+
+        .btn-sync {
+            background: linear-gradient(135deg, var(--syntro-violeta), #6d28d9);
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-share {
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: white;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-sm { padding: 10px 16px; font-size: 13px; min-height: 40px; }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 12px 0;
+        }
+
+        .btn-group-row {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-group-row .btn { flex: 1; min-width: 120px; }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 14px;
+            display: none;
+        }
+        .alert-success { background: #dcfce7; border: 1px solid var(--syntro-success); color: #166534; }
+        .alert-error { background: #fee2e2; border: 1px solid var(--syntro-danger); color: #991b1b; }
+        .alert-warning { background: #fef3c7; border: 1px solid var(--syntro-warning); color: #92400e; }
+        .alert-info { background: #dbeafe; border: 1px solid #3b82f6; color: #1e40af; }
+
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 10px;
+            border: 1px solid var(--syntro-border);
+            margin-top: 12px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            min-width: 500px;
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--syntro-azul-oscuro), var(--syntro-azul-verde));
+            color: white;
+            padding: 10px 10px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--syntro-border);
+        }
+
+        tr:hover { background: #f0fdfa; }
+
+        .btn-delete {
+            background: none;
+            border: none;
+            color: var(--syntro-danger);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            min-height: 36px;
+            min-width: 36px;
+        }
+        .btn-delete:active { background: #fee2e2; }
+
+        .btn-edit {
+            background: none;
+            border: none;
+            color: var(--syntro-azul-verde);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            min-height: 36px;
+            min-width: 36px;
+        }
+        .btn-edit:active { background: #e0f2fe; }
+
+        .badge-sin-chip {
+            background: var(--syntro-warning);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .badge-muerte {
+            background: #1f2937;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .badge-traslado {
+            background: var(--syntro-warning);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .badge-aborto {
+            background: #7c3aed;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .badge-supervisor {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .info-display {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--syntro-verde-claro), var(--syntro-verde-medio));
+            border-radius: 10px;
+            margin: 10px 0 15px 0;
+        }
+
+        .info-item { text-align: center; }
+        .info-item label { font-size: 11px; color: var(--syntro-azul-muy-oscuro); font-weight: 600; display: block; }
+        .info-item span { font-size: 17px; font-weight: 800; color: var(--syntro-azul-oscuro); }
+
+        .cria-card {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--syntro-verde-oscuro);
+        }
+        .cria-card.hidden { display: none; }
+        .cria-card h4 { color: var(--syntro-azul-verde); margin-bottom: 10px; font-size: 14px; }
+
+        .muerte-card {
+            background: #fef2f2;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--syntro-danger);
+        }
+        .muerte-card h4 { color: #991b1b; margin-bottom: 10px; font-size: 14px; }
+
+        .traslado-card {
+            background: #fffbeb;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--syntro-warning);
+        }
+        .traslado-card h4 { color: #92400e; margin-bottom: 10px; font-size: 14px; }
+
+        .config-card {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--syntro-azul-verde);
+        }
+        .config-card h4 { color: var(--syntro-azul-oscuro); margin-bottom: 10px; font-size: 14px; }
+
+        .sync-card {
+            background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--syntro-violeta);
+        }
+        .sync-card h4 { color: #6d28d9; margin-bottom: 12px; font-size: 15px; }
+        .sync-card .sync-info {
+            font-size: 12px;
+            color: #5b21b6;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        .sync-section {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd6fe;
+        }
+        .sync-section h5 { font-size: 13px; color: var(--syntro-azul-oscuro); margin-bottom: 8px; }
+
+        .analisis-card {
+            background: linear-gradient(135deg, #faf5ff, #f3e8ff);
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--syntro-violeta);
+        }
+        .analisis-card h4 { color: #6d28d9; margin-bottom: 12px; font-size: 15px; }
+
+        .import-zone {
+            background: white;
+            border: 3px dashed var(--syntro-violeta);
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+        .import-zone:hover { background: #f5f3ff; border-color: #6d28d9; }
+        .import-zone.dragover { background: #ede9fe; border-color: #6d28d9; transform: scale(1.02); }
+        .import-zone .icon { font-size: 42px; display: block; margin-bottom: 10px; }
+        .import-zone .titulo { font-size: 16px; font-weight: 700; color: var(--syntro-violeta); margin-bottom: 6px; }
+        .import-zone .sub { font-size: 12px; color: #64748b; }
+
+        .stats-big {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .stat-big {
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(52, 160, 164, 0.2);
+        }
+        .stat-big.inv { background: linear-gradient(135deg, #168aad, #1e6091); }
+        .stat-big.nac { background: linear-gradient(135deg, #52b69a, #34a0a4); }
+        .stat-big.tra { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .stat-big.mue { background: linear-gradient(135deg, #6b7280, #1f2937); }
+
+        .stat-big .valor { font-size: 28px; font-weight: 800; display: block; line-height: 1; margin-bottom: 4px; }
+        .stat-big .etiqueta { font-size: 11px; opacity: 0.9; font-weight: 600; letter-spacing: 0.5px; }
+
+        .supervisor-card {
+            background: white;
+            border: 2px solid #ddd6fe;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .supervisor-card .nombre { font-weight: 700; color: #6d28d9; font-size: 14px; }
+        .supervisor-card .detalle { font-size: 11px; color: #64748b; }
+        .supervisor-card .stats { display: flex; gap: 10px; flex-wrap: wrap; }
+        .supervisor-card .mini-stat { text-align: center; min-width: 45px; }
+        .supervisor-card .mini-stat .num { font-size: 16px; font-weight: 800; color: var(--syntro-azul-oscuro); display: block; }
+        .supervisor-card .mini-stat .lbl { font-size: 9px; color: #64748b; text-transform: uppercase; }
+
+        .historial-item {
+            background: white;
+            border-left: 4px solid var(--syntro-violeta);
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+        .historial-item .fecha { font-weight: 700; color: #6d28d9; }
+        .historial-item .resumen { color: #64748b; margin-top: 3px; font-size: 11px; }
+        .historial-item .resumen .ok { color: var(--syntro-success); font-weight: 700; }
+        .historial-item .resumen .skip { color: var(--syntro-warning); font-weight: 700; }
+
+        .config-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 10px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .config-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: white;
+            border: 1px solid var(--syntro-border);
+            border-radius: 8px;
+            font-size: 13px;
+            gap: 8px;
+        }
+        .config-item span { flex: 1; word-break: break-word; }
+
+        .config-add-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .config-add-row input,
+        .config-add-row select {
+            flex: 1;
+            min-width: 120px;
+            padding: 10px 12px;
+            border: 2px solid var(--syntro-border);
+            border-radius: 8px;
+            font-size: 14px;
+            min-height: 42px;
+        }
+
+        .config-add-row .btn {
+            width: auto;
+            flex: 0 0 auto;
+            padding: 10px 16px;
+            font-size: 14px;
+            min-height: 42px;
+        }
+
+        .control-bar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 14px;
+            background: #f8fafc;
+            border-radius: 10px;
+            gap: 10px;
+            margin: 10px 0;
+            border-left: 4px solid var(--syntro-turquesa);
+            text-align: center;
+        }
+        .control-bar .total { font-weight: 600; color: var(--syntro-azul-muy-oscuro); font-size: 14px; }
+        .control-bar .total strong { color: var(--syntro-turquesa); font-size: 18px; }
+
+        .control-bar-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            width: 100%;
+            justify-content: center;
+        }
+        .control-bar-actions .btn { width: auto; flex: 1; min-width: 80px; }
+
+        .storage-info {
+            background: #f1f5f9;
+            border-left: 4px solid var(--syntro-warning);
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 12px;
+            color: var(--syntro-azul-muy-oscuro);
+        }
+
+        .filter-section {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--syntro-turquesa);
+        }
+        .filter-section h3 { font-size: 14px; margin-bottom: 10px; color: var(--syntro-azul-muy-oscuro); }
+        .filter-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .chart-container {
+            margin-top: 12px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 10px;
+            height: 240px;
+        }
+        .chart-container h3 { font-size: 13px; margin-bottom: 8px; text-align: center; color: var(--syntro-azul-muy-oscuro); }
+        .chart-wrapper { height: 190px; }
+
+        .cria-nota {
+            background: #f3e8ff;
+            border-left: 4px solid #7c3aed;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #5b21b6;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: none;
+        }
+        .cria-nota.visible { display: block; }
+
+        .graficas-inventario-box {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 3px solid var(--syntro-turquesa);
+        }
+        .graficas-inventario-box h3 {
+            color: var(--syntro-azul-muy-oscuro);
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        @media (min-width: 600px) and (max-width: 1024px) {
+            body { padding: 15px; }
+            .form-grid { grid-template-columns: 1fr 1fr; }
+            .header-titles h1 { font-size: 20px; }
+            .module { padding: 22px; }
+            .btn-group { flex-direction: row; flex-wrap: wrap; }
+            .btn-group .btn { flex: 1; min-width: 140px; }
+            .control-bar { flex-direction: row; justify-content: space-between; text-align: left; }
+            .control-bar-actions { width: auto; }
+            .btn { width: auto; padding: 12px 24px; }
+            .filter-grid { grid-template-columns: repeat(3, 1fr); }
+            .stats-big { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        @media (min-width: 1025px) {
+            body { padding: 20px; }
+            .container { max-width: 1400px; margin: 0 auto; }
+            .form-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+            .header-titles h1 { font-size: 24px; }
+            .logo-container img { height: 52px; }
+            .module { padding: 28px; }
+            .btn { width: auto; padding: 12px 28px; }
+            .filter-grid { grid-template-columns: repeat(3, 1fr); }
+            .stats-big { grid-template-columns: repeat(4, 1fr); }
+            .nav-tab { padding: 12px 20px; font-size: 13px; }
+        }
+
+        @media (max-width: 599px) {
+            .btn-group-row { flex-direction: column; }
+            .btn-group-row .btn { width: 100%; min-width: unset; }
+            .control-bar-actions .btn { flex: 1 1 100%; }
+            .filter-grid { grid-template-columns: 1fr; }
+            .config-add-row { flex-direction: column; }
+            .config-add-row input, .config-add-row select, .config-add-row .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-left">
+            <div class="logo-container">
+                <img src="logo.png" alt="Syntro" onerror="this.style.display='none'">
+            </div>
+            <div class="header-titles">
+                <h1>Sistema Pecuario Integral</h1>
+                <p>Maestro - Inventario - Nacimientos - Traslado - Muertes - Analisis - Configuracion - Graficos</p>
+            </div>
+        </div>
+        <div class="header-badge">MAESTRO</div>
+    </div>
+
+    <div class="container">
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="mostrarModulo('inventario')">INV Inventario</button>
+            <button class="nav-tab" onclick="mostrarModulo('nacimiento')">NAC Nacimientos</button>
+            <button class="nav-tab" onclick="mostrarModulo('traslado')">TRA Traslado</button>
+            <button class="nav-tab" onclick="mostrarModulo('muerte')">MUE Muertes</button>
+            <button class="nav-tab analisis" onclick="mostrarModulo('analisis')">ANA Analisis</button>
+            <button class="nav-tab" onclick="mostrarModulo('configuracion')">CFG Configuracion</button>
+            <button class="nav-tab" onclick="mostrarModulo('graficos')">GRA Graficos</button>
+        </div>
+
+        <!-- INVENTARIO -->
+        <div id="mod-inventario" class="module active">
+            <div class="module-title">
+                Inventario de Animales
+                <span class="badge-count" id="totalInventarioBadge">0</span>
+            </div>
+
+            <div class="storage-info">
+                <strong>Almacenamiento local:</strong> Los datos se guardan en este navegador.
+            </div>
+
+            <div id="alertInventario" class="alert"></div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Microchip <span class="optional">(Opcional)</span></label>
+                    <input type="text" id="invChip" placeholder="Escanee chip o deje vacio">
+                </div>
+                <div class="form-group">
+                    <label>Arete <span class="required">*</span></label>
+                    <input type="text" id="invArete" placeholder="Numero de arete">
+                </div>
+                <div class="form-group">
+                    <label>Especie <span class="required">*</span></label>
+                    <select id="invEspecie"></select>
+                </div>
+                <div class="form-group">
+                    <label>Lote</label>
+                    <select id="invLote"></select>
+                </div>
+                <div class="form-group">
+                    <label>Finca</label>
+                    <select id="invFinca"></select>
+                </div>
+                <div class="form-group" style="justify-content: flex-end;">
+                    <button class="btn btn-primary" onclick="registrarInventario()">Guardar</button>
+                </div>
+            </div>
+
+            <div class="control-bar">
+                <span class="total">Total: <strong id="totalInventario">0</strong></span>
+                <div class="control-bar-actions">
+                    <button class="btn btn-share btn-sm" onclick="exportarInventarioCSV()">Compartir CSV</button>
+                    <button class="btn btn-danger btn-sm" onclick="borrarTodo()">Borrar Todo</button>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Chip</th><th>Arete</th><th>Especie</th><th>Lote</th><th>Finca</th><th>Fecha</th><th>Acciones</th></tr></thead>
+                    <tbody id="tablaInventario"></tbody>
+                </table>
+            </div>
+
+            <!-- GRAFICAS DE INVENTARIO -->
+            <div class="graficas-inventario-box">
+                <h3>Graficas del Inventario</h3>
+                <div class="chart-container"><h3>Animales por Especie</h3><div class="chart-wrapper"><canvas id="chartInvEspecie"></canvas></div></div>
+                <div class="chart-container"><h3>Animales por Lote</h3><div class="chart-wrapper"><canvas id="chartInvLote"></canvas></div></div>
+                <div class="chart-container"><h3>Animales por Finca</h3><div class="chart-wrapper"><canvas id="chartInvFinca"></canvas></div></div>
+                <div class="chart-container"><h3>Animales por Supervisor</h3><div class="chart-wrapper"><canvas id="chartInvSupervisor"></canvas></div></div>
+            </div>
+        </div>
+
+        <!-- NACIMIENTOS -->
+        <div id="mod-nacimiento" class="module">
+            <div class="module-title">
+                Registro de Nacimientos
+                <span class="badge-count" id="totalNacimientosBadge">0</span>
+            </div>
+
+            <div id="alertNacimiento" class="alert"></div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Fecha del Parto</label>
+                    <input type="date" id="nacFecha">
+                </div>
+                <div class="form-group">
+                    <label>Finca</label>
+                    <select id="nacFinca"></select>
+                </div>
+                <div class="form-group">
+                    <label>Chip de la Madre <span class="optional">(Opcional)</span></label>
+                    <input type="text" id="nacMadreChip" class="buscar-chip" placeholder="Escanee chip" oninput="sincronizarMadrePorChip(this.value)">
+                </div>
+                <div class="form-group">
+                    <label>Arete de la Madre <span class="required">*</span></label>
+                    <input type="text" id="nacMadre" placeholder="Escriba arete" oninput="sincronizarMadrePorArete(this.value)">
+                </div>
+                <div id="chipBuscarInfo" class="chip-buscar-info" style="grid-column: 1 / -1;"></div>
+                <div class="form-group">
+                    <label>Toro (Arete) <span class="required">*</span></label>
+                    <input type="text" id="nacToro" placeholder="-" value="-">
+                </div>
+                <div class="form-group">
+                    <label>N de Parto</label>
+                    <input type="number" id="nacNumParto" readonly placeholder="-">
+                </div>
+                <div class="form-group">
+                    <label>Especie</label>
+                    <select id="nacEspecie" onchange="actualizarDiasPorEspecie()"></select>
+                </div>
+                <div class="form-group">
+                    <label>Dias de Gestion</label>
+                    <input type="number" id="nacDiasGestacion" value="283" min="1" max="500">
+                </div>
+                <div class="form-group">
+                    <label>Tipo de Parto <span class="required">*</span></label>
+                    <select id="nacTipoParto" onchange="cambiarTipoParto()">
+                        <option value="">Seleccionar...</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Gemelar">Gemelar</option>
+                        <option value="Distocico">Distocico</option>
+                        <option value="Aborto">Aborto</option>
+                        <option value="Mortinato">Mortinato</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Lote para Criar</label>
+                    <select id="nacLote" disabled>
+                        <option value="Lote Cria">Lote Cria</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="info-display">
+                <div class="info-item"><label>N de Parto</label><span id="nacNumPartoDisplay">-</span></div>
+                <div class="info-item"><label>IPP Calculado</label><span id="nacIPPCalculado">- dias</span></div>
+            </div>
+
+            <div class="cria-nota" id="criaNota">
+                Este tipo de parto (Aborto/Mortinato) no genera crias registradas.
+            </div>
+
+            <div class="cria-card" id="nacCria1Section">
+                <h4>CRIA 1</h4>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>ID de la Cria <span class="required">*</span></label>
+                        <input type="text" id="nacCria1Id" class="editable-id" placeholder="-" value="-">
+                        <div class="sugerencia-text">
+                            Sugerencia: <strong id="sugerenciaCria1">---</strong>
+                            <span id="correlativoAnterior1" class="correlativo-anterior"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Chip <span class="optional">(Opcional)</span></label>
+                        <input type="text" id="nacCria1Chip" placeholder="Chip">
+                    </div>
+                    <div class="form-group">
+                        <label>Sexo <span class="required">*</span></label>
+                        <select id="nacCria1Sexo">
+                            <option value="">Seleccionar...</option>
+                            <option value="Hembra">Hembra</option>
+                            <option value="Macho">Macho</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Peso (Kg) <span class="required">*</span></label>
+                        <input type="number" id="nacCria1Peso" placeholder="Peso en kg" step="0.1" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="cria-card hidden" id="nacCria2Section">
+                <h4>CRIA 2 (Gemelar)</h4>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>ID de la Cria <span class="required">*</span></label>
+                        <input type="text" id="nacCria2Id" class="editable-id" placeholder="-" value="-">
+                        <div class="sugerencia-text">
+                            Sugerencia: <strong id="sugerenciaCria2">---</strong>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Chip <span class="optional">(Opcional)</span></label>
+                        <input type="text" id="nacCria2Chip" placeholder="Chip">
+                    </div>
+                    <div class="form-group">
+                        <label>Sexo <span class="required">*</span></label>
+                        <select id="nacCria2Sexo">
+                            <option value="">Seleccionar...</option>
+                            <option value="Hembra">Hembra</option>
+                            <option value="Macho">Macho</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Peso (Kg) <span class="required">*</span></label>
+                        <input type="number" id="nacCria2Peso" placeholder="Peso en kg" step="0.1" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="guardarNacimiento()">Guardar Parto</button>
+            </div>
+
+            <div class="control-bar">
+                <span class="total">Total: <strong id="totalNacimientos">0</strong></span>
+                <div class="control-bar-actions">
+                    <button class="btn btn-share btn-sm" onclick="exportarCSVNacimientos()">Compartir CSV</button>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Fecha</th><th>Finca</th><th>Madre</th><th>Chip Madre</th><th>Toro</th><th>N</th><th>Tipo</th><th>Dias</th><th>Cria ID</th><th>Chip</th><th>Sexo</th><th>Peso</th><th>IPP</th><th>Accion</th></tr></thead>
+                    <tbody id="tablaNacimientos"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TRASLADO -->
+        <div id="mod-traslado" class="module">
+            <div class="module-title">
+                Traslado de Animales
+                <span class="badge-count" id="totalTrasladosBadge">0</span>
+            </div>
+
+            <div id="alertTraslado" class="alert"></div>
+
+            <div class="traslado-card">
+                <h4>Datos del Traslado</h4>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Fecha <span class="required">*</span></label>
+                        <input type="date" id="traFecha">
+                    </div>
+                    <div class="form-group">
+                        <label>Chip del Animal <span class="optional">(Opcional)</span></label>
+                        <input type="text" id="traChip" class="buscar-chip" placeholder="Escanee chip" oninput="sincronizarTrasladoPorChip(this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>Arete del Animal <span class="required">*</span></label>
+                        <input type="text" id="traArete" placeholder="Escriba arete" oninput="sincronizarTrasladoPorArete(this.value)">
+                    </div>
+                    <div id="chipTrasladoInfo" class="chip-buscar-info" style="grid-column: 1 / -1;"></div>
+                    <div class="form-group">
+                        <label>Finca Origen</label>
+                        <input type="text" id="traFincaOrigen" readonly placeholder="Se autocompleta">
+                    </div>
+                    <div class="form-group">
+                        <label>Lote Origen</label>
+                        <input type="text" id="traLoteOrigen" readonly placeholder="Se autocompleta">
+                    </div>
+                    <div class="form-group">
+                        <label>Finca Destino <span class="required">*</span></label>
+                        <select id="traFincaDestino" onchange="actualizarLotesDestino()"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Lote Destino <span class="required">*</span></label>
+                        <select id="traLoteDestino"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Motivo</label>
+                        <select id="traMotivo">
+                            <option value="Manejo">Manejo</option>
+                            <option value="Rotacion de potreros">Rotacion de potreros</option>
+                            <option value="Venta">Venta</option>
+                            <option value="Compra">Compra</option>
+                            <option value="Sanidad">Sanidad</option>
+                            <option value="Reproduccion">Reproduccion</option>
+                            <option value="Destete">Destete</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Observaciones <span class="optional">(Opcional)</span></label>
+                        <textarea id="traObservaciones" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-traslado" onclick="registrarTraslado()">Registrar Traslado</button>
+            </div>
+
+            <div class="control-bar">
+                <span class="total">Total: <strong id="totalTraslados">0</strong></span>
+                <div class="control-bar-actions">
+                    <button class="btn btn-share btn-sm" onclick="exportarCSVTraslados()">Compartir CSV</button>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Chip</th>
+                            <th>Arete</th>
+                            <th>Finca Origen</th>
+                            <th>Lote Origen</th>
+                            <th>Finca Destino</th>
+                            <th>Lote Destino</th>
+                            <th>Motivo</th>
+                            <th>Obs.</th>
+                            <th>Accion</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaTraslados"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- MUERTE -->
+        <div id="mod-muerte" class="module">
+            <div class="module-title">
+                Registro de Muertes / Bajas
+                <span class="badge-count" id="totalMuertesBadge">0</span>
+            </div>
+
+            <div id="alertMuerte" class="alert"></div>
+
+            <div class="muerte-card">
+                <h4>Datos de la Baja</h4>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Fecha <span class="required">*</span></label>
+                        <input type="date" id="mueFecha">
+                    </div>
+                    <div class="form-group">
+                        <label>Finca <span class="required">*</span></label>
+                        <select id="mueFinca"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Chip del Animal <span class="optional">(Opcional)</span></label>
+                        <input type="text" id="mueChip" class="buscar-chip" placeholder="Escanee chip" oninput="sincronizarMuertePorChip(this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>Arete del Animal <span class="required">*</span></label>
+                        <input type="text" id="mueArete" placeholder="Escriba arete" oninput="sincronizarMuertePorArete(this.value)">
+                    </div>
+                    <div id="chipMuerteInfo" class="chip-buscar-info" style="grid-column: 1 / -1;"></div>
+                    <div class="form-group">
+                        <label>Lote</label>
+                        <input type="text" id="mueLote" readonly placeholder="Se autocompleta">
+                    </div>
+                    <div class="form-group">
+                        <label>Causa <span class="required">*</span></label>
+                        <select id="mueCausa">
+                            <option value="">Seleccionar...</option>
+                            <option value="Enfermedad">Enfermedad</option>
+                            <option value="Accidente">Accidente</option>
+                            <option value="Depredador">Depredador</option>
+                            <option value="Parto">Complicacion de Parto</option>
+                            <option value="Neonatal">Muerte Neonatal</option>
+                            <option value="Vejez">Vejez</option>
+                            <option value="Sacrificio">Sacrificio</option>
+                            <option value="Desconocida">Desconocida</option>
+                            <option value="Otra">Otra</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoria</label>
+                        <select id="mueCategoria">
+                            <option value="Cria">Cria</option>
+                            <option value="Levante">Levante</option>
+                            <option value="Vientre">Vientre</option>
+                            <option value="Toro">Toro</option>
+                            <option value="Adulto">Adulto</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Peso (Kg)</label>
+                        <input type="number" id="muePeso" placeholder="Peso en kg" step="0.1" min="0">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Observaciones</label>
+                        <textarea id="mueObservaciones" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-muerte" onclick="registrarMuerte()">Registrar Muerte</button>
+            </div>
+
+            <div class="control-bar">
+                <span class="total">Total: <strong id="totalMuertes">0</strong></span>
+                <div class="control-bar-actions">
+                    <button class="btn btn-share btn-sm" onclick="exportarCSVMuertes()">Compartir CSV</button>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Finca</th>
+                            <th>Chip</th>
+                            <th>Arete</th>
+                            <th>Lote</th>
+                            <th>Causa</th>
+                            <th>Categoria</th>
+                            <th>Peso</th>
+                            <th>Observaciones</th>
+                            <th>Accion</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaMuertes"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ANALISIS -->
+        <div id="mod-analisis" class="module">
+            <div class="module-title analisis">
+                Analisis y Reportes
+                <span class="badge-count" style="background: var(--syntro-violeta);">MAESTRO</span>
+            </div>
+
+            <div id="alertAnalisis" class="alert"></div>
+
+            <div class="analisis-card">
+                <h4>Importar datos de supervisores</h4>
+                <p style="font-size:12px; color:#5b21b6; margin-bottom:12px; line-height:1.5;">
+                    Acepta archivos CSV o JSON. El sistema detecta automaticamente el tipo y no duplica registros ya existentes.
+                </p>
+
+                <div class="import-zone" id="importZone" onclick="document.getElementById('inputImportarArchivo').click()">
+                    <span class="icon">ARCHIVO</span>
+                    <div class="titulo">Toca aqui para seleccionar un archivo</div>
+                    <div class="sub">o arrastra un CSV/JSON aqui (puedes seleccionar varios)</div>
+                </div>
+                <input type="file" id="inputImportarArchivo" accept=".csv,.json,application/json,text/csv" style="display:none" onchange="procesarArchivoImportado(event)" multiple>
+
+                <div class="btn-group-row">
+                    <button class="btn btn-sync btn-sm" onclick="exportarReporteCSV()">Exportar Reporte CSV</button>
+                    <button class="btn btn-share btn-sm" onclick="compartirReporteTexto()">Compartir Resumen</button>
+                </div>
+            </div>
+
+            <div class="analisis-card">
+                <h4>Resumen Global</h4>
+                <div class="stats-big">
+                    <div class="stat-big inv">
+                        <span class="valor" id="statInventario">0</span>
+                        <span class="etiqueta">ANIMALES</span>
+                    </div>
+                    <div class="stat-big nac">
+                        <span class="valor" id="statNacimientos">0</span>
+                        <span class="etiqueta">PARTOS</span>
+                    </div>
+                    <div class="stat-big tra">
+                        <span class="valor" id="statTraslados">0</span>
+                        <span class="etiqueta">TRASLADOS</span>
+                    </div>
+                    <div class="stat-big mue">
+                        <span class="valor" id="statMuertes">0</span>
+                        <span class="etiqueta">MUERTES</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="analisis-card">
+                <h4>Rendimiento por Supervisor</h4>
+                <div id="listaSupervisoresAnalisis">
+                    <div style="text-align:center; color:#94a3b8; padding:20px; font-size:13px;">
+                        Aun no hay datos de supervisores importados.
+                    </div>
+                </div>
+            </div>
+
+            <div class="analisis-card">
+                <h4>Graficas Consolidadas</h4>
+                <div class="chart-container">
+                    <h3>Aportes por Supervisor</h3>
+                    <div class="chart-wrapper"><canvas id="chartSupervisores"></canvas></div>
+                </div>
+                <div class="chart-container">
+                    <h3>Nacimientos por Mes</h3>
+                    <div class="chart-wrapper"><canvas id="chartNacMes"></canvas></div>
+                </div>
+                <div class="chart-container">
+                    <h3>Muertes por Causa</h3>
+                    <div class="chart-wrapper"><canvas id="chartMueCausa"></canvas></div>
+                </div>
+                <div class="chart-container">
+                    <h3>Distribucion por Finca</h3>
+                    <div class="chart-wrapper"><canvas id="chartFinca"></canvas></div>
+                </div>
+                <div class="chart-container">
+                    <h3>Animales por Especie</h3>
+                    <div class="chart-wrapper"><canvas id="chartAnEspecie"></canvas></div>
+                </div>
+                <div class="chart-container">
+                    <h3>Animales por Lote</h3>
+                    <div class="chart-wrapper"><canvas id="chartAnLote"></canvas></div>
+                </div>
+                <div class="chart-container">
+                    <h3>Animales por Supervisor</h3>
+                    <div class="chart-wrapper"><canvas id="chartAnSupervisor"></canvas></div>
+                </div>
+            </div>
+
+            <div class="analisis-card">
+                <h4>Historial de Importaciones</h4>
+                <div id="historialImportaciones">
+                    <div style="text-align:center; color:#94a3b8; padding:20px; font-size:13px;">
+                        Aun no has importado ningun archivo.
+                    </div>
+                </div>
+                <div style="margin-top:12px; text-align:right;">
+                    <button class="btn btn-danger btn-sm" onclick="borrarHistorial()">Borrar Historial</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONFIGURACION -->
+        <div id="mod-configuracion" class="module">
+            <div class="module-title">Configuracion del Sistema</div>
+
+            <div id="alertConfig" class="alert"></div>
+
+            <div class="sync-card">
+                <h4>Sincronizacion</h4>
+                <div class="sync-info">Comparte el inventario o todos los datos con otros dispositivos.</div>
+
+                <div class="sync-section">
+                    <h5>Solo Inventario</h5>
+                    <div class="btn-group-row">
+                        <button class="btn btn-share btn-sm" onclick="exportarInventarioJSON()">Compartir Inventario</button>
+                        <button class="btn btn-sync btn-sm" onclick="document.getElementById('inputImportarInventario').click()">Importar Inventario</button>
+                        <input type="file" id="inputImportarInventario" accept=".json,application/json" style="display:none" onchange="importarInventarioJSON(event)">
+                    </div>
+                </div>
+
+                <div class="sync-section">
+                    <h5>Respaldo Completo</h5>
+                    <div class="btn-group-row">
+                        <button class="btn btn-share btn-sm" onclick="exportarRespaldo()">Compartir Todo</button>
+                        <button class="btn btn-sync btn-sm" onclick="document.getElementById('inputImportarFusion').click()">Importar y Fusionar</button>
+                        <button class="btn btn-sync btn-sm" onclick="document.getElementById('inputImportarReemplazar').click()">Importar y Reemplazar</button>
+                        <input type="file" id="inputImportarFusion" accept=".json,application/json" style="display:none" onchange="importarRespaldo(event, 'fusionar')">
+                        <input type="file" id="inputImportarReemplazar" accept=".json,application/json" style="display:none" onchange="importarRespaldo(event, 'reemplazar')">
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-card">
+                <h4>Fincas</h4>
+                <div class="config-add-row">
+                    <input type="text" id="cfgNuevaFinca" placeholder="Nombre de la finca">
+                    <button class="btn btn-primary btn-sm" onclick="agregarFinca()">Agregar</button>
+                </div>
+                <div class="config-list" id="listaFincas"></div>
+            </div>
+
+            <div class="config-card">
+                <h4>Lotes</h4>
+                <div class="config-add-row">
+                    <input type="text" id="cfgNuevoLote" placeholder="Nombre del lote">
+                    <select id="cfgLoteFinca"></select>
+                    <button class="btn btn-primary btn-sm" onclick="agregarLote()">Agregar</button>
+                </div>
+                <div class="config-list" id="listaLotes"></div>
+            </div>
+
+            <div class="config-card">
+                <h4>Especies y Dias de Gestion</h4>
+                <div class="config-add-row">
+                    <input type="text" id="cfgNuevaEspecie" placeholder="Nombre de la especie">
+                    <input type="number" id="cfgNuevosDiasGestacion" placeholder="Dias gestacion" min="1" max="500">
+                    <button class="btn btn-primary btn-sm" onclick="agregarEspecie()">Agregar</button>
+                </div>
+                <div class="config-list" id="listaEspecies"></div>
+            </div>
+
+            <div class="config-card" style="border-left-color: var(--syntro-danger);">
+                <h4 style="color:#991b1b;">Zona de Peligro</h4>
+                <button class="btn btn-danger" onclick="borrarTodo()">Borrar Todos los Datos</button>
+            </div>
+        </div>
+
+        <!-- GRAFICOS -->
+        <div id="mod-graficos" class="module">
+            <div class="module-title">Estadisticas y Graficos</div>
+
+            <div class="filter-section">
+                <h3>Filtros para IPP</h3>
+                <div class="filter-grid">
+                    <div class="form-group"><label>Anio</label><select id="filtroAnio"><option value="">Todos</option></select></div>
+                    <div class="form-group"><label>Mes</label>
+                        <select id="filtroMes">
+                            <option value="">Todos</option>
+                            <option value="0">Ene</option><option value="1">Feb</option><option value="2">Mar</option>
+                            <option value="3">Abr</option><option value="4">May</option><option value="5">Jun</option>
+                            <option value="6">Jul</option><option value="7">Ago</option><option value="8">Sep</option>
+                            <option value="9">Oct</option><option value="10">Nov</option><option value="11">Dic</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Finca</label><select id="filtroFinca"><option value="">Todas</option></select></div>
+                </div>
+            </div>
+
+            <div class="chart-container"><h3>Tipos de Parto</h3><div class="chart-wrapper"><canvas id="chartTipos"></canvas></div></div>
+            <div class="chart-container"><h3>Distribucion por Sexo</h3><div class="chart-wrapper"><canvas id="chartSexo"></canvas></div></div>
+            <div class="chart-container"><h3>Causas de Muerte</h3><div class="chart-wrapper"><canvas id="chartMuertes"></canvas></div></div>
+            <div class="chart-container"><h3>Traslados por Motivo</h3><div class="chart-wrapper"><canvas id="chartTraslados"></canvas></div></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // ============ HELPERS ============
+        async function compartirODescargar(nombreArchivo, contenido, tipoMime, titulo, texto) {
+            let blob = new Blob([contenido], { type: tipoMime });
+            if (navigator.canShare && typeof File !== 'undefined') {
+                try {
+                    let archivo = new File([blob], nombreArchivo, { type: tipoMime });
+                    if (navigator.canShare({ files: [archivo] })) {
+                        await navigator.share({ files: [archivo], title: titulo || 'Syntro', text: texto || '' });
+                        return 'compartido';
+                    }
+                } catch (err) { if (err.name === 'AbortError') return 'cancelado'; }
+            }
+            let link = document.createElement('a');
+            let url = URL.createObjectURL(blob);
+            link.href = url;
+            link.download = nombreArchivo;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            setTimeout(() => URL.revokeObjectURL(url), 30000);
+            return 'descargado';
+        }
+
+        function fechaArchivo() {
+            let hoy = new Date();
+            return hoy.getFullYear() + '-' + String(hoy.getMonth() + 1).padStart(2, '0') + '-' + String(hoy.getDate()).padStart(2, '0');
+        }
+
+        function getData(key) {
+            try { return JSON.parse(localStorage.getItem('syntro_' + key)) || []; } catch { return []; }
+        }
+
+        function setData(key, data) {
+            localStorage.setItem('syntro_' + key, JSON.stringify(data));
+        }
+
+        function initDatos() {
+            if (getData('fincas').length === 0) {
+                setData('fincas', [{ nombre: 'Finca Matriz Syntro' }, { nombre: 'RIECITO' }]);
+            }
+            if (getData('lotes').length === 0) {
+                setData('lotes', [
+                    { id: 1, nombre: 'Lote Cria', finca: 'Finca Matriz Syntro' },
+                    { id: 2, nombre: 'Lote Recria', finca: 'Finca Matriz Syntro' },
+                    { id: 3, nombre: 'Lote Vientres', finca: 'Finca Matriz Syntro' },
+                    { id: 4, nombre: 'Lote Toros', finca: 'Finca Matriz Syntro' },
+                    { id: 5, nombre: 'Maternidad', finca: 'RIECITO' }
+                ]);
+            }
+            if (getData('especies').length === 0) {
+                setData('especies', [
+                    { nombre: 'Bovino', dias: 283 },
+                    { nombre: 'Bufala', dias: 315 },
+                    { nombre: 'Ovino', dias: 150 },
+                    { nombre: 'Caprino', dias: 150 },
+                    { nombre: 'Porcino', dias: 115 },
+                    { nombre: 'Equino', dias: 340 }
+                ]);
+            }
+        }
+
+        function init() {
+            initDatos();
+            cargarSelects();
+            cargarTablas();
+            document.getElementById('nacFecha').valueAsDate = new Date();
+            document.getElementById('mueFecha').valueAsDate = new Date();
+            document.getElementById('traFecha').valueAsDate = new Date();
+            setTimeout(() => { generarSugerenciasIds(); calcularNumParto(); }, 100);
+            renderConfiguracion();
+            renderAnalisis();
+        }
+
+        function cargarSelects() {
+            let fincas = getData('fincas');
+            let lotes = getData('lotes');
+            let especies = getData('especies');
+
+            ['invFinca', 'nacFinca', 'mueFinca', 'traFincaDestino', 'cfgLoteFinca'].forEach(id => {
+                let sel = document.getElementById(id);
+                if (!sel) return;
+                let v = sel.value;
+                sel.innerHTML = '';
+                fincas.forEach(f => {
+                    let opt = document.createElement('option');
+                    opt.value = f.nombre;
+                    opt.textContent = f.nombre;
+                    sel.appendChild(opt);
+                });
+                if (v && fincas.find(f => f.nombre === v)) sel.value = v;
+            });
+
+            ['invEspecie', 'nacEspecie'].forEach(id => {
+                let sel = document.getElementById(id);
+                if (!sel) return;
+                let v = sel.value;
+                sel.innerHTML = '';
+                especies.forEach(e => {
+                    let opt = document.createElement('option');
+                    opt.value = e.nombre;
+                    opt.textContent = e.nombre;
+                    sel.appendChild(opt);
+                });
+                if (v && especies.find(e => e.nombre === v)) sel.value = v;
+            });
+
+            let selLoteInv = document.getElementById('invLote');
+            if (selLoteInv) {
+                let v = selLoteInv.value;
+                selLoteInv.innerHTML = '<option value="">Seleccione...</option>';
+                lotes.forEach(l => {
+                    let opt = document.createElement('option');
+                    opt.value = l.nombre;
+                    opt.textContent = l.nombre + (l.finca ? ' (' + l.finca + ')' : '');
+                    selLoteInv.appendChild(opt);
+                });
+                if (v) selLoteInv.value = v;
+            }
+
+            actualizarLotesDestino();
+        }
+
+        function actualizarLotesDestino() {
+            let fincaDestino = document.getElementById('traFincaDestino').value;
+            let selLote = document.getElementById('traLoteDestino');
+            if (!selLote) return;
+            let lotes = getData('lotes').filter(l => !fincaDestino || l.finca === fincaDestino);
+            let v = selLote.value;
+            selLote.innerHTML = '<option value="">Seleccione...</option>';
+            lotes.forEach(l => {
+                let opt = document.createElement('option');
+                opt.value = l.nombre;
+                opt.textContent = l.nombre;
+                selLote.appendChild(opt);
+            });
+            if (v && lotes.find(l => l.nombre === v)) selLote.value = v;
+        }
+
+        function mostrarModulo(mod) {
+            document.querySelectorAll('.module').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+            document.getElementById('mod-' + mod).classList.add('active');
+
+            document.querySelectorAll('.nav-tab').forEach(el => {
+                let match = false;
+                if (mod === 'inventario' && el.textContent.includes('Inventario')) match = true;
+                if (mod === 'nacimiento' && el.textContent.includes('Nacimientos')) match = true;
+                if (mod === 'traslado' && el.textContent.includes('Traslado')) match = true;
+                if (mod === 'muerte' && el.textContent.includes('Muertes')) match = true;
+                if (mod === 'analisis' && el.textContent.includes('Analisis')) match = true;
+                if (mod === 'configuracion' && el.textContent.includes('Configuracion')) match = true;
+                if (mod === 'graficos' && el.textContent.includes('Graficos')) match = true;
+                if (match) el.classList.add('active');
+            });
+
+            if (mod === 'inventario') { cargarTablaInventario(); renderGraficasInventario(); }
+            if (mod === 'nacimiento') cargarTablaNacimientos();
+            if (mod === 'traslado') cargarTablaTraslados();
+            if (mod === 'muerte') cargarTablaMuertes();
+            if (mod === 'graficos') verGraficos();
+            if (mod === 'configuracion') renderConfiguracion();
+            if (mod === 'analisis') renderAnalisis();
+        }
+
+        function mostrarAlerta(id, mensaje, tipo) {
+            let alert = document.getElementById(id);
+            if (!alert) return;
+            alert.className = 'alert alert-' + tipo;
+            alert.textContent = mensaje;
+            alert.style.display = 'block';
+            setTimeout(() => { alert.style.display = 'none'; }, 6000);
+        }
+
+        function obtenerClaveUnica(tipo, r) {
+            let t = tipo;
+            if (t === 'inventario') return 'arete:' + String(r.arete || '').trim().toUpperCase();
+            if (t === 'nacimiento' || t === 'nacimientos') return 'nac:' + (r.fecha || '') + '|' + String(r.madre || '').trim().toUpperCase() + '|' + (r.numParto || '');
+            if (t === 'traslado' || t === 'traslados') return 'tra:' + (r.fecha || '') + '|' + String(r.arete || '').trim().toUpperCase() + '|' + (r.fincaDestino || '') + '|' + (r.loteDestino || '');
+            if (t === 'muerte' || t === 'muertes') return 'mue:' + (r.fecha || '') + '|' + String(r.arete || '').trim().toUpperCase();
+            return JSON.stringify(r);
+        }
+
+        // ============ BUSQUEDA ============
+        function buscarPorChip(valor) {
+            valor = (valor || '').trim();
+            if (!valor) return null;
+            return getData('inventario').find(a => a.chip && a.chip === valor) || null;
+        }
+
+        function buscarPorArete(valor) {
+            valor = (valor || '').trim();
+            if (!valor) return null;
+            return getData('inventario').find(a => a.arete === valor) || null;
+        }
+
+        function formatearInfoAnimal(animal) {
+            return `<strong>${animal.arete}</strong> | ${animal.especie || '-'}<span class="animal-detalle">Lote: ${animal.lote || '-'} | Finca: ${animal.finca || '-'}</span>`;
+        }
+
+        function limpiarEstiloAuto(input) { if (input) input.classList.remove('auto-lleno'); }
+        function marcarAuto(input) { if (input) input.classList.add('auto-lleno'); }
+
+        // ============ SINCRONIZACION CHIP/ARETE ============
+        function sincronizarMadrePorChip(valor) {
+            let info = document.getElementById('chipBuscarInfo');
+            let campo = document.getElementById('nacMadre');
+            valor = (valor || '').trim();
+            if (!valor) { limpiarEstiloAuto(campo); info.style.display = 'none'; return; }
+            let a = buscarPorChip(valor);
+            if (a) {
+                campo.value = a.arete; marcarAuto(campo);
+                info.className = 'chip-buscar-info'; info.style.display = 'block';
+                info.innerHTML = 'Animal encontrado: ' + formatearInfoAnimal(a);
+                calcularNumParto();
+            } else {
+                campo.value = ''; limpiarEstiloAuto(campo);
+                info.className = 'chip-buscar-info error'; info.style.display = 'block';
+                info.innerHTML = 'No se encontro ningun animal con ese chip.';
+            }
+        }
+
+        function sincronizarMadrePorArete(valor) {
+            let info = document.getElementById('chipBuscarInfo');
+            let campo = document.getElementById('nacMadreChip');
+            valor = (valor || '').trim();
+            if (!valor) { limpiarEstiloAuto(campo); info.style.display = 'none'; calcularNumParto(); return; }
+            let a = buscarPorArete(valor);
+            if (a) {
+                campo.value = a.chip || ''; if (a.chip) marcarAuto(campo);
+                info.className = 'chip-buscar-info'; info.style.display = 'block';
+                info.innerHTML = 'Animal encontrado: ' + formatearInfoAnimal(a);
+            } else {
+                campo.value = ''; limpiarEstiloAuto(campo);
+                info.className = 'chip-buscar-info error'; info.style.display = 'block';
+                info.innerHTML = 'Ese arete no esta en el inventario.';
+            }
+            calcularNumParto();
+        }
+
+        function sincronizarTrasladoPorChip(valor) {
+            let info = document.getElementById('chipTrasladoInfo');
+            let cA = document.getElementById('traArete');
+            let cF = document.getElementById('traFincaOrigen');
+            let cL = document.getElementById('traLoteOrigen');
+            valor = (valor || '').trim();
+            if (!valor) { limpiarEstiloAuto(cA); cF.value = ''; cL.value = ''; info.style.display = 'none'; return; }
+            let a = buscarPorChip(valor);
+            if (a) {
+                cA.value = a.arete; cF.value = a.finca || ''; cL.value = a.lote || '';
+                marcarAuto(cA);
+                info.className = 'chip-buscar-info'; info.style.display = 'block';
+                info.innerHTML = 'Animal encontrado: ' + formatearInfoAnimal(a);
+            } else {
+                cA.value = ''; limpiarEstiloAuto(cA);
+                info.className = 'chip-buscar-info error'; info.style.display = 'block';
+                info.innerHTML = 'No se encontro ningun animal con ese chip.';
+            }
+        }
+
+        function sincronizarTrasladoPorArete(valor) {
+            let info = document.getElementById('chipTrasladoInfo');
+            let cC = document.getElementById('traChip');
+            let cF = document.getElementById('traFincaOrigen');
+            let cL = document.getElementById('traLoteOrigen');
+            valor = (valor || '').trim();
+            if (!valor) { limpiarEstiloAuto(cC); cF.value = ''; cL.value = ''; info.style.display = 'none'; return; }
+            let a = buscarPorArete(valor);
+            if (a) {
+                cC.value = a.chip || ''; cF.value = a.finca || ''; cL.value = a.lote || '';
+                if (a.chip) marcarAuto(cC);
+                info.className = 'chip-buscar-info'; info.style.display = 'block';
+                info.innerHTML = 'Animal encontrado: ' + formatearInfoAnimal(a);
+            } else {
+                cC.value = ''; limpiarEstiloAuto(cC);
+                info.className = 'chip-buscar-info error'; info.style.display = 'block';
+                info.innerHTML = 'Ese arete no esta en el inventario.';
+            }
+        }
+
+        function sincronizarMuertePorChip(valor) {
+            let info = document.getElementById('chipMuerteInfo');
+            let cA = document.getElementById('mueArete');
+            let cL = document.getElementById('mueLote');
+            let cF = document.getElementById('mueFinca');
+            valor = (valor || '').trim();
+            if (!valor) { limpiarEstiloAuto(cA); cL.value = ''; info.style.display = 'none'; return; }
+            let a = buscarPorChip(valor);
+            if (a) {
+                cA.value = a.arete; cL.value = a.lote || '-'; if (a.finca) cF.value = a.finca;
+                marcarAuto(cA);
+                info.className = 'chip-buscar-info'; info.style.display = 'block';
+                info.innerHTML = 'Animal encontrado: ' + formatearInfoAnimal(a);
+            } else {
+                cA.value = ''; cL.value = ''; limpiarEstiloAuto(cA);
+                info.className = 'chip-buscar-info error'; info.style.display = 'block';
+                info.innerHTML = 'No se encontro ningun animal con ese chip.';
+            }
+        }
+
+        function sincronizarMuertePorArete(valor) {
+            let info = document.getElementById('chipMuerteInfo');
+            let cC = document.getElementById('mueChip');
+            let cL = document.getElementById('mueLote');
+            let cF = document.getElementById('mueFinca');
+            valor = (valor || '').trim();
+            if (!valor) { limpiarEstiloAuto(cC); cL.value = ''; info.style.display = 'none'; return; }
+            let a = buscarPorArete(valor);
+            if (a) {
+                cC.value = a.chip || ''; cL.value = a.lote || '-'; if (a.finca) cF.value = a.finca;
+                if (a.chip) marcarAuto(cC);
+                info.className = 'chip-buscar-info'; info.style.display = 'block';
+                info.innerHTML = 'Animal encontrado: ' + formatearInfoAnimal(a);
+            } else {
+                cC.value = ''; cL.value = ''; limpiarEstiloAuto(cC);
+                info.className = 'chip-buscar-info error'; info.style.display = 'block';
+                info.innerHTML = 'Ese arete no esta en el inventario.';
+            }
+        }
+
+        // ============ INVENTARIO ============
+        function registrarInventario() {
+            let chip = document.getElementById('invChip').value.trim();
+            let arete = document.getElementById('invArete').value.trim();
+            let especie = document.getElementById('invEspecie').value;
+            let lote = document.getElementById('invLote').value;
+            let finca = document.getElementById('invFinca').value;
+
+            if (!arete) { mostrarAlerta('alertInventario', 'El arete es obligatorio.', 'error'); return; }
+            if (!especie) { mostrarAlerta('alertInventario', 'Seleccione especie.', 'error'); return; }
+
+            let inventario = getData('inventario');
+            if (inventario.find(a => a.arete === arete)) { mostrarAlerta('alertInventario', 'El arete ya existe.', 'error'); return; }
+            if (chip && inventario.find(a => a.chip === chip)) { mostrarAlerta('alertInventario', 'El chip ya existe.', 'error'); return; }
+
+            inventario.push({
+                chip: chip || '', arete, especie, lote, finca,
+                fecha: new Date().toLocaleDateString(),
+                _id: 'inv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6)
+            });
+            setData('inventario', inventario);
+            mostrarAlerta('alertInventario', 'Animal registrado: ' + arete, 'success');
+            document.getElementById('invChip').value = '';
+            document.getElementById('invArete').value = '';
+            cargarTablas();
+            renderGraficasInventario();
+        }
+
+        function eliminarAnimal(arete) {
+            if (!confirm('Eliminar animal con arete "' + arete + '"?')) return;
+            setData('inventario', getData('inventario').filter(a => a.arete !== arete));
+            cargarTablas();
+            renderGraficasInventario();
+        }
+
+        function editarChipInventario(arete) {
+            let inventario = getData('inventario');
+            let animal = inventario.find(a => a.arete === arete);
+            if (!animal) return;
+            let nuevo = prompt('Chip para arete ' + arete + ':', animal.chip || '');
+            if (nuevo === null) return;
+            nuevo = nuevo.trim();
+            if (nuevo && inventario.find(a => a.chip === nuevo && a.arete !== arete)) {
+                alert('Ese chip ya esta asignado.'); return;
+            }
+            animal.chip = nuevo;
+            setData('inventario', inventario);
+            cargarTablas();
+        }
+
+        async function exportarInventarioCSV() {
+            let inventario = getData('inventario');
+            if (inventario.length === 0) { alert('No hay inventario.'); return; }
+            let csv = 'Chip,Arete,Especie,Lote,Finca,Fecha\n';
+            inventario.forEach(a => {
+                csv += [a.chip || '', a.arete, a.especie || '', a.lote || '', a.finca || '', a.fecha || ''].join(',') + '\n';
+            });
+            let nombre = 'syntro_inventario_' + fechaArchivo() + '.csv';
+            let r = await compartirODescargar(nombre, csv, 'text/csv', 'Inventario', '');
+            mostrarAlerta('alertInventario', r === 'compartido' ? 'Compartido.' : 'Descargado.', 'success');
+        }
+
+        // ============ NACIMIENTO ============
+        function actualizarDiasPorEspecie() {
+            let especie = document.getElementById('nacEspecie').value;
+            let e = getData('especies').find(x => x.nombre === especie);
+            if (e) document.getElementById('nacDiasGestacion').value = e.dias;
+        }
+
+        function cambiarTipoParto() {
+            let tipo = document.getElementById('nacTipoParto').value;
+            let esSinCria = (tipo === 'Aborto' || tipo === 'Mortinato');
+            document.getElementById('nacCria1Section').classList.toggle('hidden', esSinCria);
+            document.getElementById('nacCria2Section').classList.toggle('hidden', tipo !== 'Gemelar');
+            document.getElementById('criaNota').classList.toggle('visible', esSinCria);
+        }
+
+        function calcularNumParto() {
+            let madre = document.getElementById('nacMadre').value.trim();
+            let fecha = document.getElementById('nacFecha').value;
+            if (!madre || !fecha) {
+                document.getElementById('nacNumPartoDisplay').textContent = '-';
+                document.getElementById('nacIPPCalculado').textContent = '- dias';
+                return;
+            }
+            let fechaActual = new Date(fecha);
+            let partos = getData('nacimientos').filter(r => {
+                let f = new Date(r.fecha);
+                return r.madre === madre && f < fechaActual && r.tipoParto !== 'Aborto' && r.tipoParto !== 'Mortinato';
+            });
+            let num = partos.length + 1;
+            document.getElementById('nacNumParto').value = num;
+            document.getElementById('nacNumPartoDisplay').textContent = num;
+            if (partos.length > 0) {
+                let ord = partos.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+                let diff = Math.floor((fechaActual - new Date(ord[0].fecha)) / (1000 * 60 * 60 * 24));
+                document.getElementById('nacIPPCalculado').textContent = diff + ' dias';
+            } else {
+                document.getElementById('nacIPPCalculado').textContent = 'Primer parto';
+            }
+            generarSugerenciasIds();
+        }
+
+        function contarCriasEnAnio(year) {
+            let c = 0;
+            getData('nacimientos').forEach(r => {
+                if (new Date(r.fecha).getFullYear() === year && r.crias) c += r.crias.length;
+            });
+            return c;
+        }
+
+        function obtenerUltimoCorrelativo(year) {
+            let nacimientos = getData('nacimientos');
+            let yearShort = year.toString().slice(-2);
+            let maxCorrelativo = 0;
+            let ultimoId = null;
+            nacimientos.forEach(r => {
+                if (new Date(r.fecha).getFullYear() === year && r.crias) {
+                    r.crias.forEach(c => {
+                        let idStr = String(c.id);
+                        if (idStr.startsWith(yearShort)) {
+                            let corr = parseInt(idStr.slice(-2));
+                            if (corr > maxCorrelativo) { maxCorrelativo = corr; ultimoId = c.id; }
+                        }
+                    });
+                }
+            });
+            return { maxCorrelativo, ultimoId };
+        }
+
+        function generarSugerenciasIds() {
+            let fecha = document.getElementById('nacFecha').value;
+            if (!fecha) return;
+            let year = new Date(fecha).getFullYear();
+            let short = year.toString().slice(-2);
+            let total = contarCriasEnAnio(year);
+            let { ultimoId } = obtenerUltimoCorrelativo(year);
+            let id1 = short + String(total + 1).padStart(2, '0');
+            let id2 = short + String(total + 2).padStart(2, '0');
+            document.getElementById('sugerenciaCria1').textContent = id1;
+            document.getElementById('sugerenciaCria2').textContent = id2;
+            let corrAnterior1 = document.getElementById('correlativoAnterior1');
+            if (ultimoId) corrAnterior1.textContent = 'Ultimo: ' + ultimoId;
+            else corrAnterior1.textContent = 'Sin registros previos';
+            let campo1 = document.getElementById('nacCria1Id');
+            let campo2 = document.getElementById('nacCria2Id');
+            if (!campo1.value || campo1.value === '-') campo1.value = id1;
+            if (!campo2.value || campo2.value === '-') campo2.value = id2;
+        }
+
+        document.getElementById('nacFecha').addEventListener('change', function() {
+            generarSugerenciasIds();
+            calcularNumParto();
+        });
+
+        function guardarNacimiento() {
+            let fecha = document.getElementById('nacFecha').value;
+            let finca = document.getElementById('nacFinca').value;
+            let madre = document.getElementById('nacMadre').value.trim();
+            let madreChip = document.getElementById('nacMadreChip').value.trim();
+            let toro = document.getElementById('nacToro').value.trim();
+            let numParto = parseInt(document.getElementById('nacNumParto').value) || 1;
+            let diasGestacion = parseInt(document.getElementById('nacDiasGestacion').value) || 283;
+            let tipo = document.getElementById('nacTipoParto').value;
+            let especie = document.getElementById('nacEspecie').value;
+            let lote = "Lote Cria";
+
+            if (!fecha || !finca || !madre || !toro || !tipo) {
+                mostrarAlerta('alertNacimiento', 'Complete los campos.', 'error');
+                return;
+            }
+
+            let esSinCria = (tipo === 'Aborto' || tipo === 'Mortinato');
+            let crias = [];
+
+            if (!esSinCria) {
+                let c1Id = document.getElementById('nacCria1Id').value.trim();
+                let c1Chip = document.getElementById('nacCria1Chip').value.trim();
+                let c1Sexo = document.getElementById('nacCria1Sexo').value;
+                let c1Peso = parseFloat(document.getElementById('nacCria1Peso').value);
+                if (!c1Id || c1Id === '-' || !c1Sexo || isNaN(c1Peso)) {
+                    mostrarAlerta('alertNacimiento', 'Complete la cria 1.', 'error');
+                    return;
+                }
+                crias.push({ id: c1Id, chip: c1Chip || '', sexo: c1Sexo, peso: c1Peso });
+                if (tipo === 'Gemelar') {
+                    let c2Id = document.getElementById('nacCria2Id').value.trim();
+                    let c2Chip = document.getElementById('nacCria2Chip').value.trim();
+                    let c2Sexo = document.getElementById('nacCria2Sexo').value;
+                    let c2Peso = parseFloat(document.getElementById('nacCria2Peso').value);
+                    if (!c2Id || c2Id === '-' || !c2Sexo || isNaN(c2Peso)) {
+                        mostrarAlerta('alertNacimiento', 'Complete la cria 2.', 'error');
+                        return;
+                    }
+                    crias.push({ id: c2Id, chip: c2Chip || '', sexo: c2Sexo, peso: c2Peso });
+                }
+            }
+
+            let partosAnt = getData('nacimientos').filter(r => {
+                let f = new Date(r.fecha);
+                return r.madre === madre && f < new Date(fecha) && r.tipoParto !== 'Aborto' && r.tipoParto !== 'Mortinato';
+            });
+            let ipp = 0;
+            if (partosAnt.length > 0) {
+                let ord = partosAnt.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+                ipp = Math.floor((new Date(fecha) - new Date(ord[0].fecha)) / (1000 * 60 * 60 * 24));
+            }
+
+            let inventario = getData('inventario');
+            if (!inventario.find(a => a.arete === madre)) {
+                inventario.push({ chip: madreChip || '', arete: madre, especie, lote, finca, fecha: new Date().toLocaleDateString() });
+            }
+            if (toro !== '-' && !inventario.find(a => a.arete === toro)) {
+                inventario.push({ chip: '', arete: toro, especie, lote, finca, fecha: new Date().toLocaleDateString() });
+            }
+            crias.forEach(c => {
+                if (!inventario.find(a => a.arete === c.id)) {
+                    inventario.push({ chip: c.chip || '', arete: c.id, especie, lote, finca, fecha: new Date().toLocaleDateString() });
+                }
+            });
+            setData('inventario', inventario);
+
+            let nacimientos = getData('nacimientos');
+            nacimientos.push({
+                fecha, finca, madre, madreChip, toro, numParto, diasGestacion, tipoParto: tipo,
+                especie, ipp, crias, sinCria: esSinCria,
+                _id: 'nac_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6)
+            });
+            setData('nacimientos', nacimientos);
+
+            mostrarAlerta('alertNacimiento', 'Parto registrado.', 'success');
+
+            document.getElementById('nacMadre').value = '';
+            document.getElementById('nacMadreChip').value = '';
+            document.getElementById('nacToro').value = '-';
+            document.getElementById('nacNumParto').value = '';
+            document.getElementById('nacNumPartoDisplay').textContent = '-';
+            document.getElementById('nacIPPCalculado').textContent = '- dias';
+            document.getElementById('nacCria1Id').value = '-';
+            document.getElementById('nacCria1Chip').value = '';
+            document.getElementById('nacCria1Sexo').value = '';
+            document.getElementById('nacCria1Peso').value = '';
+            document.getElementById('nacCria2Section').classList.add('hidden');
+            document.getElementById('nacCria1Section').classList.remove('hidden');
+            document.getElementById('criaNota').classList.remove('visible');
+            document.getElementById('nacTipoParto').value = '';
+            document.getElementById('chipBuscarInfo').style.display = 'none';
+
+            cargarTablas();
+            renderGraficasInventario();
+        }
+
+        async function exportarCSVNacimientos() {
+            let nacimientos = getData('nacimientos');
+            if (nacimientos.length === 0) { alert('No hay nacimientos.'); return; }
+            let headers = ['Fecha', 'Finca', 'Madre', 'Chip Madre', 'Toro', 'N Parto', 'Tipo', 'Dias Gest.', 'Cria ID', 'Chip Cria', 'Sexo', 'Peso', 'IPP'];
+            let csv = headers.join(',') + '\n';
+            nacimientos.forEach(r => {
+                if (!r.crias || r.crias.length === 0) {
+                    csv += [r.fecha, r.finca, r.madre, r.madreChip || '', r.toro, r.numParto, r.tipoParto, r.diasGestacion, 'SIN CRIA', '', '', '', r.ipp > 0 ? r.ipp : ''].join(',') + '\n';
+                } else {
+                    r.crias.forEach(c => {
+                        csv += [r.fecha, r.finca, r.madre, r.madreChip || '', r.toro, r.numParto, r.tipoParto, r.diasGestacion, c.id, c.chip || '', c.sexo, c.peso, r.ipp > 0 ? r.ipp : ''].join(',') + '\n';
+                    });
+                }
+            });
+            let nombre = 'syntro_nacimientos_' + fechaArchivo() + '.csv';
+            let res = await compartirODescargar(nombre, csv, 'text/csv', 'Nacimientos', '');
+            mostrarAlerta('alertNacimiento', res === 'compartido' ? 'Compartido.' : 'Descargado.', 'success');
+        }
+
+        function eliminarNacimientoTabla(index) {
+            if (!confirm('Eliminar este parto?')) return;
+            let nacimientos = getData('nacimientos');
+            nacimientos.splice(index, 1);
+            setData('nacimientos', nacimientos);
+            cargarTablas();
+        }
+
+        // ============ TRASLADO ============
+        function registrarTraslado() {
+            let fecha = document.getElementById('traFecha').value;
+            let arete = document.getElementById('traArete').value.trim();
+            let fincaOrigen = document.getElementById('traFincaOrigen').value.trim();
+            let loteOrigen = document.getElementById('traLoteOrigen').value.trim();
+            let fincaDestino = document.getElementById('traFincaDestino').value;
+            let loteDestino = document.getElementById('traLoteDestino').value;
+            let motivo = document.getElementById('traMotivo').value;
+            let observaciones = document.getElementById('traObservaciones').value.trim();
+
+            if (!fecha || !arete || !fincaDestino || !loteDestino) {
+                mostrarAlerta('alertTraslado', 'Complete los campos.', 'error');
+                return;
+            }
+
+            let inventario = getData('inventario');
+            let animal = inventario.find(a => a.arete === arete);
+            if (animal) {
+                animal.finca = fincaDestino;
+                animal.lote = loteDestino;
+                setData('inventario', inventario);
+            }
+
+            let traslados = getData('traslados');
+            traslados.push({
+                fecha, chip: document.getElementById('traChip').value.trim(), arete,
+                fincaOrigen, loteOrigen, fincaDestino, loteDestino, motivo, observaciones,
+                _id: 'tra_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6)
+            });
+            setData('traslados', traslados);
+
+            mostrarAlerta('alertTraslado', 'Traslado registrado.', 'success');
+            document.getElementById('traChip').value = '';
+            document.getElementById('traArete').value = '';
+            document.getElementById('traFincaOrigen').value = '';
+            document.getElementById('traLoteOrigen').value = '';
+            document.getElementById('traLoteDestino').value = '';
+            document.getElementById('traObservaciones').value = '';
+            document.getElementById('chipTrasladoInfo').style.display = 'none';
+            cargarTablas();
+            renderGraficasInventario();
+        }
+
+        async function exportarCSVTraslados() {
+            let traslados = getData('traslados');
+            if (traslados.length === 0) { alert('No hay traslados.'); return; }
+            let csv = 'Fecha,Chip,Arete,Finca Origen,Lote Origen,Finca Destino,Lote Destino,Motivo,Observaciones\n';
+            traslados.forEach(t => {
+                csv += [t.fecha, t.chip || '', t.arete, t.fincaOrigen, t.loteOrigen, t.fincaDestino, t.loteDestino, t.motivo, '"' + (t.observaciones || '').replace(/"/g, '""') + '"'].join(',') + '\n';
+            });
+            let nombre = 'syntro_traslados_' + fechaArchivo() + '.csv';
+            let r = await compartirODescargar(nombre, csv, 'text/csv', 'Traslados', '');
+            mostrarAlerta('alertTraslado', r === 'compartido' ? 'Compartido.' : 'Descargado.', 'success');
+        }
+
+        function eliminarTrasladoTabla(index) {
+            if (!confirm('Eliminar este traslado?')) return;
+            let traslados = getData('traslados');
+            traslados.splice(index, 1);
+            setData('traslados', traslados);
+            cargarTablas();
+        }
+
+        // ============ MUERTE ============
+        function registrarMuerte() {
+            let fecha = document.getElementById('mueFecha').value;
+            let finca = document.getElementById('mueFinca').value;
+            let chip = document.getElementById('mueChip').value.trim();
+            let arete = document.getElementById('mueArete').value.trim();
+            let lote = document.getElementById('mueLote').value.trim();
+            let causa = document.getElementById('mueCausa').value;
+            let categoria = document.getElementById('mueCategoria').value;
+            let peso = parseFloat(document.getElementById('muePeso').value) || 0;
+            let observaciones = document.getElementById('mueObservaciones').value.trim();
+
+            if (!fecha || !finca || !arete || !causa) {
+                mostrarAlerta('alertMuerte', 'Complete los campos.', 'error');
+                return;
+            }
+
+            let muertes = getData('muertes');
+            muertes.push({
+                fecha, finca, chip: chip || '', arete, lote: lote || '-',
+                causa, categoria, peso, observaciones,
+                _id: 'mue_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6)
+            });
+            setData('muertes', muertes);
+
+            let inventario = getData('inventario');
+            inventario = inventario.filter(a => a.arete !== arete);
+            setData('inventario', inventario);
+
+            mostrarAlerta('alertMuerte', 'Muerte registrada.', 'success');
+            document.getElementById('mueChip').value = '';
+            document.getElementById('mueArete').value = '';
+            document.getElementById('mueLote').value = '';
+            document.getElementById('mueCausa').value = '';
+            document.getElementById('muePeso').value = '';
+            document.getElementById('mueObservaciones').value = '';
+            document.getElementById('chipMuerteInfo').style.display = 'none';
+            cargarTablas();
+            renderGraficasInventario();
+        }
+
+        async function exportarCSVMuertes() {
+            let muertes = getData('muertes');
+            if (muertes.length === 0) { alert('No hay muertes.'); return; }
+            let headers = ['Fecha', 'Finca', 'Chip', 'Arete', 'Lote', 'Causa', 'Categoria', 'Peso (Kg)', 'Observaciones'];
+            let csv = headers.join(',') + '\n';
+            muertes.forEach(m => {
+                csv += [m.fecha, m.finca, m.chip || '', m.arete, m.lote, m.causa, m.categoria, m.peso || '', '"' + (m.observaciones || '').replace(/"/g, '""') + '"'].join(',') + '\n';
+            });
+            let nombre = 'syntro_muertes_' + fechaArchivo() + '.csv';
+            let r = await compartirODescargar(nombre, csv, 'text/csv', 'Muertes', '');
+            mostrarAlerta('alertMuerte', r === 'compartido' ? 'Compartido.' : 'Descargado.', 'success');
+        }
+
+        function eliminarMuerteTabla(index) {
+            if (!confirm('Eliminar esta muerte?')) return;
+            let muertes = getData('muertes');
+            muertes.splice(index, 1);
+            setData('muertes', muertes);
+            cargarTablas();
+        }
+
+        // ============ ANALISIS ============
+        function detectarTipoCSV(headers) {
+            let h = headers.map(x => x.toLowerCase().trim());
+            if (h.includes('arete') && h.includes('especie') && h.includes('chip') && h.includes('lote') && h.includes('finca')) return 'inventario';
+            if (h.includes('madre') && h.includes('toro') && h.includes('tipo')) return 'nacimiento';
+            if (h.includes('finca origen') || h.includes('lote origen') || h.includes('motivo')) return 'traslado';
+            if (h.includes('causa') && h.includes('arete')) return 'muerte';
+            return null;
+        }
+
+        function parseCSV(texto) {
+            let lineas = texto.split('\n').filter(l => l.trim());
+            if (lineas.length < 2) return null;
+            let headers = parseCSVLine(lineas[0]);
+            let tipo = detectarTipoCSV(headers);
+            if (!tipo) return null;
+            let registros = [];
+            for (let i = 1; i < lineas.length; i++) {
+                let valores = parseCSVLine(lineas[i]);
+                if (valores.length === 0) continue;
+                let reg = {};
+                headers.forEach((h, idx) => { reg[h.trim()] = (valores[idx] || '').trim(); });
+                registros.push(reg);
+            }
+            return { tipo, headers, registros };
+        }
+
+        function parseCSVLine(linea) {
+            let res = [], actual = '', enComillas = false;
+            for (let i = 0; i < linea.length; i++) {
+                let ch = linea[i];
+                if (ch === '"') {
+                    if (enComillas && linea[i+1] === '"') { actual += '"'; i++; }
+                    else enComillas = !enComillas;
+                } else if (ch === ',' && !enComillas) {
+                    res.push(actual); actual = '';
+                } else actual += ch;
+            }
+            res.push(actual);
+            return res;
+        }
+
+        function convertirCSVaRegistros(tipo, registros) {
+            let resultado = [];
+            registros.forEach(r => {
+                if (tipo === 'inventario') {
+                    let arete = r['Arete'] || '';
+                    if (!arete) return;
+                    resultado.push({
+                        chip: r['Chip'] || '', arete, especie: r['Especie'] || '',
+                        lote: r['Lote'] || '', finca: r['Finca'] || '',
+                        fecha: r['Fecha'] || new Date().toLocaleDateString()
+                    });
+                } else if (tipo === 'nacimiento') {
+                    let madre = r['Madre'] || '';
+                    if (!madre) return;
+                    let crias = [];
+                    if (r['Cria ID'] && r['Cria ID'] !== 'SIN CRIA') {
+                        crias.push({ id: r['Cria ID'], chip: r['Chip Cria'] || '', sexo: r['Sexo'] || '', peso: parseFloat(r['Peso']) || 0 });
+                    }
+                    resultado.push({
+                        fecha: r['Fecha'] || '', finca: r['Finca'] || '', madre, madreChip: r['Chip Madre'] || '',
+                        toro: r['Toro'] || '', numParto: parseInt(r['N Parto']) || 1,
+                        diasGestacion: parseInt(r['Dias Gest.']) || 283,
+                        tipoParto: r['Tipo'] || '', ipp: parseFloat(r['IPP']) || 0,
+                        crias, sinCria: crias.length === 0
+                    });
+                } else if (tipo === 'traslado') {
+                    let arete = r['Arete'] || '';
+                    if (!arete) return;
+                    resultado.push({
+                        fecha: r['Fecha'] || '', chip: r['Chip'] || '', arete,
+                        fincaOrigen: r['Finca Origen'] || '', loteOrigen: r['Lote Origen'] || '',
+                        fincaDestino: r['Finca Destino'] || '', loteDestino: r['Lote Destino'] || '',
+                        motivo: r['Motivo'] || '', observaciones: r['Obs.'] || ''
+                    });
+                } else if (tipo === 'muerte') {
+                    let arete = r['Arete'] || '';
+                    if (!arete) return;
+                    resultado.push({
+                        fecha: r['Fecha'] || '', finca: r['Finca'] || '', chip: r['Chip'] || '', arete,
+                        lote: r['Lote'] || '-', causa: r['Causa'] || '', categoria: r['Categoria'] || '',
+                        peso: parseFloat(r['Peso']) || 0, observaciones: r['Observaciones'] || ''
+                    });
+                }
+            });
+            return resultado;
+        }
+
+        function procesarArchivoImportado(event) {
+            let files = event.target.files;
+            if (!files || files.length === 0) return;
+            for (let i = 0; i < files.length; i++) {
+                let file = files[i];
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    try { procesarContenidoImportado(e.target.result, file.name); }
+                    catch (err) { mostrarAlerta('alertAnalisis', 'Error en ' + file.name + ': ' + err.message, 'error'); }
+                };
+                reader.readAsText(file);
+            }
+            event.target.value = '';
+        }
+
+        function procesarContenidoImportado(contenido, nombreArchivo) {
+            let data = null, tipo = null, registros = [];
+            try {
+                data = JSON.parse(contenido);
+                if (data.tipo === 'syntro_inventario') { tipo = 'inventario'; registros = data.inventario || []; }
+                else if (data.tipo === 'syntro_respaldo' || data.tipo === 'syntro_trabajo_supervisor') {
+                    procesarRespaldoCompleto(data, nombreArchivo);
+                    return;
+                }
+            } catch (e) { data = null; }
+
+            if (!data) {
+                let parsed = parseCSV(contenido);
+                if (!parsed) { mostrarAlerta('alertAnalisis', 'No se pudo detectar el tipo: ' + nombreArchivo, 'error'); return; }
+                tipo = parsed.tipo;
+                registros = convertirCSVaRegistros(tipo, parsed.registros);
+            }
+
+            if (registros.length === 0) { mostrarAlerta('alertAnalisis', 'Sin registros en ' + nombreArchivo, 'warning'); return; }
+
+            let supervisor = detectarSupervisor(nombreArchivo);
+            let stats = calcularFusion(tipo, registros);
+            mostrarModalImportacion(nombreArchivo, tipo, supervisor, registros, stats);
+        }
+
+        function detectarSupervisor(nombreArchivo) {
+            let match = nombreArchivo.match(/_(?:inventario|partos|nacimientos|traslados|muertes)_([a-zA-Z]+)[_.-]/);
+            if (match) return match[1].charAt(0).toUpperCase() + match[1].slice(1);
+            match = nombreArchivo.match(/trabajo_([a-zA-Z]+)_/);
+            if (match) return match[1].charAt(0).toUpperCase() + match[1].slice(1);
+            return 'Supervisor';
+        }
+
+        function calcularFusion(tipo, registros) {
+            let actuales = getData(tipo);
+            let existentes = new Set();
+            actuales.forEach(r => existentes.add(obtenerClaveUnica(tipo, r)));
+            let nuevos = 0, duplicados = 0;
+            let vistos = new Set();
+            registros.forEach(r => {
+                let key = obtenerClaveUnica(tipo, r);
+                if (existentes.has(key) || vistos.has(key)) duplicados++;
+                else { nuevos++; vistos.add(key); }
+            });
+            return { nuevos, duplicados, total: registros.length };
+        }
+
+        function mostrarModalImportacion(nombreArchivo, tipo, supervisor, registros, stats) {
+            let tipoNombre = {
+                'inventario': 'Inventario', 'nacimiento': 'Nacimientos',
+                'traslado': 'Traslados', 'muerte': 'Muertes'
+            }[tipo];
+            let mensaje =
+                'IMPORTAR ARCHIVO\n\n' +
+                'Archivo: ' + nombreArchivo + '\n' +
+                'Supervisor: ' + supervisor + '\n' +
+                'Tipo: ' + tipoNombre + '\n\n' +
+                '-----------------\n' +
+                'Nuevos: ' + stats.nuevos + '\n' +
+                'Ya existian: ' + stats.duplicados + '\n' +
+                'Total: ' + stats.total + '\n\n' +
+                'Importar?';
+            if (!confirm(mensaje)) return;
+            aplicarImportacion(tipo, registros, supervisor, nombreArchivo, stats);
+        }
+
+        function aplicarImportacion(tipo, registros, supervisor, nombreArchivo, stats) {
+            let actuales = getData(tipo);
+            let existentes = new Set();
+            actuales.forEach(r => existentes.add(obtenerClaveUnica(tipo, r)));
+            let agregados = 0;
+            registros.forEach(r => {
+                let key = obtenerClaveUnica(tipo, r);
+                if (!existentes.has(key)) {
+                    r.supervisor = supervisor;
+                    r.fechaImportacion = new Date().toISOString();
+                    r.archivoOrigen = nombreArchivo;
+                    if (!r._id) r._id = tipo + '_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+                    actuales.push(r);
+                    existentes.add(key);
+                    agregados++;
+                }
+            });
+            setData(tipo, actuales);
+            let historial = getData('historial_importaciones');
+            historial.push({
+                fecha: new Date().toISOString(), supervisor, tipo, archivo: nombreArchivo,
+                nuevos: agregados, duplicados: stats.duplicados, total: stats.total
+            });
+            setData('historial_importaciones', historial);
+            mostrarAlerta('alertAnalisis', 'Importado: ' + agregados + ' nuevos, ' + stats.duplicados + ' ignorados.', 'success');
+            cargarSelects(); cargarTablas(); renderAnalisis(); renderGraficasInventario();
+        }
+
+        function procesarRespaldoCompleto(data, nombreArchivo) {
+            let supervisor = data.supervisor || detectarSupervisor(nombreArchivo);
+            let resumen =
+                'IMPORTAR RESPALDO\n\n' +
+                'Supervisor: ' + supervisor + '\n\n' +
+                'Inventario: ' + (data.inventario ? data.inventario.length : 0) + '\n' +
+                'Nacimientos: ' + (data.nacimientos ? data.nacimientos.length : 0) + '\n' +
+                'Traslados: ' + (data.traslados ? data.traslados.length : 0) + '\n' +
+                'Muertes: ' + (data.muertes ? data.muertes.length : 0) + '\n\n' +
+                'Importar y fusionar?';
+            if (!confirm(resumen)) return;
+            let stats = { inv: 0, nac: 0, tra: 0, mue: 0 };
+            [['inventario', 'inv'], ['nacimientos', 'nac'], ['traslados', 'tra'], ['muertes', 'mue']].forEach(([tipo, key]) => {
+                if (!data[tipo] || data[tipo].length === 0) return;
+                let actuales = getData(tipo);
+                let existentes = new Set();
+                actuales.forEach(r => existentes.add(obtenerClaveUnica(tipo, r)));
+                data[tipo].forEach(r => {
+                    let k = obtenerClaveUnica(tipo, r);
+                    if (!existentes.has(k)) {
+                        r.supervisor = supervisor;
+                        r.archivoOrigen = nombreArchivo;
+                        if (!r._id) r._id = tipo + '_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+                        actuales.push(r);
+                        existentes.add(k);
+                        stats[key]++;
+                    }
+                });
+                setData(tipo, actuales);
+            });
+            let historial = getData('historial_importaciones');
+            historial.push({
+                fecha: new Date().toISOString(), supervisor, tipo: 'respaldo_completo', archivo: nombreArchivo,
+                nuevos: stats.inv + stats.nac + stats.tra + stats.mue, duplicados: 0, total: stats.inv + stats.nac + stats.tra + stats.mue
+            });
+            setData('historial_importaciones', historial);
+            mostrarAlerta('alertAnalisis', 'Respaldo: ' + stats.inv + ' inv, ' + stats.nac + ' nac, ' + stats.tra + ' tra, ' + stats.mue + ' mue.', 'success');
+            cargarSelects(); cargarTablas(); renderAnalisis(); renderGraficasInventario();
+        }
+
+        function renderAnalisis() {
+            document.getElementById('statInventario').textContent = getData('inventario').length;
+            document.getElementById('statNacimientos').textContent = getData('nacimientos').length;
+            document.getElementById('statTraslados').textContent = getData('traslados').length;
+            document.getElementById('statMuertes').textContent = getData('muertes').length;
+            renderSupervisores();
+            renderHistorial();
+            renderGraficasAnalisis();
+        }
+
+        function renderSupervisores() {
+            let stats = {};
+            [['inventario', 'inv'], ['nacimientos', 'nac'], ['traslados', 'tra'], ['muertes', 'mue']].forEach(([tipo, key]) => {
+                getData(tipo).forEach(r => {
+                    let sup = r.supervisor || 'Sin asignar';
+                    if (!stats[sup]) stats[sup] = { inv: 0, nac: 0, tra: 0, mue: 0 };
+                    stats[sup][key]++;
+                });
+            });
+            let cont = document.getElementById('listaSupervisoresAnalisis');
+            let keys = Object.keys(stats);
+            if (keys.length === 0) {
+                cont.innerHTML = '<div style="text-align:center; color:#94a3b8; padding:20px; font-size:13px;">Sin datos de supervisores.</div>';
+                return;
+            }
+            cont.innerHTML = '';
+            keys.forEach(sup => {
+                let s = stats[sup];
+                let total = s.inv + s.nac + s.tra + s.mue;
+                cont.innerHTML += `
+                    <div class="supervisor-card">
+                        <div>
+                            <div class="nombre">${sup}</div>
+                            <div class="detalle">${total} registros</div>
+                        </div>
+                        <div class="stats">
+                            <div class="mini-stat"><span class="num">${s.inv}</span><span class="lbl">Inv</span></div>
+                            <div class="mini-stat"><span class="num">${s.nac}</span><span class="lbl">Nac</span></div>
+                            <div class="mini-stat"><span class="num">${s.tra}</span><span class="lbl">Tras</span></div>
+                            <div class="mini-stat"><span class="num">${s.mue}</span><span class="lbl">Mue</span></div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderHistorial() {
+            let historial = getData('historial_importaciones');
+            let cont = document.getElementById('historialImportaciones');
+            if (historial.length === 0) {
+                cont.innerHTML = '<div style="text-align:center; color:#94a3b8; padding:20px; font-size:13px;">Sin importaciones.</div>';
+                return;
+            }
+            let ord = historial.slice().reverse();
+            cont.innerHTML = '';
+            ord.slice(0, 20).forEach(h => {
+                let fecha = new Date(h.fecha).toLocaleString();
+                cont.innerHTML += `
+                    <div class="historial-item">
+                        <div class="fecha">${fecha} - <span class="badge-supervisor">${h.supervisor}</span></div>
+                        <div class="resumen">
+                            ${h.archivo} -
+                            <span class="ok">${h.nuevos} nuevos</span> -
+                            <span class="skip">${h.duplicados} ignorados</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        let chartSupervisores = null, chartNacMes = null, chartMueCausa = null, chartFinca = null;
+        let chartAnEspecie = null, chartAnLote = null, chartAnSupervisor = null;
+
+        function renderGraficasAnalisis() {
+            let stats = {};
+            [['inventario', 'inv'], ['nacimientos', 'nac'], ['traslados', 'tra'], ['muertes', 'mue']].forEach(([tipo, key]) => {
+                getData(tipo).forEach(r => {
+                    let sup = r.supervisor || 'Sin asignar';
+                    if (!stats[sup]) stats[sup] = { inv: 0, nac: 0, tra: 0, mue: 0 };
+                    stats[sup][key]++;
+                });
+            });
+            let labels = Object.keys(stats);
+            if (chartSupervisores) chartSupervisores.destroy();
+            if (labels.length > 0) {
+                chartSupervisores = new Chart(document.getElementById('chartSupervisores'), {
+                    type: 'bar',
+                    data: {
+                        labels,
+                        datasets: [
+                            { label: 'Inv', data: labels.map(l => stats[l].inv), backgroundColor: '#168aad' },
+                            { label: 'Nac', data: labels.map(l => stats[l].nac), backgroundColor: '#52b69a' },
+                            { label: 'Tra', data: labels.map(l => stats[l].tra), backgroundColor: '#f59e0b' },
+                            { label: 'Mue', data: labels.map(l => stats[l].mue), backgroundColor: '#6b7280' }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } },
+                        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                });
+            }
+
+            let nacMes = {};
+            getData('nacimientos').forEach(r => {
+                if (!r.fecha) return;
+                let f = new Date(r.fecha);
+                let k = f.getFullYear() + '-' + String(f.getMonth() + 1).padStart(2, '0');
+                nacMes[k] = (nacMes[k] || 0) + 1;
+            });
+            let labelsMes = Object.keys(nacMes).sort();
+            if (chartNacMes) chartNacMes.destroy();
+            if (labelsMes.length > 0) {
+                chartNacMes = new Chart(document.getElementById('chartNacMes'), {
+                    type: 'line',
+                    data: { labels: labelsMes, datasets: [{ label: 'Nacimientos', data: labelsMes.map(k => nacMes[k]),
+                        borderColor: '#52b69a', backgroundColor: 'rgba(82,182,154,0.15)', tension: 0.4, fill: true }] },
+                    options: { responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } },
+                        scales: { y: { beginAtZero: true } } }
+                });
+            }
+
+            let causas = {};
+            getData('muertes').forEach(m => { causas[m.causa] = (causas[m.causa] || 0) + 1; });
+            if (chartMueCausa) chartMueCausa.destroy();
+            if (Object.keys(causas).length > 0) {
+                chartMueCausa = new Chart(document.getElementById('chartMueCausa'), {
+                    type: 'pie',
+                    data: { labels: Object.keys(causas), datasets: [{ data: Object.values(causas),
+                        backgroundColor: ['#dc2626', '#f59e0b', '#168aad', '#52b69a', '#76c893', '#1a759f', '#991b1b', '#64748b', '#a855f7'] }] },
+                    options: { responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } } }
+                });
+            }
+
+            let fincas = {};
+            getData('inventario').forEach(a => {
+                let f = a.finca || 'Sin finca';
+                fincas[f] = (fincas[f] || 0) + 1;
+            });
+            if (chartFinca) chartFinca.destroy();
+            if (Object.keys(fincas).length > 0) {
+                chartFinca = new Chart(document.getElementById('chartFinca'), {
+                    type: 'doughnut',
+                    data: { labels: Object.keys(fincas), datasets: [{ data: Object.values(fincas),
+                        backgroundColor: ['#168aad', '#52b69a', '#f59e0b', '#6b7280', '#8b5cf6', '#dc2626'] }] },
+                    options: { responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } } }
+                });
+            }
+
+            // Grafica inventario por especie
+            let porEspecie = {};
+            getData('inventario').forEach(a => {
+                let esp = a.especie || 'Sin especie';
+                porEspecie[esp] = (porEspecie[esp] || 0) + 1;
+            });
+            if (chartAnEspecie) chartAnEspecie.destroy();
+            if (Object.keys(porEspecie).length > 0) {
+                chartAnEspecie = new Chart(document.getElementById('chartAnEspecie'), {
+                    type: 'doughnut',
+                    data: { labels: Object.keys(porEspecie), datasets: [{
+                        data: Object.values(porEspecie),
+                        backgroundColor: ['#168aad', '#52b69a', '#f59e0b', '#8b5cf6', '#dc2626']
+                    }] },
+                    options: { responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } } }
+                });
+            }
+
+            // Grafica inventario por lote
+            let porLote = {};
+            getData('inventario').forEach(a => {
+                let lote = a.lote || 'Sin lote';
+                porLote[lote] = (porLote[lote] || 0) + 1;
+            });
+            if (chartAnLote) chartAnLote.destroy();
+            if (Object.keys(porLote).length > 0) {
+                chartAnLote = new Chart(document.getElementById('chartAnLote'), {
+                    type: 'bar',
+                    data: { labels: Object.keys(porLote), datasets: [{
+                        label: 'Animales', data: Object.values(porLote),
+                        backgroundColor: ['#f59e0b', '#d97706', '#168aad', '#52b69a', '#8b5cf6'], borderRadius: 6
+                    }] },
+                    options: { responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                });
+            }
+
+            // Grafica inventario por supervisor
+            let porSupInv = {};
+            getData('inventario').forEach(a => {
+                let sup = a.supervisor || 'Sin asignar';
+                porSupInv[sup] = (porSupInv[sup] || 0) + 1;
+            });
+            if (chartAnSupervisor) chartAnSupervisor.destroy();
+            if (Object.keys(porSupInv).length > 0) {
+                chartAnSupervisor = new Chart(document.getElementById('chartAnSupervisor'), {
+                    type: 'bar',
+                    data: { labels: Object.keys(porSupInv), datasets: [{
+                        label: 'Animales', data: Object.values(porSupInv),
+                        backgroundColor: ['#8b5cf6', '#6d28d9', '#52b69a'], borderRadius: 6
+                    }] },
+                    options: { responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                });
+            }
+        }
+
+        function borrarHistorial() {
+            if (!confirm('Borrar historial?')) return;
+            setData('historial_importaciones', []);
+            renderAnalisis();
+        }
+
+        async function exportarReporteCSV() {
+            let lineas = ['REPORTE SYNТRO - ' + new Date().toLocaleString(), ''];
+            lineas.push('RESUMEN GENERAL');
+            lineas.push('Inventario,' + getData('inventario').length);
+            lineas.push('Nacimientos,' + getData('nacimientos').length);
+            lineas.push('Traslados,' + getData('traslados').length);
+            lineas.push('Muertes,' + getData('muertes').length);
+            lineas.push('');
+            lineas.push('POR SUPERVISOR');
+            lineas.push('Supervisor,Inventario,Nacimientos,Traslados,Muertes,Total');
+            let stats = {};
+            [['inventario', 'inv'], ['nacimientos', 'nac'], ['traslados', 'tra'], ['muertes', 'mue']].forEach(([tipo, key]) => {
+                getData(tipo).forEach(r => {
+                    let sup = r.supervisor || 'Sin asignar';
+                    if (!stats[sup]) stats[sup] = { inv: 0, nac: 0, tra: 0, mue: 0 };
+                    stats[sup][key]++;
+                });
+            });
+            Object.keys(stats).forEach(sup => {
+                let s = stats[sup];
+                lineas.push([sup, s.inv, s.nac, s.tra, s.mue, s.inv + s.nac + s.tra + s.mue].join(','));
+            });
+            let csv = lineas.join('\n');
+            let nombre = 'syntro_reporte_' + fechaArchivo() + '.csv';
+            let r = await compartirODescargar(nombre, csv, 'text/csv', 'Reporte', '');
+            mostrarAlerta('alertAnalisis', r === 'compartido' ? 'Compartido.' : 'Descargado.', 'success');
+        }
+
+        async function compartirReporteTexto() {
+            let inv = getData('inventario').length;
+            let nac = getData('nacimientos').length;
+            let tra = getData('traslados').length;
+            let mue = getData('muertes').length;
+            let texto = 'REPORTE SYNТRO\n' + new Date().toLocaleString() + '\n\n' +
+                'Inventario: ' + inv + '\nNacimientos: ' + nac + '\nTraslados: ' + tra + '\nMuertes: ' + mue + '\n\n';
+            let stats = {};
+            [['inventario', 'inv'], ['nacimientos', 'nac'], ['traslados', 'tra'], ['muertes', 'mue']].forEach(([tipo, key]) => {
+                getData(tipo).forEach(r => {
+                    let sup = r.supervisor || 'Sin asignar';
+                    if (!stats[sup]) stats[sup] = 0;
+                    stats[sup]++;
+                });
+            });
+            Object.keys(stats).forEach(sup => { texto += '- ' + sup + ': ' + stats[sup] + ' registros\n'; });
+            if (navigator.share) {
+                try {
+                    await navigator.share({ title: 'Reporte', text: texto });
+                    mostrarAlerta('alertAnalisis', 'Compartido.', 'success');
+                } catch (e) {
+                    if (e.name !== 'AbortError') { navigator.clipboard.writeText(texto); mostrarAlerta('alertAnalisis', 'Copiado.', 'success'); }
+                }
+            } else {
+                navigator.clipboard.writeText(texto);
+                mostrarAlerta('alertAnalisis', 'Copiado. Pegalo en WhatsApp.', 'success');
+            }
+        }
+
+        // ============ GRAFICAS DE INVENTARIO ============
+        let chartInvEspecie = null, chartInvLote = null, chartInvFinca = null, chartInvSupervisor = null;
+
+        function renderGraficasInventario() {
+            let inventario = getData('inventario');
+
+            let porEspecie = {};
+            inventario.forEach(a => {
+                let esp = a.especie || 'Sin especie';
+                porEspecie[esp] = (porEspecie[esp] || 0) + 1;
+            });
+            if (chartInvEspecie) chartInvEspecie.destroy();
+            if (Object.keys(porEspecie).length > 0) {
+                chartInvEspecie = new Chart(document.getElementById('chartInvEspecie'), {
+                    type: 'doughnut',
+                    data: { labels: Object.keys(porEspecie), datasets: [{
+                        data: Object.values(porEspecie),
+                        backgroundColor: ['#168aad', '#52b69a', '#f59e0b', '#8b5cf6', '#dc2626', '#34a0a4', '#76c893', '#d97706']
+                    }] },
+                    options: { responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } } }
+                });
+            }
+
+            let porLote = {};
+            inventario.forEach(a => {
+                let lote = a.lote || 'Sin lote';
+                porLote[lote] = (porLote[lote] || 0) + 1;
+            });
+            if (chartInvLote) chartInvLote.destroy();
+            if (Object.keys(porLote).length > 0) {
+                chartInvLote = new Chart(document.getElementById('chartInvLote'), {
+                    type: 'bar',
+                    data: { labels: Object.keys(porLote), datasets: [{
+                        label: 'Animales', data: Object.values(porLote),
+                        backgroundColor: ['#f59e0b', '#d97706', '#168aad', '#52b69a', '#76c893', '#8b5cf6'], borderRadius: 6
+                    }] },
+                    options: { responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                });
+            }
+
+            let porFinca = {};
+            inventario.forEach(a => {
+                let finca = a.finca || 'Sin finca';
+                porFinca[finca] = (porFinca[finca] || 0) + 1;
+            });
+            if (chartInvFinca) chartInvFinca.destroy();
+            if (Object.keys(porFinca).length > 0) {
+                chartInvFinca = new Chart(document.getElementById('chartInvFinca'), {
+                    type: 'pie',
+                    data: { labels: Object.keys(porFinca), datasets: [{
+                        data: Object.values(porFinca),
+                        backgroundColor: ['#168aad', '#52b69a', '#f59e0b', '#6b7280', '#8b5cf6', '#dc2626']
+                    }] },
+                    options: { responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } } }
+                });
+            }
+
+            let porSup = {};
+            inventario.forEach(a => {
+                let sup = a.supervisor || 'Sin asignar';
+                porSup[sup] = (porSup[sup] || 0) + 1;
+            });
+            if (chartInvSupervisor) chartInvSupervisor.destroy();
+            if (Object.keys(porSup).length > 0) {
+                chartInvSupervisor = new Chart(document.getElementById('chartInvSupervisor'), {
+                    type: 'bar',
+                    data: { labels: Object.keys(porSup), datasets: [{
+                        label: 'Animales', data: Object.values(porSup),
+                        backgroundColor: ['#8b5cf6', '#6d28d9', '#52b69a', '#168aad', '#f59e0b'], borderRadius: 6
+                    }] },
+                    options: { responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                });
+            }
+        }
+
+        // ============ CONFIGURACION ============
+        function renderConfiguracion() {
+            let listaFincas = document.getElementById('listaFincas');
+            listaFincas.innerHTML = '';
+            getData('fincas').forEach((f, i) => {
+                listaFincas.innerHTML += `<div class="config-item"><span><strong>${f.nombre}</strong></span><button class="btn-delete" onclick="eliminarFinca(${i})">Borrar</button></div>`;
+            });
+            let listaLotes = document.getElementById('listaLotes');
+            listaLotes.innerHTML = '';
+            getData('lotes').forEach((l, i) => {
+                listaLotes.innerHTML += `<div class="config-item"><span><strong>${l.nombre}</strong> (${l.finca || 'sin finca'})</span><button class="btn-delete" onclick="eliminarLote(${i})">Borrar</button></div>`;
+            });
+            let listaEspecies = document.getElementById('listaEspecies');
+            listaEspecies.innerHTML = '';
+            getData('especies').forEach((e, i) => {
+                listaEspecies.innerHTML += `<div class="config-item"><span><strong>${e.nombre}</strong> (${e.dias} dias)</span><button class="btn-delete" onclick="eliminarEspecie(${i})">Borrar</button></div>`;
+            });
+        }
+
+        function agregarFinca() {
+            let n = document.getElementById('cfgNuevaFinca').value.trim();
+            if (!n) { mostrarAlerta('alertConfig', 'Escriba un nombre.', 'error'); return; }
+            let f = getData('fincas');
+            if (f.find(x => x.nombre.toLowerCase() === n.toLowerCase())) { mostrarAlerta('alertConfig', 'Ya existe.', 'error'); return; }
+            f.push({ nombre: n });
+            setData('fincas', f);
+            document.getElementById('cfgNuevaFinca').value = '';
+            mostrarAlerta('alertConfig', 'Finca agregada.', 'success');
+            cargarSelects(); renderConfiguracion();
+        }
+
+        function eliminarFinca(i) {
+            if (!confirm('Eliminar finca?')) return;
+            let f = getData('fincas');
+            f.splice(i, 1);
+            setData('fincas', f);
+            cargarSelects(); renderConfiguracion();
+        }
+
+        function agregarLote() {
+            let n = document.getElementById('cfgNuevoLote').value.trim();
+            let f = document.getElementById('cfgLoteFinca').value;
+            if (!n || !f) { mostrarAlerta('alertConfig', 'Complete los datos.', 'error'); return; }
+            let l = getData('lotes');
+            l.push({ id: l.length + 1, nombre: n, finca: f });
+            setData('lotes', l);
+            document.getElementById('cfgNuevoLote').value = '';
+            mostrarAlerta('alertConfig', 'Lote agregado.', 'success');
+            cargarSelects(); renderConfiguracion();
+        }
+
+        function eliminarLote(i) {
+            if (!confirm('Eliminar lote?')) return;
+            let l = getData('lotes');
+            l.splice(i, 1);
+            setData('lotes', l);
+            cargarSelects(); renderConfiguracion();
+        }
+
+        function agregarEspecie() {
+            let n = document.getElementById('cfgNuevaEspecie').value.trim();
+            let d = parseInt(document.getElementById('cfgNuevosDiasGestacion').value);
+            if (!n || !d) { mostrarAlerta('alertConfig', 'Complete los datos.', 'error'); return; }
+            let e = getData('especies');
+            e.push({ nombre: n, dias: d });
+            setData('especies', e);
+            document.getElementById('cfgNuevaEspecie').value = '';
+            document.getElementById('cfgNuevosDiasGestacion').value = '';
+            mostrarAlerta('alertConfig', 'Especie agregada.', 'success');
+            cargarSelects(); renderConfiguracion();
+        }
+
+        function eliminarEspecie(i) {
+            if (!confirm('Eliminar especie?')) return;
+            let e = getData('especies');
+            e.splice(i, 1);
+            setData('especies', e);
+            cargarSelects(); renderConfiguracion();
+        }
+
+        async function exportarInventarioJSON() {
+            let inv = getData('inventario');
+            if (inv.length === 0) { alert('No hay inventario.'); return; }
+            let paquete = {
+                tipo: 'syntro_inventario', version: '1.0',
+                fecha: new Date().toISOString(), cantidad: inv.length,
+                inventario: inv, fincas: getData('fincas'), lotes: getData('lotes'), especies: getData('especies')
+            };
+            let json = JSON.stringify(paquete, null, 2);
+            let nombre = 'syntro_inventario_' + fechaArchivo() + '.json';
+            let r = await compartirODescargar(nombre, json, 'application/json', 'Inventario', '');
+            mostrarAlerta('alertConfig', r === 'compartido' ? 'Compartido.' : 'Descargado.', 'success');
+        }
+
+        function importarInventarioJSON(event) {
+            let file = event.target.files[0];
+            if (!file) return;
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    let data = JSON.parse(e.target.result);
+                    if (data.tipo !== 'syntro_inventario') { alert('No es inventario valido.'); return; }
+                    if (!confirm('Reemplazar inventario con ' + data.inventario.length + ' animales?')) return;
+                    setData('inventario', data.inventario);
+                    if (data.fincas) setData('fincas', data.fincas);
+                    if (data.lotes) setData('lotes', data.lotes);
+                    if (data.especies) setData('especies', data.especies);
+                    cargarSelects(); cargarTablas(); renderAnalisis(); renderGraficasInventario();
+                    mostrarAlerta('alertConfig', 'Inventario importado.', 'success');
+                } catch (err) { alert('Error: ' + err.message); }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        async function exportarRespaldo() {
+            let backup = {
+                tipo: 'syntro_respaldo', version: '1.0', fecha: new Date().toISOString(),
+                fincas: getData('fincas'), lotes: getData('lotes'), especies: getData('especies'),
+                inventario: getData('inventario'), nacimientos: getData('nacimientos'),
+                traslados: getData('traslados'), muertes: getData('muertes')
+            };
+            let json = JSON.stringify(backup, null, 2);
+            let nombre = 'syntro_respaldo_' + fechaArchivo() + '.json';
+            let r = await compartirODescargar(nombre, json, 'application/json', 'Respaldo', '');
+            mostrarAlerta('alertConfig', r === 'compartido' ? 'Compartido.' : 'Descargado.', 'success');
+        }
+
+        function importarRespaldo(event, modo) {
+            let file = event.target.files[0];
+            if (!file) return;
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    let data = JSON.parse(e.target.result);
+                    if (data.tipo !== 'syntro_respaldo' && data.tipo !== 'syntro_trabajo_supervisor') { alert('No es respaldo valido.'); return; }
+                    if (modo === 'reemplazar') {
+                        if (!confirm('Reemplazara TODOS los datos. Continuar?')) return;
+                        if (data.fincas) setData('fincas', data.fincas);
+                        if (data.lotes) setData('lotes', data.lotes);
+                        if (data.especies) setData('especies', data.especies);
+                        if (data.inventario) setData('inventario', data.inventario);
+                        if (data.nacimientos) setData('nacimientos', data.nacimientos);
+                        if (data.traslados) setData('traslados', data.traslados);
+                        if (data.muertes) setData('muertes', data.muertes);
+                        cargarSelects(); cargarTablas(); renderAnalisis(); renderGraficasInventario();
+                        mostrarAlerta('alertConfig', 'Reemplazado.', 'success');
+                    } else {
+                        procesarRespaldoCompleto(data, file.name);
+                    }
+                } catch (err) { alert('Error: ' + err.message); }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // ============ TABLAS ============
+        function cargarTablas() {
+            cargarTablaInventario();
+            cargarTablaNacimientos();
+            cargarTablaTraslados();
+            cargarTablaMuertes();
+            document.getElementById('totalInventarioBadge').textContent = getData('inventario').length;
+            document.getElementById('totalNacimientosBadge').textContent = getData('nacimientos').length;
+            document.getElementById('totalTrasladosBadge').textContent = getData('traslados').length;
+            document.getElementById('totalMuertesBadge').textContent = getData('muertes').length;
+            document.getElementById('totalInventario').textContent = getData('inventario').length;
+            document.getElementById('totalNacimientos').textContent = getData('nacimientos').length;
+            document.getElementById('totalTraslados').textContent = getData('traslados').length;
+            document.getElementById('totalMuertes').textContent = getData('muertes').length;
+        }
+
+        function cargarTablaInventario() {
+            let data = getData('inventario');
+            let tbody = document.getElementById('tablaInventario');
+            tbody.innerHTML = '';
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#94a3b8; padding:20px;">No hay animales registrados</td></tr>';
+                return;
+            }
+            data.forEach(a => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${a.chip || '<span class="badge-sin-chip">Sin chip</span>'}</td>
+                        <td><strong>${a.arete}</strong></td>
+                        <td>${a.especie || '-'}</td>
+                        <td>${a.lote || '-'}</td>
+                        <td>${a.finca || '-'}</td>
+                        <td>${a.fecha || '-'}</td>
+                        <td>
+                            <button class="btn-edit" onclick="editarChipInventario('${a.arete}')">Chip</button>
+                            <button class="btn-delete" onclick="eliminarAnimal('${a.arete}')">Borrar</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function cargarTablaNacimientos() {
+            let data = getData('nacimientos');
+            let tbody = document.getElementById('tablaNacimientos');
+            tbody.innerHTML = '';
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="14" style="text-align:center; color:#94a3b8; padding:20px;">No hay nacimientos registrados</td></tr>';
+                return;
+            }
+            data.forEach((reg, index) => {
+                if (!reg.crias || reg.crias.length === 0) {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${reg.fecha}</td><td>${reg.finca}</td><td>${reg.madre}</td>
+                            <td>${reg.madreChip || '-'}</td><td>${reg.toro}</td><td>${reg.numParto}</td>
+                            <td><span class="badge-aborto">${reg.tipoParto}</span></td>
+                            <td>${reg.diasGestacion}</td>
+                            <td colspan="4" style="text-align:center; color:#7c3aed; font-style:italic;">Sin cria</td>
+                            <td>${reg.ipp > 0 ? reg.ipp : '-'}</td>
+                            <td><button class="btn-delete" onclick="eliminarNacimientoTabla(${index})">Borrar</button></td>
+                        </tr>
+                    `;
+                } else {
+                    reg.crias.forEach(c => {
+                        tbody.innerHTML += `
+                            <tr>
+                                <td>${reg.fecha}</td><td>${reg.finca}</td><td>${reg.madre}</td>
+                                <td>${reg.madreChip || '-'}</td><td>${reg.toro}</td><td>${reg.numParto}</td>
+                                <td>${reg.tipoParto}</td><td>${reg.diasGestacion}</td>
+                                <td>${c.id}</td><td>${c.chip || '-'}</td><td>${c.sexo}</td>
+                                <td>${c.peso} Kg</td><td>${reg.ipp > 0 ? reg.ipp : '-'}</td>
+                                <td><button class="btn-delete" onclick="eliminarNacimientoTabla(${index})">Borrar</button></td>
+                            </tr>
+                        `;
+                    });
+                }
+            });
+        }
+
+        function cargarTablaTraslados() {
+            let data = getData('traslados');
+            let tbody = document.getElementById('tablaTraslados');
+            tbody.innerHTML = '';
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:#94a3b8;padding:20px;">No hay traslados</td></tr>';
+                return;
+            }
+            data.forEach((t, i) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${t.fecha}</td><td>${t.chip || '-'}</td><td><strong>${t.arete}</strong></td>
+                        <td>${t.fincaOrigen}</td><td>${t.loteOrigen}</td>
+                        <td><span class="badge-traslado">${t.fincaDestino}</span></td>
+                        <td><span class="badge-traslado">${t.loteDestino}</span></td>
+                        <td>${t.motivo}</td><td>${t.observaciones || '-'}</td>
+                        <td><button class="btn-delete" onclick="eliminarTrasladoTabla(${i})">Borrar</button></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function cargarTablaMuertes() {
+            let data = getData('muertes');
+            let tbody = document.getElementById('tablaMuertes');
+            tbody.innerHTML = '';
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:#94a3b8;padding:20px;">No hay muertes</td></tr>';
+                return;
+            }
+            data.forEach((m, i) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${m.fecha}</td><td>${m.finca}</td><td>${m.chip || '-'}</td>
+                        <td><strong>${m.arete}</strong></td><td>${m.lote}</td>
+                        <td><span class="badge-muerte">${m.causa}</span></td>
+                        <td>${m.categoria}</td><td>${m.peso > 0 ? m.peso + ' Kg' : '-'}</td>
+                        <td>${m.observaciones || '-'}</td>
+                        <td><button class="btn-delete" onclick="eliminarMuerteTabla(${i})">Borrar</button></td>
+                    </tr>
+                `;
+            });
+        }
+
+        // ============ GRAFICOS ============
+        let chartTipos = null, chartSexo = null, chartMuertes = null, chartTraslados = null;
+
+        function verGraficos() {
+            let nac = getData('nacimientos');
+            let mue = getData('muertes');
+            let tra = getData('traslados');
+
+            let causas = {};
+            mue.forEach(m => { causas[m.causa] = (causas[m.causa] || 0) + 1; });
+            if (chartMuertes) chartMuertes.destroy();
+            if (Object.keys(causas).length > 0) {
+                chartMuertes = new Chart(document.getElementById('chartMuertes'), {
+                    type: 'pie',
+                    data: { labels: Object.keys(causas), datasets: [{ data: Object.values(causas),
+                        backgroundColor: ['#dc2626', '#f59e0b', '#168aad', '#52b69a', '#76c893'] }] },
+                    options: { responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } } }
+                });
+            }
+
+            let motivos = {};
+            tra.forEach(t => { motivos[t.motivo] = (motivos[t.motivo] || 0) + 1; });
+            if (chartTraslados) chartTraslados.destroy();
+            if (Object.keys(motivos).length > 0) {
+                chartTraslados = new Chart(document.getElementById('chartTraslados'), {
+                    type: 'bar',
+                    data: { labels: Object.keys(motivos), datasets: [{ label: 'Cantidad', data: Object.values(motivos),
+                        backgroundColor: ['#f59e0b', '#d97706', '#168aad', '#52b69a'], borderRadius: 6 }] },
+                    options: { responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                });
+            }
+
+            if (nac.length === 0) return;
+
+            let tipos = {}, sexos = { Hembra: 0, Macho: 0 };
+            nac.forEach(r => {
+                tipos[r.tipoParto] = (tipos[r.tipoParto] || 0) + 1;
+                if (r.crias) r.crias.forEach(c => sexos[c.sexo]++);
+            });
+
+            if (chartTipos) chartTipos.destroy();
+            chartTipos = new Chart(document.getElementById('chartTipos'), {
+                type: 'bar',
+                data: { labels: Object.keys(tipos), datasets: [{ label: 'Cantidad', data: Object.values(tipos),
+                    backgroundColor: ['#52b69a', '#34a0a4', '#168aad', '#1a759f', '#76c893', '#7c3aed'], borderRadius: 6 }] },
+                options: { responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+            });
+
+            if (chartSexo) chartSexo.destroy();
+            chartSexo = new Chart(document.getElementById('chartSexo'), {
+                type: 'doughnut',
+                data: { labels: Object.keys(sexos), datasets: [{ data: Object.values(sexos),
+                    backgroundColor: ['#52b69a', '#1a759f'], borderWidth: 0 }] },
+                options: { responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } } }
+            });
+        }
+
+        function borrarTodo() {
+            if (!confirm('Borrar TODOS los datos? No se puede deshacer.')) return;
+            if (!confirm('CONFIRMACION FINAL. Continuar?')) return;
+            localStorage.clear();
+            initDatos(); cargarSelects(); cargarTablas(); renderConfiguracion(); renderAnalisis(); renderGraficasInventario();
+            alert('Datos borrados.');
+        }
+
+        // DRAG AND DROP
+        window.addEventListener('DOMContentLoaded', function() {
+            let zone = document.getElementById('importZone');
+            if (!zone) return;
+            ['dragenter', 'dragover'].forEach(evt => {
+                zone.addEventListener(evt, function(e) { e.preventDefault(); zone.classList.add('dragover'); });
+            });
+            ['dragleave', 'drop'].forEach(evt => {
+                zone.addEventListener(evt, function(e) { e.preventDefault(); zone.classList.remove('dragover'); });
+            });
+            zone.addEventListener('drop', function(e) {
+                let files = e.dataTransfer.files;
+                for (let i = 0; i < files.length; i++) {
+                    let file = files[i];
+                    let reader = new FileReader();
+                    reader.onload = function(ev) { procesarContenidoImportado(ev.target.result, file.name); };
+                    reader.readAsText(file);
+                }
+            });
+        });
+
+        init();
+    </script>
+</body>
+</html>
