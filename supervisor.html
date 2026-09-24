@@ -366,6 +366,16 @@
             border-top: 1px solid rgba(22, 101, 52, 0.2);
         }
 
+        .chip-acciones {
+            grid-column: 1 / -1;
+            display: none;
+            margin-bottom: 8px;
+        }
+
+        .chip-acciones .btn {
+            min-height: 48px;
+        }
+
         .sugerencia-text {
             margin-top: 4px;
             font-size: 12px;
@@ -413,6 +423,12 @@
         .btn-danger {
             background: linear-gradient(135deg, #ef4444, var(--syntro-danger));
             color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #78350f;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
         }
 
         .btn-muerte {
@@ -776,7 +792,7 @@
         <p>Sistema Pecuario Integral</p>
         <div class="card-bienvenida">
             <label>Su nombre:</label>
-            <input type="text" id="inputNombreSupervisor" placeholder="Ej: Juan Pérez" autocomplete="off">
+            <input type="text" id="inputNombreSupervisor" placeholder="Ej: Juan Perez" autocomplete="off">
             <button onclick="guardarNombreSupervisor()">Entrar al Sistema</button>
         </div>
     </div>
@@ -833,20 +849,20 @@
 
             <button class="menu-card graficos" onclick="abrirModulo('graficos')">
                 <span class="icono">GRA</span>
-                <span class="titulo">Gráficos</span>
-                <span class="subtitulo">Ver estadísticas</span>
+                <span class="titulo">Graficos</span>
+                <span class="subtitulo">Ver estadisticas</span>
             </button>
 
             <button class="menu-card config" onclick="abrirModulo('configuracion')">
                 <span class="icono">CFG</span>
-                <span class="titulo">Configuración</span>
+                <span class="titulo">Configuracion</span>
                 <span class="subtitulo">Ajustes</span>
             </button>
         </div>
 
-        <!-- VISTA INVENTARIO -->
+        <!-- INVENTARIO -->
         <div class="vista-modulo" id="vista-inventario">
-            <button class="btn-volver" onclick="cerrarModulo()">Volver al menú</button>
+            <button class="btn-volver" onclick="cerrarModulo()">Volver al menu</button>
 
             <div class="module">
                 <div class="module-title">
@@ -859,15 +875,19 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label>Microchip <span class="optional">(Opcional)</span></label>
-                        <input type="text" id="invChip" placeholder="Escanee chip o déjelo vacío">
+                        <input type="text" id="invChip" placeholder="Escanee chip o deje vacio">
                     </div>
                     <div class="form-group">
                         <label>Arete <span class="required">*</span></label>
-                        <input type="text" id="invArete" placeholder="Número de arete">
+                        <input type="text" id="invArete" placeholder="Numero de arete">
                     </div>
                     <div class="form-group">
                         <label>Especie <span class="required">*</span></label>
                         <select id="invEspecie"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoria <span class="required">*</span></label>
+                        <select id="invCategoria"></select>
                     </div>
                     <div class="form-group">
                         <label>Lote</label>
@@ -891,16 +911,16 @@
 
                 <div class="table-wrap">
                     <table>
-                        <thead><tr><th>Chip</th><th>Arete</th><th>Especie</th><th>Lote</th><th>Finca</th><th>Fecha</th><th>Acciones</th></tr></thead>
+                        <thead><tr><th>Chip</th><th>Arete</th><th>Especie</th><th>Categoria</th><th>Lote</th><th>Finca</th><th>Fecha</th><th>Acciones</th></tr></thead>
                         <tbody id="tablaInventario"></tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- VISTA NACIMIENTO -->
+        <!-- NACIMIENTO -->
         <div class="vista-modulo" id="vista-nacimiento">
-            <button class="btn-volver" onclick="cerrarModulo()">Volver al menú</button>
+            <button class="btn-volver" onclick="cerrarModulo()">Volver al menu</button>
 
             <div class="module">
                 <div class="module-title">
@@ -928,12 +948,19 @@
                         <input type="text" id="nacMadre" placeholder="Escriba arete" oninput="sincronizarMadrePorArete(this.value)">
                     </div>
                     <div id="chipBuscarInfo" class="chip-buscar-info" style="grid-column: 1 / -1;"></div>
+                    <div id="chipNacAcciones" class="chip-acciones">
+                        <button type="button" class="btn btn-warning btn-sm" onclick="asignarChipAnimal(document.getElementById('nacMadre').value.trim())">Asignar / Cambiar Chip de la Madre</button>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoria de la Madre</label>
+                        <select id="nacCategoriaMadre"></select>
+                    </div>
                     <div class="form-group">
                         <label>Toro (Arete) <span class="required">*</span></label>
                         <input type="text" id="nacToro" placeholder="-" value="-">
                     </div>
                     <div class="form-group">
-                        <label>N° de Parto</label>
+                        <label>N de Parto</label>
                         <input type="number" id="nacNumParto" readonly placeholder="-">
                     </div>
                     <div class="form-group">
@@ -941,7 +968,7 @@
                         <select id="nacEspecie" onchange="actualizarDiasPorEspecie()"></select>
                     </div>
                     <div class="form-group">
-                        <label>Días de Gestación</label>
+                        <label>Dias de Gestion</label>
                         <input type="number" id="nacDiasGestacion" value="283" min="1" max="500">
                     </div>
                     <div class="form-group">
@@ -950,33 +977,33 @@
                             <option value="">Seleccionar...</option>
                             <option value="Normal">Normal</option>
                             <option value="Gemelar">Gemelar</option>
-                            <option value="Distócico">Distócico</option>
+                            <option value="Distocico">Distocico</option>
                             <option value="Aborto">Aborto</option>
                             <option value="Mortinato">Mortinato</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Lote para Crías</label>
+                        <label>Lote para Crias</label>
                         <select id="nacLote" disabled>
-                            <option value="Lote Cría">Lote Cría</option>
+                            <option value="Lote Cria">Lote Cria</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="info-display">
-                    <div class="info-item"><label>N° de Parto</label><span id="nacNumPartoDisplay">-</span></div>
-                    <div class="info-item"><label>IPP Calculado</label><span id="nacIPPCalculado">- días</span></div>
+                    <div class="info-item"><label>N de Parto</label><span id="nacNumPartoDisplay">-</span></div>
+                    <div class="info-item"><label>IPP Calculado</label><span id="nacIPPCalculado">- dias</span></div>
                 </div>
 
                 <div class="cria-nota" id="criaNota">
-                    Este tipo de parto (Aborto/Mortinato) no genera crías registradas.
+                    Este tipo de parto (Aborto/Mortinato) no genera crias registradas.
                 </div>
 
                 <div class="cria-card" id="nacCria1Section">
-                    <h4>CRÍA 1</h4>
+                    <h4>CRIA 1</h4>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>ID de la Cría <span class="required">*</span></label>
+                            <label>ID de la Cria <span class="required">*</span></label>
                             <input type="text" id="nacCria1Id" class="editable-id" placeholder="-" value="-">
                             <div class="sugerencia-text">
                                 Sugerencia: <strong id="sugerenciaCria1">---</strong>
@@ -984,15 +1011,19 @@
                         </div>
                         <div class="form-group">
                             <label>Chip <span class="optional">(Opcional)</span></label>
-                            <input type="text" id="nacCria1Chip" placeholder="Chip o déjelo vacío">
+                            <input type="text" id="nacCria1Chip" placeholder="Chip">
                         </div>
                         <div class="form-group">
                             <label>Sexo <span class="required">*</span></label>
-                            <select id="nacCria1Sexo">
+                            <select id="nacCria1Sexo" onchange="sugerirCategoriaCria(1)">
                                 <option value="">Seleccionar...</option>
                                 <option value="Hembra">Hembra</option>
                                 <option value="Macho">Macho</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Categoria <span class="required">*</span></label>
+                            <select id="nacCria1Categoria"></select>
                         </div>
                         <div class="form-group">
                             <label>Peso (Kg) <span class="required">*</span></label>
@@ -1002,11 +1033,14 @@
                 </div>
 
                 <div class="cria-card hidden" id="nacCria2Section">
-                    <h4>CRÍA 2 (Gemelar)</h4>
+                    <h4>CRIA 2 (Gemelar)</h4>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>ID de la Cría <span class="required">*</span></label>
+                            <label>ID de la Cria <span class="required">*</span></label>
                             <input type="text" id="nacCria2Id" class="editable-id" placeholder="-" value="-">
+                            <div class="sugerencia-text">
+                                Sugerencia: <strong id="sugerenciaCria2">---</strong>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Chip <span class="optional">(Opcional)</span></label>
@@ -1014,11 +1048,15 @@
                         </div>
                         <div class="form-group">
                             <label>Sexo <span class="required">*</span></label>
-                            <select id="nacCria2Sexo">
+                            <select id="nacCria2Sexo" onchange="sugerirCategoriaCria(2)">
                                 <option value="">Seleccionar...</option>
                                 <option value="Hembra">Hembra</option>
                                 <option value="Macho">Macho</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Categoria <span class="required">*</span></label>
+                            <select id="nacCria2Categoria"></select>
                         </div>
                         <div class="form-group">
                             <label>Peso (Kg) <span class="required">*</span></label>
@@ -1040,16 +1078,16 @@
 
                 <div class="table-wrap">
                     <table>
-                        <thead><tr><th>Fecha</th><th>Finca</th><th>Madre</th><th>Chip Madre</th><th>Toro</th><th>N°</th><th>Tipo</th><th>Días</th><th>Cría ID</th><th>Chip</th><th>Sexo</th><th>Peso</th><th>IPP</th><th>Acción</th></tr></thead>
+                        <thead><tr><th>Fecha</th><th>Finca</th><th>Madre</th><th>Cat. Madre</th><th>Chip Madre</th><th>Toro</th><th>N</th><th>Tipo</th><th>Dias</th><th>Cria ID</th><th>Chip</th><th>Sexo</th><th>Cat.</th><th>Peso</th><th>IPP</th><th>Accion</th></tr></thead>
                         <tbody id="tablaNacimientos"></tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- VISTA TRASLADO -->
+        <!-- TRASLADO -->
         <div class="vista-modulo" id="vista-traslado">
-            <button class="btn-volver" onclick="cerrarModulo()">Volver al menú</button>
+            <button class="btn-volver" onclick="cerrarModulo()">Volver al menu</button>
 
             <div class="module">
                 <div class="module-title">
@@ -1075,6 +1113,9 @@
                             <input type="text" id="traArete" placeholder="Escriba arete" oninput="sincronizarTrasladoPorArete(this.value)">
                         </div>
                         <div id="chipTrasladoInfo" class="chip-buscar-info" style="grid-column: 1 / -1;"></div>
+                        <div id="chipTrasladoAcciones" class="chip-acciones">
+                            <button type="button" class="btn btn-warning btn-sm" onclick="asignarChipAnimal(document.getElementById('traArete').value.trim())">Asignar / Cambiar Chip</button>
+                        </div>
                         <div class="form-group">
                             <label>Finca Origen</label>
                             <input type="text" id="traFincaOrigen" readonly placeholder="Se autocompleta">
@@ -1084,25 +1125,29 @@
                             <input type="text" id="traLoteOrigen" readonly placeholder="Se autocompleta">
                         </div>
                         <div class="form-group">
+                            <label>Categoria</label>
+                            <select id="traCategoria"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Motivo <span class="required">*</span></label>
+                            <select id="traMotivo">
+                                <option value="Manejo">Manejo</option>
+                                <option value="Rotacion de potreros">Rotacion de potreros</option>
+                                <option value="Venta">Venta (SALE DEL INVENTARIO)</option>
+                                <option value="Compra">Compra</option>
+                                <option value="Sanidad">Sanidad</option>
+                                <option value="Reproduccion">Reproduccion</option>
+                                <option value="Destete">Destete</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>Finca Destino <span class="required">*</span></label>
-                            <select id="traFincaDestino" onchange="actualizarLotesDestino()"></select>
+                            <select id="traFincaDestino"></select>
                         </div>
                         <div class="form-group">
                             <label>Lote Destino <span class="required">*</span></label>
                             <select id="traLoteDestino"></select>
-                        </div>
-                        <div class="form-group">
-                            <label>Motivo</label>
-                            <select id="traMotivo">
-                                <option value="Manejo">Manejo</option>
-                                <option value="Rotación de potreros">Rotación de potreros</option>
-                                <option value="Venta">Venta</option>
-                                <option value="Compra">Compra</option>
-                                <option value="Sanidad">Sanidad</option>
-                                <option value="Reproducción">Reproducción</option>
-                                <option value="Destete">Destete</option>
-                                <option value="Otro">Otro</option>
-                            </select>
                         </div>
                         <div class="form-group" style="grid-column: 1 / -1;">
                             <label>Observaciones <span class="optional">(Opcional)</span></label>
@@ -1129,13 +1174,14 @@
                                 <th>Fecha</th>
                                 <th>Chip</th>
                                 <th>Arete</th>
+                                <th>Categoria</th>
                                 <th>Finca Origen</th>
                                 <th>Lote Origen</th>
                                 <th>Finca Destino</th>
                                 <th>Lote Destino</th>
                                 <th>Motivo</th>
                                 <th>Obs.</th>
-                                <th>Acción</th>
+                                <th>Accion</th>
                             </tr>
                         </thead>
                         <tbody id="tablaTraslados"></tbody>
@@ -1144,9 +1190,9 @@
             </div>
         </div>
 
-        <!-- VISTA MUERTE -->
+        <!-- MUERTE -->
         <div class="vista-modulo" id="vista-muerte">
-            <button class="btn-volver" onclick="cerrarModulo()">Volver al menú</button>
+            <button class="btn-volver" onclick="cerrarModulo()">Volver al menu</button>
 
             <div class="module">
                 <div class="module-title">
@@ -1176,9 +1222,16 @@
                             <input type="text" id="mueArete" placeholder="Escriba arete" oninput="sincronizarMuertePorArete(this.value)">
                         </div>
                         <div id="chipMuerteInfo" class="chip-buscar-info" style="grid-column: 1 / -1;"></div>
+                        <div id="chipMuerteAcciones" class="chip-acciones">
+                            <button type="button" class="btn btn-warning btn-sm" onclick="asignarChipAnimal(document.getElementById('mueArete').value.trim())">Asignar / Cambiar Chip</button>
+                        </div>
                         <div class="form-group">
                             <label>Lote</label>
                             <input type="text" id="mueLote" readonly placeholder="Se autocompleta">
+                        </div>
+                        <div class="form-group">
+                            <label>Categoria <span class="required">*</span></label>
+                            <select id="mueCategoria"></select>
                         </div>
                         <div class="form-group">
                             <label>Causa <span class="required">*</span></label>
@@ -1187,22 +1240,12 @@
                                 <option value="Enfermedad">Enfermedad</option>
                                 <option value="Accidente">Accidente</option>
                                 <option value="Depredador">Depredador</option>
-                                <option value="Parto">Complicación de Parto</option>
+                                <option value="Parto">Complicacion de Parto</option>
                                 <option value="Neonatal">Muerte Neonatal</option>
                                 <option value="Vejez">Vejez</option>
                                 <option value="Sacrificio">Sacrificio</option>
                                 <option value="Desconocida">Desconocida</option>
                                 <option value="Otra">Otra</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Categoría</label>
-                            <select id="mueCategoria">
-                                <option value="Cría">Cría</option>
-                                <option value="Levante">Levante</option>
-                                <option value="Vientre">Vientre</option>
-                                <option value="Toro">Toro</option>
-                                <option value="Adulto">Adulto</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -1236,11 +1279,11 @@
                                 <th>Chip</th>
                                 <th>Arete</th>
                                 <th>Lote</th>
+                                <th>Categoria</th>
                                 <th>Causa</th>
-                                <th>Categoría</th>
                                 <th>Peso</th>
                                 <th>Observaciones</th>
-                                <th>Acción</th>
+                                <th>Accion</th>
                             </tr>
                         </thead>
                         <tbody id="tablaMuertes"></tbody>
@@ -1249,36 +1292,43 @@
             </div>
         </div>
 
-        <!-- VISTA GRÁFICOS -->
+        <!-- GRAFICOS -->
         <div class="vista-modulo" id="vista-graficos">
-            <button class="btn-volver" onclick="cerrarModulo()">Volver al menú</button>
+            <button class="btn-volver" onclick="cerrarModulo()">Volver al menu</button>
 
             <div class="module">
-                <div class="module-title">Mis Estadísticas</div>
+                <div class="module-title">Mis Estadisticas</div>
 
                 <div class="chart-container"><h3>Tipos de Parto</h3><div class="chart-wrapper"><canvas id="chartTipos"></canvas></div></div>
-                <div class="chart-container"><h3>Distribución por Sexo</h3><div class="chart-wrapper"><canvas id="chartSexo"></canvas></div></div>
+                <div class="chart-container"><h3>Distribucion por Sexo</h3><div class="chart-wrapper"><canvas id="chartSexo"></canvas></div></div>
                 <div class="chart-container"><h3>Causas de Muerte</h3><div class="chart-wrapper"><canvas id="chartMuertes"></canvas></div></div>
                 <div class="chart-container"><h3>Traslados por Motivo</h3><div class="chart-wrapper"><canvas id="chartTraslados"></canvas></div></div>
             </div>
         </div>
 
-        <!-- VISTA CONFIGURACIÓN -->
+        <!-- CONFIGURACION -->
         <div class="vista-modulo" id="vista-configuracion">
-            <button class="btn-volver" onclick="cerrarModulo()">Volver al menú</button>
+            <button class="btn-volver" onclick="cerrarModulo()">Volver al menu</button>
 
             <div class="module">
-                <div class="module-title">Configuración</div>
+                <div class="module-title">Configuracion</div>
 
                 <div id="alertConfig" class="alert"></div>
 
                 <div class="sync-card">
-                    <h4>Importar del Maestro</h4>
+                    <h4>Importar Inventario del Maestro</h4>
                     <p style="font-size: 12px; color: #5b21b6; margin-bottom: 12px; line-height: 1.5;">
-                        Importa el inventario que le envió el dueño. Así podrá consultar cualquier animal.
+                        Importa el inventario del dueño. Acepta archivos <strong>JSON o CSV</strong>.
                     </p>
-                    <button class="btn btn-sync" onclick="document.getElementById('inputImportarInventario').click()">Importar Inventario del Maestro</button>
-                    <input type="file" id="inputImportarInventario" accept=".json,application/json" style="display:none" onchange="importarInventarioMaestro(event)">
+                    <div class="btn-group-row">
+                        <button class="btn btn-sync btn-sm" onclick="document.getElementById('inputImportarJSON').click()">Importar JSON</button>
+                        <button class="btn btn-sync btn-sm" onclick="document.getElementById('inputImportarCSV').click()">Importar CSV</button>
+                        <input type="file" id="inputImportarJSON" accept=".json,application/json" style="display:none" onchange="importarInventarioJSON(event)">
+                        <input type="file" id="inputImportarCSV" accept=".csv,text/csv" style="display:none" onchange="importarInventarioCSV(event)">
+                    </div>
+                    <p style="font-size: 11px; color: #7c3aed; margin-top: 10px;">
+                        Al importar, se reemplaza el inventario actual. Tambien se cargan fincas, lotes y especies si vienen en el archivo.
+                    </p>
                 </div>
 
                 <div class="sync-card">
@@ -1316,7 +1366,7 @@
                     <h4>Especies</h4>
                     <div class="config-add-row">
                         <input type="text" id="cfgNuevaEspecie" placeholder="Nombre">
-                        <input type="number" id="cfgNuevosDiasGestacion" placeholder="Días gestación" min="1" max="500">
+                        <input type="number" id="cfgNuevosDiasGestacion" placeholder="Dias gestacion" min="1" max="500">
                         <button class="btn btn-primary btn-sm" onclick="agregarEspecie()">Agregar</button>
                     </div>
                     <div class="config-list" id="listaEspecies"></div>
@@ -1356,6 +1406,35 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        const CATEGORIAS = [
+            'VACA PARIDA', 'VACA HORRA', 'NOVILLA', 'RETAJOS',
+            'TORO', 'MAUTA', 'MAUTE', 'BECERRO', 'BECERRA'
+        ];
+
+        function cargarCategorias() {
+            ['invCategoria', 'nacCategoriaMadre', 'nacCria1Categoria', 'nacCria2Categoria', 'traCategoria', 'mueCategoria'].forEach(id => {
+                let sel = document.getElementById(id);
+                if (!sel) return;
+                let v = sel.value;
+                sel.innerHTML = '<option value="">Seleccionar...</option>';
+                CATEGORIAS.forEach(cat => {
+                    let opt = document.createElement('option');
+                    opt.value = cat;
+                    opt.textContent = cat;
+                    sel.appendChild(opt);
+                });
+                if (v) sel.value = v;
+            });
+        }
+
+        function sugerirCategoriaCria(num) {
+            let sexo = document.getElementById('nacCria' + num + 'Sexo').value;
+            let cat = '';
+            if (sexo === 'Hembra') cat = 'BECERRA';
+            if (sexo === 'Macho') cat = 'BECERRO';
+            if (cat) document.getElementById('nacCria' + num + 'Categoria').value = cat;
+        }
+
         async function compartirODescargar(nombreArchivo, contenido, tipoMime, titulo, texto) {
             let blob = new Blob([contenido], { type: tipoMime });
             if (navigator.canShare && typeof File !== 'undefined') {
@@ -1365,9 +1444,7 @@
                         await navigator.share({ files: [archivo], title: titulo || 'Syntro', text: texto || '' });
                         return 'compartido';
                     }
-                } catch (err) {
-                    if (err.name === 'AbortError') return 'cancelado';
-                }
+                } catch (err) { if (err.name === 'AbortError') return 'cancelado'; }
             }
             let link = document.createElement('a');
             let url = URL.createObjectURL(blob);
@@ -1407,8 +1484,8 @@
             }
             if (getData('lotes').length === 0) {
                 setData('lotes', [
-                    { id: 1, nombre: 'Lote Cría', finca: 'Finca Matriz Syntro' },
-                    { id: 2, nombre: 'Lote Recría', finca: 'Finca Matriz Syntro' },
+                    { id: 1, nombre: 'Lote Cria', finca: 'Finca Matriz Syntro' },
+                    { id: 2, nombre: 'Lote Recria', finca: 'Finca Matriz Syntro' },
                     { id: 3, nombre: 'Lote Vientres', finca: 'Finca Matriz Syntro' },
                     { id: 4, nombre: 'Lote Toros', finca: 'Finca Matriz Syntro' },
                     { id: 5, nombre: 'Maternidad', finca: 'RIECITO' }
@@ -1417,7 +1494,7 @@
             if (getData('especies').length === 0) {
                 setData('especies', [
                     { nombre: 'Bovino', dias: 283 },
-                    { nombre: 'Búfala', dias: 315 },
+                    { nombre: 'Bufala', dias: 315 },
                     { nombre: 'Ovino', dias: 150 },
                     { nombre: 'Caprino', dias: 150 },
                     { nombre: 'Porcino', dias: 115 },
@@ -1437,10 +1514,7 @@
         function editarNombreSupervisor() {
             let actual = getSupervisorNombre();
             let nuevo = prompt('Su nombre:', actual);
-            if (nuevo && nuevo.trim()) {
-                setSupervisorNombre(nuevo.trim());
-                actualizarNombreUI();
-            }
+            if (nuevo && nuevo.trim()) { setSupervisorNombre(nuevo.trim()); actualizarNombreUI(); }
         }
 
         function actualizarNombreUI() {
@@ -1458,7 +1532,7 @@
 
             if (mod === 'inventario') cargarTablaInventario();
             if (mod === 'nacimiento') cargarTablaNacimientos();
-            if (mod === 'traslado') cargarTablaTraslados();
+            if (mod === 'traslado') { cargarTablaTraslados(); actualizarLotesDestino(); }
             if (mod === 'muerte') cargarTablaMuertes();
             if (mod === 'graficos') verGraficos();
             if (mod === 'configuracion') renderConfiguracion();
@@ -1527,56 +1601,95 @@
             }
 
             actualizarLotesDestino();
+            cargarCategorias();
         }
 
         function actualizarLotesDestino() {
-            let fincaDestino = document.getElementById('traFincaDestino').value;
             let selLote = document.getElementById('traLoteDestino');
             if (!selLote) return;
-            let lotes = getData('lotes').filter(l => !fincaDestino || l.finca === fincaDestino);
+            let todosLosLotes = getData('lotes');
             let v = selLote.value;
             selLote.innerHTML = '<option value="">Seleccione...</option>';
-            lotes.forEach(l => {
+            todosLosLotes.forEach(l => {
                 let opt = document.createElement('option');
                 opt.value = l.nombre;
-                opt.textContent = l.nombre;
+                opt.textContent = l.nombre + (l.finca ? ' (' + l.finca + ')' : '');
                 selLote.appendChild(opt);
             });
-            if (v && lotes.find(l => l.nombre === v)) selLote.value = v;
+            if (v && todosLosLotes.find(l => l.nombre === v)) selLote.value = v;
         }
 
-        // ==================== INVENTARIO ====================
+        // ============ ASIGNAR / CAMBIAR CHIP ============
+        function asignarChipAnimal(arete) {
+            if (!arete) { alert('Primero debe buscar un animal.'); return; }
+            let inventario = getData('inventario');
+            let animal = inventario.find(a => a.arete === arete);
+            if (!animal) { alert('Animal no encontrado en inventario.'); return; }
+
+            let actual = animal.chip || '';
+            let nuevo = prompt(
+                'Asignar / Cambiar chip para el arete ' + arete + ':\n\n' +
+                'Chip actual: ' + (actual || '(vacio)') + '\n\n' +
+                '(Deje vacio para eliminar el chip)',
+                actual
+            );
+            if (nuevo === null) return;
+            nuevo = nuevo.trim();
+
+            if (nuevo) {
+                let ocupado = inventario.find(a => a.chip === nuevo && a.arete !== arete);
+                if (ocupado) {
+                    alert('Ese chip ya esta asignado al arete ' + ocupado.arete);
+                    return;
+                }
+            }
+
+            animal.chip = nuevo;
+            setData('inventario', inventario);
+            actualizarChipEnPantalla(arete, nuevo);
+            cargarTablaInventario();
+            alert(nuevo ? 'Chip asignado: ' + nuevo : 'Chip eliminado.');
+        }
+
+        function actualizarChipEnPantalla(arete, nuevoChip) {
+            ['traChip', 'mueChip', 'nacMadreChip'].forEach(id => {
+                let campo = document.getElementById(id);
+                if (!campo) return;
+                let areteRef = '';
+                if (id === 'traChip') areteRef = document.getElementById('traArete').value.trim();
+                if (id === 'mueChip') areteRef = document.getElementById('mueArete').value.trim();
+                if (id === 'nacMadreChip') areteRef = document.getElementById('nacMadre').value.trim();
+                if (areteRef === arete) {
+                    campo.value = nuevoChip;
+                    if (nuevoChip) campo.classList.add('auto-lleno');
+                    else campo.classList.remove('auto-lleno');
+                }
+            });
+        }
+
+        // ============ INVENTARIO ============
         function registrarInventario() {
             let chip = document.getElementById('invChip').value.trim();
             let arete = document.getElementById('invArete').value.trim();
             let especie = document.getElementById('invEspecie').value;
+            let categoria = document.getElementById('invCategoria').value;
             let lote = document.getElementById('invLote').value;
             let finca = document.getElementById('invFinca').value;
 
             if (!arete) { mostrarAlerta('alertInventario', 'El arete es obligatorio.', 'error'); return; }
-            if (!especie) { mostrarAlerta('alertInventario', 'Seleccione una especie.', 'error'); return; }
+            if (!especie) { mostrarAlerta('alertInventario', 'Seleccione especie.', 'error'); return; }
+            if (!categoria) { mostrarAlerta('alertInventario', 'Seleccione categoria.', 'error'); return; }
 
             let inventario = getData('inventario');
-            if (inventario.find(a => a.arete === arete)) {
-                mostrarAlerta('alertInventario', 'El arete ' + arete + ' ya existe.', 'error');
-                return;
-            }
-            if (chip && inventario.find(a => a.chip === chip)) {
-                mostrarAlerta('alertInventario', 'El chip ' + chip + ' ya existe.', 'error');
-                return;
-            }
+            if (inventario.find(a => a.arete === arete)) { mostrarAlerta('alertInventario', 'El arete ya existe.', 'error'); return; }
+            if (chip && inventario.find(a => a.chip === chip)) { mostrarAlerta('alertInventario', 'El chip ya existe.', 'error'); return; }
 
             inventario.push({
-                chip: chip || '',
-                arete: arete,
-                especie: especie,
-                lote: lote,
-                finca: finca,
+                chip: chip || '', arete, especie, categoria, lote, finca,
                 fecha: new Date().toLocaleDateString(),
                 supervisor: getSupervisorNombre(),
                 _id: 'inv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6)
             });
-
             setData('inventario', inventario);
             mostrarAlerta('alertInventario', 'Animal registrado: ' + arete, 'success');
             document.getElementById('invChip').value = '';
@@ -1587,26 +1700,13 @@
 
         function eliminarAnimal(arete) {
             if (!confirm('Eliminar animal con arete "' + arete + '"?')) return;
-            let inventario = getData('inventario');
-            setData('inventario', inventario.filter(a => a.arete !== arete));
+            setData('inventario', getData('inventario').filter(a => a.arete !== arete));
             cargarTablaInventario();
             actualizarTotales();
         }
 
         function editarChipInventario(arete) {
-            let inventario = getData('inventario');
-            let animal = inventario.find(a => a.arete === arete);
-            if (!animal) return;
-            let nuevo = prompt('Chip para arete ' + arete + ':', animal.chip || '');
-            if (nuevo === null) return;
-            nuevo = nuevo.trim();
-            if (nuevo && inventario.find(a => a.chip === nuevo && a.arete !== arete)) {
-                alert('Ese chip ya está asignado.');
-                return;
-            }
-            animal.chip = nuevo;
-            setData('inventario', inventario);
-            cargarTablaInventario();
+            asignarChipAnimal(arete);
         }
 
         function cargarTablaInventario() {
@@ -1615,7 +1715,7 @@
             if (!tbody) return;
             tbody.innerHTML = '';
             if (data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#94a3b8; padding:20px;">No hay animales registrados</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:#94a3b8; padding:20px;">No hay animales registrados</td></tr>';
                 return;
             }
             data.forEach(a => {
@@ -1624,6 +1724,7 @@
                         <td>${a.chip || '<span class="badge-sin-chip">Sin chip</span>'}</td>
                         <td><strong>${a.arete}</strong></td>
                         <td>${a.especie || '-'}</td>
+                        <td>${a.categoria || '-'}</td>
                         <td>${a.lote || '-'}</td>
                         <td>${a.finca || '-'}</td>
                         <td>${a.fecha || '-'}</td>
@@ -1643,7 +1744,6 @@
             let nac = getData('nacimientos').length;
             let tra = getData('traslados').length;
             let mue = getData('muertes').length;
-
             document.getElementById('totalInventarioBadge').textContent = inv;
             document.getElementById('totalInventario').textContent = inv;
             document.getElementById('totalNacimientosBadge').textContent = nac;
@@ -1654,87 +1754,53 @@
             document.getElementById('totalMuertes').textContent = mue;
         }
 
-        // ==================== CSV EXPORTS POR MÓDULO ====================
         async function exportarInventarioCSV() {
             let inventario = getData('inventario');
-            if (inventario.length === 0) { alert('No hay inventario para exportar.'); return; }
-            let csv = 'Chip,Arete,Especie,Lote,Finca,Fecha\n';
+            if (inventario.length === 0) { alert('No hay inventario.'); return; }
+            let csv = 'Chip,Arete,Especie,Categoria,Lote,Finca,Fecha\n';
             inventario.forEach(a => {
-                csv += [a.chip || '', a.arete, a.especie || '', a.lote || '', a.finca || '', a.fecha || ''].join(',') + '\n';
+                csv += [a.chip || '', a.arete, a.especie || '', a.categoria || '', a.lote || '', a.finca || '', a.fecha || ''].join(',') + '\n';
             });
             let nombre = 'syntro_inventario_' + fechaArchivo() + '.csv';
-            let r = await compartirODescargar(nombre, csv, 'text/csv', 'Inventario Syntro', 'Inventario');
-            mostrarAlerta('alertInventario', r === 'compartido' ? 'Inventario compartido.' : 'CSV descargado.', 'success');
+            let r = await compartirODescargar(nombre, csv, 'text/csv', 'Inventario', '');
+            mostrarAlerta('alertInventario', r === 'compartido' ? 'Compartido.' : 'Descargado.', 'success');
         }
 
-        async function exportarCSVNacimientos() {
-            let nacimientos = getData('nacimientos');
-            if (nacimientos.length === 0) { alert('No hay nacimientos para exportar.'); return; }
-            let headers = ['Fecha', 'Finca', 'Madre', 'Chip Madre', 'Toro', 'N° Parto', 'Tipo', 'Días Gest.', 'Cría ID', 'Chip Cría', 'Sexo', 'Peso', 'IPP'];
-            let csv = headers.join(',') + '\n';
-            nacimientos.forEach(r => {
-                if (!r.crias || r.crias.length === 0) {
-                    csv += [r.fecha, r.finca, r.madre, r.madreChip || '', r.toro, r.numParto, r.tipoParto, r.diasGestacion, 'SIN CRÍA', '', '', '', r.ipp > 0 ? r.ipp : ''].join(',') + '\n';
-                } else {
-                    r.crias.forEach(c => {
-                        csv += [r.fecha, r.finca, r.madre, r.madreChip || '', r.toro, r.numParto, r.tipoParto, r.diasGestacion, c.id, c.chip || '', c.sexo, c.peso, r.ipp > 0 ? r.ipp : ''].join(',') + '\n';
-                    });
-                }
-            });
-            let nombre = 'syntro_nacimientos_' + fechaArchivo() + '.csv';
-            let res = await compartirODescargar(nombre, csv, 'text/csv', 'Nacimientos Syntro', 'Nacimientos');
-            mostrarAlerta('alertNacimiento', res === 'compartido' ? 'Nacimientos compartidos.' : 'CSV descargado.', 'success');
-        }
-
-        async function exportarCSVTraslados() {
-            let traslados = getData('traslados');
-            if (traslados.length === 0) { alert('No hay traslados para exportar.'); return; }
-            let headers = ['Fecha', 'Chip', 'Arete', 'Finca Origen', 'Lote Origen', 'Finca Destino', 'Lote Destino', 'Motivo', 'Observaciones'];
-            let csv = headers.join(',') + '\n';
-            traslados.forEach(t => {
-                csv += [t.fecha, t.chip || '', t.arete, t.fincaOrigen, t.loteOrigen, t.fincaDestino, t.loteDestino, t.motivo, '"' + (t.observaciones || '').replace(/"/g, '""') + '"'].join(',') + '\n';
-            });
-            let nombre = 'syntro_traslados_' + fechaArchivo() + '.csv';
-            let r = await compartirODescargar(nombre, csv, 'text/csv', 'Traslados Syntro', 'Traslados');
-            mostrarAlerta('alertTraslado', r === 'compartido' ? 'Traslados compartidos.' : 'CSV descargado.', 'success');
-        }
-
-        async function exportarCSVMuertes() {
-            let muertes = getData('muertes');
-            if (muertes.length === 0) { alert('No hay muertes para exportar.'); return; }
-            let headers = ['Fecha', 'Finca', 'Chip', 'Arete', 'Lote', 'Causa', 'Categoría', 'Peso (Kg)', 'Observaciones'];
-            let csv = headers.join(',') + '\n';
-            muertes.forEach(m => {
-                csv += [m.fecha, m.finca, m.chip || '', m.arete, m.lote, m.causa, m.categoria, m.peso || '', '"' + (m.observaciones || '').replace(/"/g, '""') + '"'].join(',') + '\n';
-            });
-            let nombre = 'syntro_muertes_' + fechaArchivo() + '.csv';
-            let r = await compartirODescargar(nombre, csv, 'text/csv', 'Muertes Syntro', 'Muertes');
-            mostrarAlerta('alertMuerte', r === 'compartido' ? 'Muertes compartidas.' : 'CSV descargado.', 'success');
-        }
-
-        // ==================== SINCRONIZACIÓN CHIP/ARETE ====================
+        // ============ SINCRONIZACION ============
         function limpiarAuto(el) { if (el) el.classList.remove('auto-lleno'); }
         function marcarAuto(el) { if (el) el.classList.add('auto-lleno'); }
 
         function formatearInfo(animal) {
-            return `<strong>${animal.arete}</strong> | ${animal.especie || '-'}<span class="animal-detalle">Lote: ${animal.lote || '-'} | Finca: ${animal.finca || '-'}</span>`;
+            return `<strong>${animal.arete}</strong> | ${animal.especie || '-'}${animal.categoria ? ' | ' + animal.categoria : ''}<span class="animal-detalle">Lote: ${animal.lote || '-'} | Finca: ${animal.finca || '-'}</span>`;
+        }
+
+        function toggleChipAcciones(idAcciones, mostrar) {
+            let el = document.getElementById(idAcciones);
+            if (el) el.style.display = mostrar ? 'block' : 'none';
         }
 
         function sincronizarMadrePorChip(valor) {
             let info = document.getElementById('chipBuscarInfo');
             let campo = document.getElementById('nacMadre');
             valor = (valor || '').trim();
-            if (!valor) { limpiarAuto(campo); info.style.display = 'none'; info.className = 'chip-buscar-info'; return; }
+            if (!valor) {
+                limpiarAuto(campo); info.style.display = 'none';
+                toggleChipAcciones('chipNacAcciones', false);
+                return;
+            }
             let a = getData('inventario').find(x => x.chip === valor);
             if (a) {
                 campo.value = a.arete; marcarAuto(campo);
+                if (a.categoria) document.getElementById('nacCategoriaMadre').value = a.categoria;
                 info.className = 'chip-buscar-info'; info.style.display = 'block';
                 info.innerHTML = 'Animal encontrado: ' + formatearInfo(a);
                 calcularNumParto();
+                toggleChipAcciones('chipNacAcciones', true);
             } else {
                 campo.value = ''; limpiarAuto(campo);
                 info.className = 'chip-buscar-info error'; info.style.display = 'block';
-                info.innerHTML = 'No se encontró ningún animal con ese chip.';
+                info.innerHTML = 'No se encontro ningun animal con ese chip.';
+                toggleChipAcciones('chipNacAcciones', false);
             }
         }
 
@@ -1742,16 +1808,24 @@
             let info = document.getElementById('chipBuscarInfo');
             let campo = document.getElementById('nacMadreChip');
             valor = (valor || '').trim();
-            if (!valor) { limpiarAuto(campo); info.style.display = 'none'; info.className = 'chip-buscar-info'; calcularNumParto(); return; }
+            if (!valor) {
+                limpiarAuto(campo); info.style.display = 'none';
+                toggleChipAcciones('chipNacAcciones', false);
+                calcularNumParto();
+                return;
+            }
             let a = getData('inventario').find(x => x.arete === valor);
             if (a) {
                 campo.value = a.chip || ''; if (a.chip) marcarAuto(campo);
+                if (a.categoria) document.getElementById('nacCategoriaMadre').value = a.categoria;
                 info.className = 'chip-buscar-info'; info.style.display = 'block';
                 info.innerHTML = 'Animal encontrado: ' + formatearInfo(a);
+                toggleChipAcciones('chipNacAcciones', true);
             } else {
                 campo.value = ''; limpiarAuto(campo);
                 info.className = 'chip-buscar-info error'; info.style.display = 'block';
-                info.innerHTML = 'Ese arete no está en el inventario.';
+                info.innerHTML = 'Ese arete no esta en el inventario.';
+                toggleChipAcciones('chipNacAcciones', false);
             }
             calcularNumParto();
         }
@@ -1762,17 +1836,24 @@
             let cF = document.getElementById('traFincaOrigen');
             let cL = document.getElementById('traLoteOrigen');
             valor = (valor || '').trim();
-            if (!valor) { limpiarAuto(cA); cF.value = ''; cL.value = ''; info.style.display = 'none'; info.className = 'chip-buscar-info'; return; }
+            if (!valor) {
+                limpiarAuto(cA); cF.value = ''; cL.value = ''; info.style.display = 'none';
+                toggleChipAcciones('chipTrasladoAcciones', false);
+                return;
+            }
             let a = getData('inventario').find(x => x.chip === valor);
             if (a) {
                 cA.value = a.arete; cF.value = a.finca || ''; cL.value = a.lote || '';
+                if (a.categoria) document.getElementById('traCategoria').value = a.categoria;
                 marcarAuto(cA);
                 info.className = 'chip-buscar-info'; info.style.display = 'block';
                 info.innerHTML = 'Animal encontrado: ' + formatearInfo(a);
+                toggleChipAcciones('chipTrasladoAcciones', true);
             } else {
                 cA.value = ''; limpiarAuto(cA);
                 info.className = 'chip-buscar-info error'; info.style.display = 'block';
-                info.innerHTML = 'No se encontró ningún animal con ese chip.';
+                info.innerHTML = 'No se encontro ningun animal con ese chip.';
+                toggleChipAcciones('chipTrasladoAcciones', false);
             }
         }
 
@@ -1782,17 +1863,24 @@
             let cF = document.getElementById('traFincaOrigen');
             let cL = document.getElementById('traLoteOrigen');
             valor = (valor || '').trim();
-            if (!valor) { limpiarAuto(cC); cF.value = ''; cL.value = ''; info.style.display = 'none'; info.className = 'chip-buscar-info'; return; }
+            if (!valor) {
+                limpiarAuto(cC); cF.value = ''; cL.value = ''; info.style.display = 'none';
+                toggleChipAcciones('chipTrasladoAcciones', false);
+                return;
+            }
             let a = getData('inventario').find(x => x.arete === valor);
             if (a) {
                 cC.value = a.chip || ''; cF.value = a.finca || ''; cL.value = a.lote || '';
+                if (a.categoria) document.getElementById('traCategoria').value = a.categoria;
                 if (a.chip) marcarAuto(cC);
                 info.className = 'chip-buscar-info'; info.style.display = 'block';
                 info.innerHTML = 'Animal encontrado: ' + formatearInfo(a);
+                toggleChipAcciones('chipTrasladoAcciones', true);
             } else {
                 cC.value = ''; limpiarAuto(cC);
                 info.className = 'chip-buscar-info error'; info.style.display = 'block';
-                info.innerHTML = 'Ese arete no está en el inventario.';
+                info.innerHTML = 'Ese arete no esta en el inventario.';
+                toggleChipAcciones('chipTrasladoAcciones', false);
             }
         }
 
@@ -1802,17 +1890,24 @@
             let cL = document.getElementById('mueLote');
             let cF = document.getElementById('mueFinca');
             valor = (valor || '').trim();
-            if (!valor) { limpiarAuto(cA); cL.value = ''; info.style.display = 'none'; info.className = 'chip-buscar-info'; return; }
+            if (!valor) {
+                limpiarAuto(cA); cL.value = ''; info.style.display = 'none';
+                toggleChipAcciones('chipMuerteAcciones', false);
+                return;
+            }
             let a = getData('inventario').find(x => x.chip === valor);
             if (a) {
                 cA.value = a.arete; cL.value = a.lote || '-'; if (a.finca) cF.value = a.finca;
+                if (a.categoria) document.getElementById('mueCategoria').value = a.categoria;
                 marcarAuto(cA);
                 info.className = 'chip-buscar-info'; info.style.display = 'block';
                 info.innerHTML = 'Animal encontrado: ' + formatearInfo(a);
+                toggleChipAcciones('chipMuerteAcciones', true);
             } else {
                 cA.value = ''; cL.value = ''; limpiarAuto(cA);
                 info.className = 'chip-buscar-info error'; info.style.display = 'block';
-                info.innerHTML = 'No se encontró ningún animal con ese chip.';
+                info.innerHTML = 'No se encontro ningun animal con ese chip.';
+                toggleChipAcciones('chipMuerteAcciones', false);
             }
         }
 
@@ -1822,21 +1917,28 @@
             let cL = document.getElementById('mueLote');
             let cF = document.getElementById('mueFinca');
             valor = (valor || '').trim();
-            if (!valor) { limpiarAuto(cC); cL.value = ''; info.style.display = 'none'; info.className = 'chip-buscar-info'; return; }
+            if (!valor) {
+                limpiarAuto(cC); cL.value = ''; info.style.display = 'none';
+                toggleChipAcciones('chipMuerteAcciones', false);
+                return;
+            }
             let a = getData('inventario').find(x => x.arete === valor);
             if (a) {
                 cC.value = a.chip || ''; cL.value = a.lote || '-'; if (a.finca) cF.value = a.finca;
+                if (a.categoria) document.getElementById('mueCategoria').value = a.categoria;
                 if (a.chip) marcarAuto(cC);
                 info.className = 'chip-buscar-info'; info.style.display = 'block';
                 info.innerHTML = 'Animal encontrado: ' + formatearInfo(a);
+                toggleChipAcciones('chipMuerteAcciones', true);
             } else {
                 cC.value = ''; cL.value = ''; limpiarAuto(cC);
                 info.className = 'chip-buscar-info error'; info.style.display = 'block';
-                info.innerHTML = 'Ese arete no está en el inventario.';
+                info.innerHTML = 'Ese arete no esta en el inventario.';
+                toggleChipAcciones('chipMuerteAcciones', false);
             }
         }
 
-        // ==================== NACIMIENTO ====================
+        // ============ NACIMIENTO ============
         function actualizarDiasPorEspecie() {
             let esp = document.getElementById('nacEspecie').value;
             let e = getData('especies').find(x => x.nombre === esp);
@@ -1856,7 +1958,7 @@
             let fecha = document.getElementById('nacFecha').value;
             if (!madre || !fecha) {
                 document.getElementById('nacNumPartoDisplay').textContent = '-';
-                document.getElementById('nacIPPCalculado').textContent = '- días';
+                document.getElementById('nacIPPCalculado').textContent = '- dias';
                 return;
             }
             let fechaActual = new Date(fecha);
@@ -1870,7 +1972,7 @@
             if (partos.length > 0) {
                 let ord = partos.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
                 let diff = Math.floor((fechaActual - new Date(ord[0].fecha)) / (1000 * 60 * 60 * 24));
-                document.getElementById('nacIPPCalculado').textContent = diff + ' días';
+                document.getElementById('nacIPPCalculado').textContent = diff + ' dias';
             } else {
                 document.getElementById('nacIPPCalculado').textContent = 'Primer parto';
             }
@@ -1892,9 +1994,13 @@
             let short = year.toString().slice(-2);
             let total = contarCriasAnio(year);
             let id1 = short + String(total + 1).padStart(2, '0');
+            let id2 = short + String(total + 2).padStart(2, '0');
             document.getElementById('sugerenciaCria1').textContent = id1;
-            let campo = document.getElementById('nacCria1Id');
-            if (!campo.value || campo.value === '-') campo.value = id1;
+            document.getElementById('sugerenciaCria2').textContent = id2;
+            let campo1 = document.getElementById('nacCria1Id');
+            let campo2 = document.getElementById('nacCria2Id');
+            if (!campo1.value || campo1.value === '-') campo1.value = id1;
+            if (!campo2.value || campo2.value === '-') campo2.value = id2;
         }
 
         document.getElementById('nacFecha').addEventListener('change', function() {
@@ -1907,12 +2013,13 @@
             let finca = document.getElementById('nacFinca').value;
             let madre = document.getElementById('nacMadre').value.trim();
             let madreChip = document.getElementById('nacMadreChip').value.trim();
+            let categoriaMadre = document.getElementById('nacCategoriaMadre').value;
             let toro = document.getElementById('nacToro').value.trim();
             let numParto = parseInt(document.getElementById('nacNumParto').value) || 1;
             let diasGestacion = parseInt(document.getElementById('nacDiasGestacion').value) || 283;
             let tipo = document.getElementById('nacTipoParto').value;
             let especie = document.getElementById('nacEspecie').value;
-            let lote = "Lote Cría";
+            let lote = "Lote Cria";
 
             if (!fecha || !finca || !madre || !toro || !tipo) {
                 mostrarAlerta('alertNacimiento', 'Complete los campos.', 'error');
@@ -1926,22 +2033,24 @@
                 let c1Id = document.getElementById('nacCria1Id').value.trim();
                 let c1Chip = document.getElementById('nacCria1Chip').value.trim();
                 let c1Sexo = document.getElementById('nacCria1Sexo').value;
+                let c1Categoria = document.getElementById('nacCria1Categoria').value;
                 let c1Peso = parseFloat(document.getElementById('nacCria1Peso').value);
-                if (!c1Id || c1Id === '-' || !c1Sexo || isNaN(c1Peso)) {
-                    mostrarAlerta('alertNacimiento', 'Complete la cría 1.', 'error');
+                if (!c1Id || c1Id === '-' || !c1Sexo || !c1Categoria || isNaN(c1Peso)) {
+                    mostrarAlerta('alertNacimiento', 'Complete la cria 1 (incluida categoria).', 'error');
                     return;
                 }
-                crias.push({ id: c1Id, chip: c1Chip || '', sexo: c1Sexo, peso: c1Peso });
+                crias.push({ id: c1Id, chip: c1Chip || '', sexo: c1Sexo, categoria: c1Categoria, peso: c1Peso });
                 if (tipo === 'Gemelar') {
                     let c2Id = document.getElementById('nacCria2Id').value.trim();
                     let c2Chip = document.getElementById('nacCria2Chip').value.trim();
                     let c2Sexo = document.getElementById('nacCria2Sexo').value;
+                    let c2Categoria = document.getElementById('nacCria2Categoria').value;
                     let c2Peso = parseFloat(document.getElementById('nacCria2Peso').value);
-                    if (!c2Id || c2Id === '-' || !c2Sexo || isNaN(c2Peso)) {
-                        mostrarAlerta('alertNacimiento', 'Complete la cría 2.', 'error');
+                    if (!c2Id || c2Id === '-' || !c2Sexo || !c2Categoria || isNaN(c2Peso)) {
+                        mostrarAlerta('alertNacimiento', 'Complete la cria 2 (incluida categoria).', 'error');
                         return;
                     }
-                    crias.push({ id: c2Id, chip: c2Chip || '', sexo: c2Sexo, peso: c2Peso });
+                    crias.push({ id: c2Id, chip: c2Chip || '', sexo: c2Sexo, categoria: c2Categoria, peso: c2Peso });
                 }
             }
 
@@ -1957,21 +2066,21 @@
 
             let inventario = getData('inventario');
             if (!inventario.find(a => a.arete === madre)) {
-                inventario.push({ chip: madreChip || '', arete: madre, especie, lote, finca, fecha: new Date().toLocaleDateString() });
+                inventario.push({ chip: madreChip || '', arete: madre, especie, categoria: categoriaMadre || '', lote, finca, fecha: new Date().toLocaleDateString() });
             }
             if (toro !== '-' && !inventario.find(a => a.arete === toro)) {
-                inventario.push({ chip: '', arete: toro, especie, lote, finca, fecha: new Date().toLocaleDateString() });
+                inventario.push({ chip: '', arete: toro, especie, categoria: 'TORO', lote, finca, fecha: new Date().toLocaleDateString() });
             }
             crias.forEach(c => {
                 if (!inventario.find(a => a.arete === c.id)) {
-                    inventario.push({ chip: c.chip || '', arete: c.id, especie, lote, finca, fecha: new Date().toLocaleDateString() });
+                    inventario.push({ chip: c.chip || '', arete: c.id, especie, categoria: c.categoria, lote, finca, fecha: new Date().toLocaleDateString() });
                 }
             });
             setData('inventario', inventario);
 
             let nacimientos = getData('nacimientos');
             nacimientos.push({
-                fecha, finca, madre, madreChip, toro, numParto, diasGestacion, tipoParto: tipo,
+                fecha, finca, madre, madreChip, categoriaMadre, toro, numParto, diasGestacion, tipoParto: tipo,
                 especie, ipp, crias, sinCria: esSinCria,
                 supervisor: getSupervisorNombre(),
                 _id: 'nac_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6)
@@ -1982,19 +2091,22 @@
 
             document.getElementById('nacMadre').value = '';
             document.getElementById('nacMadreChip').value = '';
+            document.getElementById('nacCategoriaMadre').value = '';
             document.getElementById('nacToro').value = '-';
             document.getElementById('nacNumParto').value = '';
             document.getElementById('nacNumPartoDisplay').textContent = '-';
-            document.getElementById('nacIPPCalculado').textContent = '- días';
+            document.getElementById('nacIPPCalculado').textContent = '- dias';
             document.getElementById('nacCria1Id').value = '-';
             document.getElementById('nacCria1Chip').value = '';
             document.getElementById('nacCria1Sexo').value = '';
+            document.getElementById('nacCria1Categoria').value = '';
             document.getElementById('nacCria1Peso').value = '';
             document.getElementById('nacCria2Section').classList.add('hidden');
             document.getElementById('nacCria1Section').classList.remove('hidden');
             document.getElementById('criaNota').classList.remove('visible');
             document.getElementById('nacTipoParto').value = '';
             document.getElementById('chipBuscarInfo').style.display = 'none';
+            toggleChipAcciones('chipNacAcciones', false);
             cargarTablaNacimientos();
             actualizarTotales();
         }
@@ -2005,22 +2117,19 @@
             if (!tbody) return;
             tbody.innerHTML = '';
             if (data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="14" style="text-align:center; color:#94a3b8; padding:20px;">No hay nacimientos registrados</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="16" style="text-align:center; color:#94a3b8; padding:20px;">No hay nacimientos registrados</td></tr>';
                 return;
             }
             data.forEach((reg, index) => {
                 if (!reg.crias || reg.crias.length === 0) {
                     tbody.innerHTML += `
                         <tr>
-                            <td>${reg.fecha}</td>
-                            <td>${reg.finca}</td>
-                            <td>${reg.madre}</td>
-                            <td>${reg.madreChip || '<span class="badge-sin-chip">Sin chip</span>'}</td>
-                            <td>${reg.toro}</td>
-                            <td>${reg.numParto}</td>
+                            <td>${reg.fecha}</td><td>${reg.finca}</td><td>${reg.madre}</td>
+                            <td>${reg.categoriaMadre || '-'}</td>
+                            <td>${reg.madreChip || '-'}</td><td>${reg.toro}</td><td>${reg.numParto}</td>
                             <td><span class="badge-aborto">${reg.tipoParto}</span></td>
                             <td>${reg.diasGestacion}</td>
-                            <td colspan="4" style="text-align:center; color:#7c3aed; font-style:italic;">Sin cría (${reg.tipoParto})</td>
+                            <td colspan="4" style="text-align:center; color:#7c3aed; font-style:italic;">Sin cria (${reg.tipoParto})</td>
                             <td>${reg.ipp > 0 ? reg.ipp : '-'}</td>
                             <td><button class="btn-delete" onclick="eliminarNacimientoTabla(${index})">Borrar</button></td>
                         </tr>
@@ -2029,19 +2138,13 @@
                     reg.crias.forEach(c => {
                         tbody.innerHTML += `
                             <tr>
-                                <td>${reg.fecha}</td>
-                                <td>${reg.finca}</td>
-                                <td>${reg.madre}</td>
-                                <td>${reg.madreChip || '<span class="badge-sin-chip">Sin chip</span>'}</td>
-                                <td>${reg.toro}</td>
-                                <td>${reg.numParto}</td>
-                                <td>${reg.tipoParto}</td>
-                                <td>${reg.diasGestacion}</td>
-                                <td>${c.id}</td>
-                                <td>${c.chip || '<span class="badge-sin-chip">Sin chip</span>'}</td>
-                                <td>${c.sexo}</td>
-                                <td>${c.peso} Kg</td>
-                                <td>${reg.ipp > 0 ? reg.ipp : '-'}</td>
+                                <td>${reg.fecha}</td><td>${reg.finca}</td><td>${reg.madre}</td>
+                                <td>${reg.categoriaMadre || '-'}</td>
+                                <td>${reg.madreChip || '-'}</td><td>${reg.toro}</td><td>${reg.numParto}</td>
+                                <td>${reg.tipoParto}</td><td>${reg.diasGestacion}</td>
+                                <td>${c.id}</td><td>${c.chip || '-'}</td><td>${c.sexo}</td>
+                                <td>${c.categoria || '-'}</td>
+                                <td>${c.peso} Kg</td><td>${reg.ipp > 0 ? reg.ipp : '-'}</td>
                                 <td><button class="btn-delete" onclick="eliminarNacimientoTabla(${index})">Borrar</button></td>
                             </tr>
                         `;
@@ -2059,40 +2162,70 @@
             actualizarTotales();
         }
 
-        // ==================== TRASLADO ====================
+        async function exportarCSVNacimientos() {
+            let nacimientos = getData('nacimientos');
+            if (nacimientos.length === 0) { alert('No hay nacimientos.'); return; }
+            let headers = ['Fecha', 'Finca', 'Madre', 'Cat. Madre', 'Chip Madre', 'Toro', 'N Parto', 'Tipo', 'Dias Gest.', 'Cria ID', 'Chip Cria', 'Sexo', 'Categoria', 'Peso', 'IPP'];
+            let csv = headers.join(',') + '\n';
+            nacimientos.forEach(r => {
+                if (!r.crias || r.crias.length === 0) {
+                    csv += [r.fecha, r.finca, r.madre, r.categoriaMadre || '', r.madreChip || '', r.toro, r.numParto, r.tipoParto, r.diasGestacion, 'SIN CRIA', '', '', '', '', r.ipp > 0 ? r.ipp : ''].join(',') + '\n';
+                } else {
+                    r.crias.forEach(c => {
+                        csv += [r.fecha, r.finca, r.madre, r.categoriaMadre || '', r.madreChip || '', r.toro, r.numParto, r.tipoParto, r.diasGestacion, c.id, c.chip || '', c.sexo, c.categoria || '', c.peso, r.ipp > 0 ? r.ipp : ''].join(',') + '\n';
+                    });
+                }
+            });
+            let nombre = 'syntro_nacimientos_' + fechaArchivo() + '.csv';
+            let res = await compartirODescargar(nombre, csv, 'text/csv', 'Nacimientos', '');
+            mostrarAlerta('alertNacimiento', res === 'compartido' ? 'Compartido.' : 'Descargado.', 'success');
+        }
+
+        // ============ TRASLADO ============
         function registrarTraslado() {
             let fecha = document.getElementById('traFecha').value;
             let arete = document.getElementById('traArete').value.trim();
             let fincaOrigen = document.getElementById('traFincaOrigen').value.trim();
             let loteOrigen = document.getElementById('traLoteOrigen').value.trim();
+            let categoria = document.getElementById('traCategoria').value;
+            let motivo = document.getElementById('traMotivo').value;
             let fincaDestino = document.getElementById('traFincaDestino').value;
             let loteDestino = document.getElementById('traLoteDestino').value;
-            let motivo = document.getElementById('traMotivo').value;
             let observaciones = document.getElementById('traObservaciones').value.trim();
 
-            if (!fecha || !arete || !fincaDestino || !loteDestino) {
+            if (!fecha || !arete || !motivo || !fincaDestino || !loteDestino) {
                 mostrarAlerta('alertTraslado', 'Complete los campos.', 'error');
                 return;
             }
 
             let inventario = getData('inventario');
             let animal = inventario.find(a => a.arete === arete);
-            if (animal) {
+            if (!animal) {
+                mostrarAlerta('alertTraslado', 'El animal no esta en inventario.', 'error');
+                return;
+            }
+
+            if (motivo === 'Venta') {
+                if (!confirm('El motivo es VENTA. El animal se ELIMINARA del inventario.\n\nContinuar?')) return;
+                inventario = inventario.filter(a => a.arete !== arete);
+                setData('inventario', inventario);
+            } else {
                 animal.finca = fincaDestino;
                 animal.lote = loteDestino;
+                if (categoria) animal.categoria = categoria;
                 setData('inventario', inventario);
             }
 
             let traslados = getData('traslados');
             traslados.push({
-                fecha, chip: document.getElementById('traChip').value.trim(), arete,
+                fecha, chip: document.getElementById('traChip').value.trim(), arete, categoria,
                 fincaOrigen, loteOrigen, fincaDestino, loteDestino, motivo, observaciones,
                 supervisor: getSupervisorNombre(),
                 _id: 'tra_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6)
             });
             setData('traslados', traslados);
 
-            mostrarAlerta('alertTraslado', 'Traslado guardado. No olvide COMPARTIR TODO.', 'success');
+            mostrarAlerta('alertTraslado', motivo === 'Venta' ? 'Venta registrada. Animal retirado del inventario.' : 'Traslado guardado.', 'success');
 
             document.getElementById('traChip').value = '';
             document.getElementById('traArete').value = '';
@@ -2100,8 +2233,11 @@
             document.getElementById('traLoteOrigen').value = '';
             document.getElementById('traLoteDestino').value = '';
             document.getElementById('traObservaciones').value = '';
+            document.getElementById('traCategoria').value = '';
             document.getElementById('chipTrasladoInfo').style.display = 'none';
+            toggleChipAcciones('chipTrasladoAcciones', false);
             cargarTablaTraslados();
+            cargarTablaInventario();
             actualizarTotales();
         }
 
@@ -2111,7 +2247,7 @@
             if (!tbody) return;
             tbody.innerHTML = '';
             if (data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; color:#94a3b8; padding:20px;">No hay traslados registrados</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="11" style="text-align:center; color:#94a3b8; padding:20px;">No hay traslados registrados</td></tr>';
                 return;
             }
             data.forEach((t, index) => {
@@ -2120,6 +2256,7 @@
                         <td>${t.fecha}</td>
                         <td>${t.chip || '<span class="badge-sin-chip">Sin chip</span>'}</td>
                         <td><strong>${t.arete}</strong></td>
+                        <td>${t.categoria || '-'}</td>
                         <td>${t.fincaOrigen}</td>
                         <td>${t.loteOrigen}</td>
                         <td><span class="badge-traslado">${t.fincaDestino}</span></td>
@@ -2141,27 +2278,39 @@
             actualizarTotales();
         }
 
-        // ==================== MUERTE ====================
+        async function exportarCSVTraslados() {
+            let traslados = getData('traslados');
+            if (traslados.length === 0) { alert('No hay traslados.'); return; }
+            let csv = 'Fecha,Chip,Arete,Categoria,Finca Origen,Lote Origen,Finca Destino,Lote Destino,Motivo,Observaciones\n';
+            traslados.forEach(t => {
+                csv += [t.fecha, t.chip || '', t.arete, t.categoria || '', t.fincaOrigen, t.loteOrigen, t.fincaDestino, t.loteDestino, t.motivo, '"' + (t.observaciones || '').replace(/"/g, '""') + '"'].join(',') + '\n';
+            });
+            let nombre = 'syntro_traslados_' + fechaArchivo() + '.csv';
+            let r = await compartirODescargar(nombre, csv, 'text/csv', 'Traslados', '');
+            mostrarAlerta('alertTraslado', r === 'compartido' ? 'Compartido.' : 'Descargado.', 'success');
+        }
+
+        // ============ MUERTE ============
         function registrarMuerte() {
             let fecha = document.getElementById('mueFecha').value;
             let finca = document.getElementById('mueFinca').value;
             let chip = document.getElementById('mueChip').value.trim();
             let arete = document.getElementById('mueArete').value.trim();
             let lote = document.getElementById('mueLote').value.trim();
-            let causa = document.getElementById('mueCausa').value;
             let categoria = document.getElementById('mueCategoria').value;
+            let causa = document.getElementById('mueCausa').value;
             let peso = parseFloat(document.getElementById('muePeso').value) || 0;
             let observaciones = document.getElementById('mueObservaciones').value.trim();
 
-            if (!fecha || !finca || !arete || !causa) {
-                mostrarAlerta('alertMuerte', 'Complete los campos.', 'error');
+            if (!fecha || !finca || !arete || !categoria || !causa) {
+                mostrarAlerta('alertMuerte', 'Complete los campos (incluida categoria).', 'error');
                 return;
             }
 
             let muertes = getData('muertes');
             muertes.push({
                 fecha, finca, chip: chip || '', arete, lote: lote || '-',
-                causa, categoria, peso, observaciones,
+                categoria, causa, peso, observaciones,
                 supervisor: getSupervisorNombre(),
                 _id: 'mue_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6)
             });
@@ -2176,11 +2325,14 @@
             document.getElementById('mueChip').value = '';
             document.getElementById('mueArete').value = '';
             document.getElementById('mueLote').value = '';
+            document.getElementById('mueCategoria').value = '';
             document.getElementById('mueCausa').value = '';
             document.getElementById('muePeso').value = '';
             document.getElementById('mueObservaciones').value = '';
             document.getElementById('chipMuerteInfo').style.display = 'none';
+            toggleChipAcciones('chipMuerteAcciones', false);
             cargarTablaMuertes();
+            cargarTablaInventario();
             actualizarTotales();
         }
 
@@ -2201,8 +2353,8 @@
                         <td>${m.chip || '<span class="badge-sin-chip">Sin chip</span>'}</td>
                         <td><strong>${m.arete}</strong></td>
                         <td>${m.lote}</td>
+                        <td>${m.categoria || '-'}</td>
                         <td><span class="badge-muerte">${m.causa}</span></td>
-                        <td>${m.categoria}</td>
                         <td>${m.peso > 0 ? m.peso + ' Kg' : '-'}</td>
                         <td>${m.observaciones || '-'}</td>
                         <td><button class="btn-delete" onclick="eliminarMuerteTabla(${index})">Borrar</button></td>
@@ -2220,7 +2372,20 @@
             actualizarTotales();
         }
 
-        // ==================== COMPARTIR TODO ====================
+        async function exportarCSVMuertes() {
+            let muertes = getData('muertes');
+            if (muertes.length === 0) { alert('No hay muertes.'); return; }
+            let headers = ['Fecha', 'Finca', 'Chip', 'Arete', 'Lote', 'Categoria', 'Causa', 'Peso (Kg)', 'Observaciones'];
+            let csv = headers.join(',') + '\n';
+            muertes.forEach(m => {
+                csv += [m.fecha, m.finca, m.chip || '', m.arete, m.lote, m.categoria || '', m.causa, m.peso || '', '"' + (m.observaciones || '').replace(/"/g, '""') + '"'].join(',') + '\n';
+            });
+            let nombre = 'syntro_muertes_' + fechaArchivo() + '.csv';
+            let r = await compartirODescargar(nombre, csv, 'text/csv', 'Muertes', '');
+            mostrarAlerta('alertMuerte', r === 'compartido' ? 'Compartido.' : 'Descargado.', 'success');
+        }
+
+        // ============ COMPARTIR TODO ============
         async function compartirTodo() {
             let supervisor = getSupervisorNombre();
             if (!supervisor) { alert('Primero ingrese su nombre.'); return; }
@@ -2245,28 +2410,23 @@
             let totM = trabajo.muertes.length;
 
             if (totInv === 0 && totN === 0 && totT === 0 && totM === 0) {
-                if (!confirm('No hay registros.\n\n¿Compartir igual?')) return;
+                if (!confirm('No hay registros.\n\nCompartir igual?')) return;
             }
 
             let json = JSON.stringify(trabajo, null, 2);
             let nombreArchivo = 'trabajo_' + supervisor.replace(/\s+/g, '_') + '_' + fechaArchivo() + '.json';
 
             let r = await compartirODescargar(
-                nombreArchivo,
-                json,
-                'application/json',
+                nombreArchivo, json, 'application/json',
                 'Trabajo de ' + supervisor,
-                'Inventario: ' + totInv + ' · Nacimientos: ' + totN + ' · Traslados: ' + totT + ' · Muertes: ' + totM
+                'Inventario: ' + totInv + ' - Nacimientos: ' + totN + ' - Traslados: ' + totT + ' - Muertes: ' + totM
             );
 
-            if (r === 'compartido') {
-                alert('Enviado al dueño.');
-            } else if (r === 'descargado') {
-                alert('Archivo descargado. Búscalo en Descargas y mándalo por WhatsApp.');
-            }
+            if (r === 'compartido') alert('Enviado al dueño.');
+            else if (r === 'descargado') alert('Archivo descargado. Buscalo en Descargas y mandalo por WhatsApp.');
         }
 
-        // ==================== GRÁFICOS ====================
+        // ============ GRAFICOS ============
         let chartTipos = null, chartSexo = null, chartMuertes = null, chartTraslados = null;
 
         function verGraficos() {
@@ -2329,8 +2489,8 @@
             });
         }
 
-        // ==================== IMPORTAR / RESPALDO ====================
-        function importarInventarioMaestro(event) {
+        // ============ IMPORTAR INVENTARIO (JSON y CSV) ============
+        function importarInventarioJSON(event) {
             let file = event.target.files[0];
             if (!file) return;
             let reader = new FileReader();
@@ -2341,39 +2501,120 @@
                     if (data.tipo === 'syntro_inventario' && data.inventario) inventario = data.inventario;
                     else if (data.inventario) inventario = data.inventario;
                     else if (Array.isArray(data)) inventario = data;
-
-                    if (!inventario || inventario.length === 0) { alert('No se encontró inventario en el archivo.'); return; }
-                    if (!confirm('Importar ' + inventario.length + ' animales del maestro?')) return;
-
-                    setData('inventario', inventario);
-                    if (data.fincas && data.fincas.length) setData('fincas', data.fincas);
-                    if (data.lotes && data.lotes.length) setData('lotes', data.lotes);
-                    if (data.especies && data.especies.length) setData('especies', data.especies);
-
-                    cargarSelects();
-                    renderConfiguracion();
-                    actualizarTotales();
-                    cargarTablaInventario();
-                    mostrarAlerta('alertConfig', 'Inventario importado: ' + inventario.length + ' animales.', 'success');
-                } catch (err) { alert('Error: ' + err.message); }
+                    if (!inventario || inventario.length === 0) { alert('No se encontro inventario.'); return; }
+                    aplicarInventarioImportado(inventario, data.fincas, data.lotes, data.especies);
+                } catch (err) { alert('Error al leer JSON: ' + err.message); }
             };
             reader.readAsText(file);
             event.target.value = '';
         }
 
+        function importarInventarioCSV(event) {
+            let file = event.target.files[0];
+            if (!file) return;
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    let texto = e.target.result;
+                    let lineas = texto.split('\n').filter(l => l.trim());
+                    if (lineas.length < 2) { alert('El CSV esta vacio.'); return; }
+
+                    let headers = parseCSVLine(lineas[0]).map(h => h.trim().toLowerCase());
+                    let idxChip = headers.indexOf('chip');
+                    let idxArete = headers.indexOf('arete');
+                    let idxEspecie = headers.indexOf('especie');
+                    let idxCategoria = headers.indexOf('categoria');
+                    let idxLote = headers.indexOf('lote');
+                    let idxFinca = headers.indexOf('finca');
+                    let idxFecha = headers.indexOf('fecha');
+
+                    if (idxArete === -1) {
+                        alert('El CSV debe tener al menos la columna "Arete".');
+                        return;
+                    }
+
+                    let inventario = [];
+                    for (let i = 1; i < lineas.length; i++) {
+                        let vals = parseCSVLine(lineas[i]);
+                        let arete = (vals[idxArete] || '').trim();
+                        if (!arete) continue;
+                        inventario.push({
+                            chip: idxChip >= 0 ? (vals[idxChip] || '').trim() : '',
+                            arete: arete,
+                            especie: idxEspecie >= 0 ? (vals[idxEspecie] || '').trim() : '',
+                            categoria: idxCategoria >= 0 ? (vals[idxCategoria] || '').trim().toUpperCase() : '',
+                            lote: idxLote >= 0 ? (vals[idxLote] || '').trim() : '',
+                            finca: idxFinca >= 0 ? (vals[idxFinca] || '').trim() : '',
+                            fecha: idxFecha >= 0 ? (vals[idxFecha] || '').trim() : new Date().toLocaleDateString()
+                        });
+                    }
+
+                    if (inventario.length === 0) { alert('No se encontraron animales en el CSV.'); return; }
+                    aplicarInventarioImportado(inventario, null, null, null);
+                } catch (err) { alert('Error al leer CSV: ' + err.message); }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        function aplicarInventarioImportado(inventario, fincas, lotes, especies) {
+            if (!confirm('Se reemplazara el inventario actual con ' + inventario.length + ' animales.\n\nContinuar?')) return;
+
+            setData('inventario', inventario);
+
+            // Si el archivo trae fincas/lotes/especies, agregarlos sin duplicar
+            if (fincas && fincas.length) {
+                let actuales = getData('fincas');
+                let mapa = {};
+                actuales.forEach(f => { mapa[f.nombre] = f; });
+                fincas.forEach(f => { if (!mapa[f.nombre]) mapa[f.nombre] = f; });
+                setData('fincas', Object.values(mapa));
+            }
+            if (lotes && lotes.length) {
+                let actuales = getData('lotes');
+                let mapa = {};
+                actuales.forEach(l => { mapa[l.nombre + '|' + l.finca] = l; });
+                lotes.forEach(l => { if (!mapa[l.nombre + '|' + l.finca]) mapa[l.nombre + '|' + l.finca] = l; });
+                setData('lotes', Object.values(mapa));
+            }
+            if (especies && especies.length) {
+                let actuales = getData('especies');
+                let mapa = {};
+                actuales.forEach(e => { mapa[e.nombre] = e; });
+                especies.forEach(e => { if (!mapa[e.nombre]) mapa[e.nombre] = e; });
+                setData('especies', Object.values(mapa));
+            }
+
+            cargarSelects();
+            renderConfiguracion();
+            actualizarTotales();
+            cargarTablaInventario();
+            mostrarAlerta('alertConfig', 'Inventario importado: ' + inventario.length + ' animales.', 'success');
+        }
+
+        // Parser CSV basico (maneja comillas)
+        function parseCSVLine(linea) {
+            let res = [], actual = '', enComillas = false;
+            for (let i = 0; i < linea.length; i++) {
+                let ch = linea[i];
+                if (ch === '"') {
+                    if (enComillas && linea[i+1] === '"') { actual += '"'; i++; }
+                    else enComillas = !enComillas;
+                } else if (ch === ',' && !enComillas) {
+                    res.push(actual); actual = '';
+                } else actual += ch;
+            }
+            res.push(actual);
+            return res;
+        }
+
         async function exportarMiRespaldo() {
             let data = {
-                tipo: 'syntro_trabajo_supervisor',
-                version: '1.0',
-                supervisor: getSupervisorNombre(),
-                fecha: new Date().toISOString(),
-                inventario: getData('inventario'),
-                nacimientos: getData('nacimientos'),
-                traslados: getData('traslados'),
-                muertes: getData('muertes'),
-                fincas: getData('fincas'),
-                lotes: getData('lotes'),
-                especies: getData('especies')
+                tipo: 'syntro_trabajo_supervisor', version: '1.0',
+                supervisor: getSupervisorNombre(), fecha: new Date().toISOString(),
+                inventario: getData('inventario'), nacimientos: getData('nacimientos'),
+                traslados: getData('traslados'), muertes: getData('muertes'),
+                fincas: getData('fincas'), lotes: getData('lotes'), especies: getData('especies')
             };
             let json = JSON.stringify(data, null, 2);
             let nombre = 'mi_respaldo_' + fechaArchivo() + '.json';
@@ -2388,9 +2629,8 @@
             reader.onload = function(e) {
                 try {
                     let data = JSON.parse(e.target.result);
-                    if (!data.tipo || !data.tipo.includes('supervisor')) { alert('No es un respaldo válido.'); return; }
-                    if (!confirm('Reemplazará sus datos actuales. ¿Continuar?')) return;
-
+                    if (!data.tipo || !data.tipo.includes('supervisor')) { alert('No es respaldo valido.'); return; }
+                    if (!confirm('Reemplazara sus datos actuales. Continuar?')) return;
                     if (data.inventario) setData('inventario', data.inventario);
                     if (data.nacimientos) setData('nacimientos', data.nacimientos);
                     if (data.traslados) setData('traslados', data.traslados);
@@ -2398,11 +2638,7 @@
                     if (data.fincas) setData('fincas', data.fincas);
                     if (data.lotes) setData('lotes', data.lotes);
                     if (data.especies) setData('especies', data.especies);
-
-                    cargarSelects();
-                    renderConfiguracion();
-                    actualizarTotales();
-                    cargarTablaInventario();
+                    cargarSelects(); renderConfiguracion(); actualizarTotales(); cargarTablaInventario();
                     mostrarAlerta('alertConfig', 'Respaldo restaurado.', 'success');
                 } catch (err) { alert('Error: ' + err.message); }
             };
@@ -2410,24 +2646,22 @@
             event.target.value = '';
         }
 
-        // ==================== CONFIGURACIÓN ====================
+        // ============ CONFIGURACION ============
         function renderConfiguracion() {
             let lf = document.getElementById('listaFincas');
             lf.innerHTML = '';
             getData('fincas').forEach((f, i) => {
                 lf.innerHTML += `<div class="config-item"><span><strong>${f.nombre}</strong></span><button class="btn-delete" onclick="eliminarFinca(${i})">Borrar</button></div>`;
             });
-
             let ll = document.getElementById('listaLotes');
             ll.innerHTML = '';
             getData('lotes').forEach((l, i) => {
                 ll.innerHTML += `<div class="config-item"><span><strong>${l.nombre}</strong> (${l.finca || '-'})</span><button class="btn-delete" onclick="eliminarLote(${i})">Borrar</button></div>`;
             });
-
             let le = document.getElementById('listaEspecies');
             le.innerHTML = '';
             getData('especies').forEach((e, i) => {
-                le.innerHTML += `<div class="config-item"><span><strong>${e.nombre}</strong> (${e.dias} días)</span><button class="btn-delete" onclick="eliminarEspecie(${i})">Borrar</button></div>`;
+                le.innerHTML += `<div class="config-item"><span><strong>${e.nombre}</strong> (${e.dias} dias)</span><button class="btn-delete" onclick="eliminarEspecie(${i})">Borrar</button></div>`;
             });
         }
 
@@ -2439,18 +2673,16 @@
                 f.push({ nombre: n });
                 setData('fincas', f);
                 document.getElementById('cfgNuevaFinca').value = '';
-                cargarSelects();
-                renderConfiguracion();
+                cargarSelects(); renderConfiguracion();
             }
         }
 
         function eliminarFinca(i) {
-            if (!confirm('¿Eliminar finca?')) return;
+            if (!confirm('Eliminar finca?')) return;
             let f = getData('fincas');
             f.splice(i, 1);
             setData('fincas', f);
-            cargarSelects();
-            renderConfiguracion();
+            cargarSelects(); renderConfiguracion();
         }
 
         function agregarLote() {
@@ -2461,17 +2693,15 @@
             l.push({ id: l.length + 1, nombre: n, finca: f });
             setData('lotes', l);
             document.getElementById('cfgNuevoLote').value = '';
-            cargarSelects();
-            renderConfiguracion();
+            cargarSelects(); renderConfiguracion();
         }
 
         function eliminarLote(i) {
-            if (!confirm('¿Eliminar lote?')) return;
+            if (!confirm('Eliminar lote?')) return;
             let l = getData('lotes');
             l.splice(i, 1);
             setData('lotes', l);
-            cargarSelects();
-            renderConfiguracion();
+            cargarSelects(); renderConfiguracion();
         }
 
         function agregarEspecie() {
@@ -2483,34 +2713,28 @@
             setData('especies', e);
             document.getElementById('cfgNuevaEspecie').value = '';
             document.getElementById('cfgNuevosDiasGestacion').value = '';
-            cargarSelects();
-            renderConfiguracion();
+            cargarSelects(); renderConfiguracion();
         }
 
         function eliminarEspecie(i) {
-            if (!confirm('¿Eliminar especie?')) return;
+            if (!confirm('Eliminar especie?')) return;
             let e = getData('especies');
             e.splice(i, 1);
             setData('especies', e);
-            cargarSelects();
-            renderConfiguracion();
+            cargarSelects(); renderConfiguracion();
         }
 
         function borrarTodo() {
-            if (!confirm('¿Borrar TODOS sus datos?')) return;
-            if (!confirm('CONFIRMACIÓN FINAL. ¿Continuar?')) return;
+            if (!confirm('Borrar TODOS sus datos?')) return;
+            if (!confirm('CONFIRMACION FINAL. Continuar?')) return;
             ['inventario', 'nacimientos', 'traslados', 'muertes', 'fincas', 'lotes', 'especies'].forEach(k => {
                 localStorage.removeItem('syntro_' + k);
             });
-            initDatos();
-            cargarSelects();
-            renderConfiguracion();
-            actualizarTotales();
-            cargarTablaInventario();
+            initDatos(); cargarSelects(); renderConfiguracion();
+            actualizarTotales(); cargarTablaInventario();
             alert('Datos borrados.');
         }
 
-        // ==================== INIT ====================
         function init() {
             let nombre = getSupervisorNombre();
             if (nombre) {
@@ -2525,7 +2749,6 @@
             document.getElementById('nacFecha').valueAsDate = new Date();
             document.getElementById('mueFecha').valueAsDate = new Date();
             document.getElementById('traFecha').valueAsDate = new Date();
-
             actualizarTotales();
             cargarTablaInventario();
             cargarTablaNacimientos();
