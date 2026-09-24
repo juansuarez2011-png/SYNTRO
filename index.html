@@ -36,7 +36,7 @@
             background: var(--syntro-bg);
             min-height: 100vh;
             padding: 10px;
-            padding-bottom: 100px;
+            padding-bottom: 60px;
         }
 
         .header {
@@ -100,44 +100,17 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            touch-action: manipulation;
         }
 
         .nav-tab:active { transform: scale(0.96); }
-        .nav-tab:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(52, 160, 164, 0.2);
-            border-color: var(--syntro-turquesa-claro);
-        }
+        .nav-tab:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(52, 160, 164, 0.2); border-color: var(--syntro-turquesa-claro); }
+        .nav-tab.active { background: linear-gradient(135deg, var(--syntro-azul-verde) 0%, var(--syntro-turquesa) 100%); color: white; box-shadow: 0 4px 20px rgba(52, 160, 164, 0.35); }
+        .nav-tab.analisis.active { background: linear-gradient(135deg, var(--syntro-violeta), #6d28d9); }
 
-        .nav-tab.active {
-            background: linear-gradient(135deg, var(--syntro-azul-verde) 0%, var(--syntro-turquesa) 100%);
-            color: white;
-            box-shadow: 0 4px 20px rgba(52, 160, 164, 0.35);
-        }
-
-        .nav-tab.analisis.active {
-            background: linear-gradient(135deg, var(--syntro-violeta), #6d28d9);
-            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.35);
-        }
-
-        .nav-tab .icon { margin-right: 2px; font-size: 14px; }
-
-        .module {
-            display: none;
-            background: white;
-            padding: 18px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            margin-bottom: 15px;
-        }
-
+        .module { display: none; background: white; padding: 18px; border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 15px; }
         .module.active { display: block; animation: fadeIn 0.3s ease; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .module-title {
             font-size: 18px;
@@ -162,22 +135,11 @@
             font-weight: 700;
         }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-            margin-bottom: 15px;
-        }
+        .form-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 15px; }
 
         .form-group { display: flex; flex-direction: column; }
 
-        .form-group label {
-            font-weight: 600;
-            font-size: 13px;
-            color: var(--syntro-azul-oscuro);
-            margin-bottom: 4px;
-        }
-
+        .form-group label { font-weight: 600; font-size: 13px; color: var(--syntro-azul-oscuro); margin-bottom: 4px; }
         .form-group label .required { color: var(--syntro-danger); font-weight: 700; }
         .form-group label .optional { color: #94a3b8; font-weight: 400; font-size: 11px; }
 
@@ -199,38 +161,15 @@
 
         .form-group input:focus,
         .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--syntro-turquesa);
-            background: white;
-            box-shadow: 0 0 0 3px rgba(52, 160, 164, 0.12);
-        }
+        .form-group textarea:focus { outline: none; border-color: var(--syntro-turquesa); background: white; box-shadow: 0 0 0 3px rgba(52, 160, 164, 0.12); }
 
-        .form-group input[readonly] {
-            background: #f1f5f9;
-            color: var(--syntro-azul-oscuro);
-            font-weight: 600;
-        }
+        .form-group input[readonly] { background: #f1f5f9; color: var(--syntro-azul-oscuro); font-weight: 600; }
 
-        .form-group input.editable-id {
-            background: #fffde7;
-            border-color: var(--syntro-warning);
-            font-weight: 700;
-            font-size: 18px;
-            letter-spacing: 1px;
-        }
+        .form-group input.editable-id { background: #fffde7; border-color: var(--syntro-warning); font-weight: 700; font-size: 18px; letter-spacing: 1px; }
 
-        .form-group input.buscar-chip {
-            background: #e6f3ff;
-            border-color: var(--syntro-azul-verde);
-        }
+        .form-group input.buscar-chip { background: #e6f3ff; border-color: var(--syntro-azul-verde); }
 
-        .form-group input.auto-lleno {
-            background: #dcfce7;
-            border-color: var(--syntro-success);
-            font-weight: 700;
-            color: #166534;
-        }
+        .form-group input.auto-lleno { background: #dcfce7; border-color: var(--syntro-success); font-weight: 700; color: #166534; }
 
         .chip-buscar-info {
             grid-column: 1 / -1;
@@ -247,21 +186,11 @@
             font-weight: 600;
         }
 
-        .chip-buscar-info.error {
-            background: #fee2e2;
-            border-color: var(--syntro-danger);
-            color: #991b1b;
-        }
+        .chip-buscar-info.error { background: #fee2e2; border-color: var(--syntro-danger); color: #991b1b; }
+        .chip-buscar-info .animal-detalle { display: block; margin-top: 8px; font-size: 13px; color: #065f46; font-weight: 500; padding-top: 8px; border-top: 1px solid rgba(22, 101, 52, 0.2); }
 
-        .chip-buscar-info .animal-detalle {
-            display: block;
-            margin-top: 8px;
-            font-size: 13px;
-            color: #065f46;
-            font-weight: 500;
-            padding-top: 8px;
-            border-top: 1px solid rgba(22, 101, 52, 0.2);
-        }
+        .chip-acciones { grid-column: 1 / -1; display: none; margin-bottom: 8px; }
+        .chip-acciones .btn { min-height: 48px; }
 
         .sugerencia-text {
             margin-top: 4px;
@@ -277,14 +206,7 @@
             gap: 6px;
         }
 
-        .sugerencia-text .correlativo-anterior {
-            background: var(--syntro-warning);
-            color: white;
-            padding: 2px 10px;
-            border-radius: 4px;
-            font-weight: 700;
-            font-size: 11px;
-        }
+        .sugerencia-text .correlativo-anterior { background: var(--syntro-warning); color: white; padding: 2px 10px; border-radius: 4px; font-weight: 700; font-size: 11px; }
 
         .btn {
             padding: 14px 24px;
@@ -304,320 +226,94 @@
 
         .btn:active { transform: scale(0.96); }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--syntro-turquesa), var(--syntro-turquesa-claro));
-            color: white;
-            box-shadow: 0 4px 15px rgba(52, 160, 164, 0.3);
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, var(--syntro-azul-medio), var(--syntro-azul-oscuro));
-            color: white;
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, var(--syntro-verde), var(--syntro-verde-oscuro));
-            color: var(--syntro-azul-muy-oscuro);
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, #ef4444, var(--syntro-danger));
-            color: white;
-        }
-
-        .btn-muerte {
-            background: linear-gradient(135deg, #6b7280, #1f2937);
-            color: white;
-        }
-
-        .btn-traslado {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: white;
-        }
-
-        .btn-sync {
-            background: linear-gradient(135deg, var(--syntro-violeta), #6d28d9);
-            color: white;
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
-        }
-
-        .btn-share {
-            background: linear-gradient(135deg, #25d366, #128c7e);
-            color: white;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
-        }
+        .btn-primary { background: linear-gradient(135deg, var(--syntro-turquesa), var(--syntro-turquesa-claro)); color: white; box-shadow: 0 4px 15px rgba(52, 160, 164, 0.3); }
+        .btn-secondary { background: linear-gradient(135deg, var(--syntro-azul-medio), var(--syntro-azul-oscuro)); color: white; }
+        .btn-success { background: linear-gradient(135deg, var(--syntro-verde), var(--syntro-verde-oscuro)); color: var(--syntro-azul-muy-oscuro); }
+        .btn-danger { background: linear-gradient(135deg, #ef4444, var(--syntro-danger)); color: white; }
+        .btn-warning { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #78350f; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); }
+        .btn-muerte { background: linear-gradient(135deg, #6b7280, #1f2937); color: white; }
+        .btn-traslado { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+        .btn-sync { background: linear-gradient(135deg, var(--syntro-violeta), #6d28d9); color: white; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3); }
+        .btn-share { background: linear-gradient(135deg, #25d366, #128c7e); color: white; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
 
         .btn-sm { padding: 10px 16px; font-size: 13px; min-height: 40px; }
 
-        .btn-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin: 12px 0;
-        }
-
-        .btn-group-row {
-            display: flex;
-            flex-direction: row;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
+        .btn-group { display: flex; flex-direction: column; gap: 10px; margin: 12px 0; }
+        .btn-group-row { display: flex; flex-direction: row; gap: 10px; flex-wrap: wrap; }
         .btn-group-row .btn { flex: 1; min-width: 120px; }
 
-        .alert {
-            padding: 12px 16px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            font-weight: 600;
-            font-size: 14px;
-            display: none;
-        }
+        .alert { padding: 12px 16px; border-radius: 10px; margin-bottom: 15px; font-weight: 600; font-size: 14px; display: none; }
         .alert-success { background: #dcfce7; border: 1px solid var(--syntro-success); color: #166534; }
         .alert-error { background: #fee2e2; border: 1px solid var(--syntro-danger); color: #991b1b; }
         .alert-warning { background: #fef3c7; border: 1px solid var(--syntro-warning); color: #92400e; }
         .alert-info { background: #dbeafe; border: 1px solid #3b82f6; color: #1e40af; }
 
-        .table-wrap {
-            overflow-x: auto;
-            border-radius: 10px;
-            border: 1px solid var(--syntro-border);
-            margin-top: 12px;
-            -webkit-overflow-scrolling: touch;
-        }
+        .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--syntro-border); margin-top: 12px; -webkit-overflow-scrolling: touch; }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12px;
-            min-width: 500px;
-        }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 500px; }
 
-        th {
-            background: linear-gradient(135deg, var(--syntro-azul-oscuro), var(--syntro-azul-verde));
-            color: white;
-            padding: 10px 10px;
-            text-align: left;
-            font-weight: 600;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            white-space: nowrap;
-        }
+        th { background: linear-gradient(135deg, var(--syntro-azul-oscuro), var(--syntro-azul-verde)); color: white; padding: 10px 10px; text-align: left; font-weight: 600; position: sticky; top: 0; z-index: 10; white-space: nowrap; }
 
-        td {
-            padding: 8px 10px;
-            border-bottom: 1px solid var(--syntro-border);
-        }
+        td { padding: 8px 10px; border-bottom: 1px solid var(--syntro-border); }
 
         tr:hover { background: #f0fdfa; }
 
-        .btn-delete {
-            background: none;
-            border: none;
-            color: var(--syntro-danger);
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 6px;
-            min-height: 36px;
-            min-width: 36px;
-        }
+        .btn-delete { background: none; border: none; color: var(--syntro-danger); cursor: pointer; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 6px; min-height: 36px; min-width: 36px; }
         .btn-delete:active { background: #fee2e2; }
 
-        .btn-edit {
-            background: none;
-            border: none;
-            color: var(--syntro-azul-verde);
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 6px;
-            min-height: 36px;
-            min-width: 36px;
-        }
+        .btn-edit { background: none; border: none; color: var(--syntro-azul-verde); cursor: pointer; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 6px; min-height: 36px; min-width: 36px; }
         .btn-edit:active { background: #e0f2fe; }
 
-        .badge-sin-chip {
-            background: var(--syntro-warning);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 9px;
-            font-weight: 600;
-        }
+        .badge-sin-chip { background: var(--syntro-warning); color: white; padding: 2px 8px; border-radius: 10px; font-size: 9px; font-weight: 600; }
+        .badge-muerte { background: #1f2937; color: white; padding: 2px 8px; border-radius: 10px; font-size: 9px; font-weight: 600; }
+        .badge-traslado { background: var(--syntro-warning); color: white; padding: 2px 8px; border-radius: 10px; font-size: 9px; font-weight: 600; }
+        .badge-aborto { background: #7c3aed; color: white; padding: 2px 8px; border-radius: 10px; font-size: 9px; font-weight: 600; }
+        .badge-supervisor { background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: white; padding: 2px 10px; border-radius: 10px; font-size: 10px; font-weight: 700; }
 
-        .badge-muerte {
-            background: #1f2937;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 9px;
-            font-weight: 600;
-        }
-
-        .badge-traslado {
-            background: var(--syntro-warning);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 9px;
-            font-weight: 600;
-        }
-
-        .badge-aborto {
-            background: #7c3aed;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 9px;
-            font-weight: 600;
-        }
-
-        .badge-supervisor {
-            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
-            color: white;
-            padding: 2px 10px;
-            border-radius: 10px;
-            font-size: 10px;
-            font-weight: 700;
-        }
-
-        .info-display {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            padding: 12px;
-            background: linear-gradient(135deg, var(--syntro-verde-claro), var(--syntro-verde-medio));
-            border-radius: 10px;
-            margin: 10px 0 15px 0;
-        }
-
+        .info-display { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px; background: linear-gradient(135deg, var(--syntro-verde-claro), var(--syntro-verde-medio)); border-radius: 10px; margin: 10px 0 15px 0; }
         .info-item { text-align: center; }
         .info-item label { font-size: 11px; color: var(--syntro-azul-muy-oscuro); font-weight: 600; display: block; }
         .info-item span { font-size: 17px; font-weight: 800; color: var(--syntro-azul-oscuro); }
 
-        .cria-card {
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 12px;
-            border-left: 4px solid var(--syntro-verde-oscuro);
-        }
+        .cria-card { background: #f8fafc; padding: 15px; border-radius: 10px; margin-bottom: 12px; border-left: 4px solid var(--syntro-verde-oscuro); }
         .cria-card.hidden { display: none; }
         .cria-card h4 { color: var(--syntro-azul-verde); margin-bottom: 10px; font-size: 14px; }
 
-        .muerte-card {
-            background: #fef2f2;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 12px;
-            border-left: 4px solid var(--syntro-danger);
-        }
+        .muerte-card { background: #fef2f2; padding: 15px; border-radius: 10px; margin-bottom: 12px; border-left: 4px solid var(--syntro-danger); }
         .muerte-card h4 { color: #991b1b; margin-bottom: 10px; font-size: 14px; }
 
-        .traslado-card {
-            background: #fffbeb;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 12px;
-            border-left: 4px solid var(--syntro-warning);
-        }
+        .traslado-card { background: #fffbeb; padding: 15px; border-radius: 10px; margin-bottom: 12px; border-left: 4px solid var(--syntro-warning); }
         .traslado-card h4 { color: #92400e; margin-bottom: 10px; font-size: 14px; }
 
-        .config-card {
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 12px;
-            border-left: 4px solid var(--syntro-azul-verde);
-        }
+        .config-card { background: #f8fafc; padding: 15px; border-radius: 10px; margin-bottom: 12px; border-left: 4px solid var(--syntro-azul-verde); }
         .config-card h4 { color: var(--syntro-azul-oscuro); margin-bottom: 10px; font-size: 14px; }
 
-        .sync-card {
-            background: linear-gradient(135deg, #f5f3ff, #ede9fe);
-            padding: 18px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--syntro-violeta);
-        }
+        .sync-card { background: linear-gradient(135deg, #f5f3ff, #ede9fe); padding: 18px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid var(--syntro-violeta); }
         .sync-card h4 { color: #6d28d9; margin-bottom: 12px; font-size: 15px; }
-        .sync-card .sync-info {
-            font-size: 12px;
-            color: #5b21b6;
-            margin-bottom: 12px;
-            line-height: 1.5;
-        }
-        .sync-section {
-            background: white;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd6fe;
-        }
+        .sync-card .sync-info { font-size: 12px; color: #5b21b6; margin-bottom: 12px; line-height: 1.5; }
+        .sync-section { background: white; padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #ddd6fe; }
         .sync-section h5 { font-size: 13px; color: var(--syntro-azul-oscuro); margin-bottom: 8px; }
 
-        .analisis-card {
-            background: linear-gradient(135deg, #faf5ff, #f3e8ff);
-            padding: 18px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--syntro-violeta);
-        }
+        .analisis-card { background: linear-gradient(135deg, #faf5ff, #f3e8ff); padding: 18px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid var(--syntro-violeta); }
         .analisis-card h4 { color: #6d28d9; margin-bottom: 12px; font-size: 15px; }
 
-        .import-zone {
-            background: white;
-            border: 3px dashed var(--syntro-violeta);
-            border-radius: 12px;
-            padding: 30px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-bottom: 15px;
-        }
+        .import-zone { background: white; border: 3px dashed var(--syntro-violeta); border-radius: 12px; padding: 30px 20px; text-align: center; cursor: pointer; transition: all 0.3s ease; margin-bottom: 15px; }
         .import-zone:hover { background: #f5f3ff; border-color: #6d28d9; }
         .import-zone.dragover { background: #ede9fe; border-color: #6d28d9; transform: scale(1.02); }
-        .import-zone .icon { font-size: 42px; display: block; margin-bottom: 10px; }
+        .import-zone .icon { font-size: 42px; display: block; margin-bottom: 10px; font-weight: 800; color: var(--syntro-violeta); }
         .import-zone .titulo { font-size: 16px; font-weight: 700; color: var(--syntro-violeta); margin-bottom: 6px; }
         .import-zone .sub { font-size: 12px; color: #64748b; }
 
-        .stats-big {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .stat-big {
-            color: white;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(52, 160, 164, 0.2);
-        }
+        .stats-big { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .stat-big { color: white; padding: 15px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(52, 160, 164, 0.2); }
         .stat-big.inv { background: linear-gradient(135deg, #168aad, #1e6091); }
         .stat-big.nac { background: linear-gradient(135deg, #52b69a, #34a0a4); }
         .stat-big.tra { background: linear-gradient(135deg, #f59e0b, #d97706); }
         .stat-big.mue { background: linear-gradient(135deg, #6b7280, #1f2937); }
-
         .stat-big .valor { font-size: 28px; font-weight: 800; display: block; line-height: 1; margin-bottom: 4px; }
         .stat-big .etiqueta { font-size: 11px; opacity: 0.9; font-weight: 600; letter-spacing: 0.5px; }
 
-        .supervisor-card {
-            background: white;
-            border: 2px solid #ddd6fe;
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
+        .supervisor-card { background: white; border: 2px solid #ddd6fe; border-radius: 10px; padding: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
         .supervisor-card .nombre { font-weight: 700; color: #6d28d9; font-size: 14px; }
         .supervisor-card .detalle { font-size: 11px; color: #64748b; }
         .supervisor-card .stats { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -625,149 +321,42 @@
         .supervisor-card .mini-stat .num { font-size: 16px; font-weight: 800; color: var(--syntro-azul-oscuro); display: block; }
         .supervisor-card .mini-stat .lbl { font-size: 9px; color: #64748b; text-transform: uppercase; }
 
-        .historial-item {
-            background: white;
-            border-left: 4px solid var(--syntro-violeta);
-            padding: 10px 12px;
-            border-radius: 6px;
-            margin-bottom: 8px;
-            font-size: 12px;
-        }
+        .historial-item { background: white; border-left: 4px solid var(--syntro-violeta); padding: 10px 12px; border-radius: 6px; margin-bottom: 8px; font-size: 12px; }
         .historial-item .fecha { font-weight: 700; color: #6d28d9; }
         .historial-item .resumen { color: #64748b; margin-top: 3px; font-size: 11px; }
         .historial-item .resumen .ok { color: var(--syntro-success); font-weight: 700; }
         .historial-item .resumen .skip { color: var(--syntro-warning); font-weight: 700; }
 
-        .config-list {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            margin-top: 10px;
-            max-height: 250px;
-            overflow-y: auto;
-        }
-
-        .config-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 12px;
-            background: white;
-            border: 1px solid var(--syntro-border);
-            border-radius: 8px;
-            font-size: 13px;
-            gap: 8px;
-        }
+        .config-list { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; max-height: 250px; overflow-y: auto; }
+        .config-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: white; border: 1px solid var(--syntro-border); border-radius: 8px; font-size: 13px; gap: 8px; }
         .config-item span { flex: 1; word-break: break-word; }
 
-        .config-add-row {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-
+        .config-add-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
         .config-add-row input,
-        .config-add-row select {
-            flex: 1;
-            min-width: 120px;
-            padding: 10px 12px;
-            border: 2px solid var(--syntro-border);
-            border-radius: 8px;
-            font-size: 14px;
-            min-height: 42px;
-        }
+        .config-add-row select { flex: 1; min-width: 120px; padding: 10px 12px; border: 2px solid var(--syntro-border); border-radius: 8px; font-size: 14px; min-height: 42px; }
+        .config-add-row .btn { width: auto; flex: 0 0 auto; padding: 10px 16px; font-size: 14px; min-height: 42px; }
 
-        .config-add-row .btn {
-            width: auto;
-            flex: 0 0 auto;
-            padding: 10px 16px;
-            font-size: 14px;
-            min-height: 42px;
-        }
-
-        .control-bar {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 10px 14px;
-            background: #f8fafc;
-            border-radius: 10px;
-            gap: 10px;
-            margin: 10px 0;
-            border-left: 4px solid var(--syntro-turquesa);
-            text-align: center;
-        }
+        .control-bar { display: flex; flex-direction: column; align-items: center; padding: 10px 14px; background: #f8fafc; border-radius: 10px; gap: 10px; margin: 10px 0; border-left: 4px solid var(--syntro-turquesa); text-align: center; }
         .control-bar .total { font-weight: 600; color: var(--syntro-azul-muy-oscuro); font-size: 14px; }
         .control-bar .total strong { color: var(--syntro-turquesa); font-size: 18px; }
-
-        .control-bar-actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            width: 100%;
-            justify-content: center;
-        }
+        .control-bar-actions { display: flex; gap: 8px; flex-wrap: wrap; width: 100%; justify-content: center; }
         .control-bar-actions .btn { width: auto; flex: 1; min-width: 80px; }
 
-        .storage-info {
-            background: #f1f5f9;
-            border-left: 4px solid var(--syntro-warning);
-            padding: 10px 14px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 12px;
-            color: var(--syntro-azul-muy-oscuro);
-        }
+        .storage-info { background: #f1f5f9; border-left: 4px solid var(--syntro-warning); padding: 10px 14px; border-radius: 8px; margin-bottom: 15px; font-size: 12px; color: var(--syntro-azul-muy-oscuro); }
 
-        .filter-section {
-            background: #f8fafc;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--syntro-turquesa);
-        }
+        .filter-section { background: #f8fafc; padding: 12px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid var(--syntro-turquesa); }
         .filter-section h3 { font-size: 14px; margin-bottom: 10px; color: var(--syntro-azul-muy-oscuro); }
-        .filter-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
+        .filter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-        .chart-container {
-            margin-top: 12px;
-            padding: 12px;
-            background: #f8fafc;
-            border-radius: 10px;
-            height: 240px;
-        }
+        .chart-container { margin-top: 12px; padding: 12px; background: #f8fafc; border-radius: 10px; height: 240px; }
         .chart-container h3 { font-size: 13px; margin-bottom: 8px; text-align: center; color: var(--syntro-azul-muy-oscuro); }
         .chart-wrapper { height: 190px; }
 
-        .cria-nota {
-            background: #f3e8ff;
-            border-left: 4px solid #7c3aed;
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-size: 13px;
-            color: #5b21b6;
-            font-weight: 600;
-            margin-bottom: 12px;
-            display: none;
-        }
+        .cria-nota { background: #f3e8ff; border-left: 4px solid #7c3aed; padding: 12px 16px; border-radius: 8px; font-size: 13px; color: #5b21b6; font-weight: 600; margin-bottom: 12px; display: none; }
         .cria-nota.visible { display: block; }
 
-        .graficas-inventario-box {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 3px solid var(--syntro-turquesa);
-        }
-        .graficas-inventario-box h3 {
-            color: var(--syntro-azul-muy-oscuro);
-            margin-bottom: 15px;
-            font-size: 16px;
-            font-weight: 700;
-        }
+        .graficas-inventario-box { margin-top: 25px; padding-top: 20px; border-top: 3px solid var(--syntro-turquesa); }
+        .graficas-inventario-box h3 { color: var(--syntro-azul-muy-oscuro); margin-bottom: 15px; font-size: 16px; font-weight: 700; }
 
         @media (min-width: 600px) and (max-width: 1024px) {
             body { padding: 15px; }
@@ -860,6 +449,10 @@
                     <select id="invEspecie"></select>
                 </div>
                 <div class="form-group">
+                    <label>Categoria <span class="required">*</span></label>
+                    <select id="invCategoria"></select>
+                </div>
+                <div class="form-group">
                     <label>Lote</label>
                     <select id="invLote"></select>
                 </div>
@@ -882,7 +475,7 @@
 
             <div class="table-wrap">
                 <table>
-                    <thead><tr><th>Chip</th><th>Arete</th><th>Especie</th><th>Lote</th><th>Finca</th><th>Fecha</th><th>Acciones</th></tr></thead>
+                    <thead><tr><th>Chip</th><th>Arete</th><th>Especie</th><th>Categoria</th><th>Lote</th><th>Finca</th><th>Fecha</th><th>Acciones</th></tr></thead>
                     <tbody id="tablaInventario"></tbody>
                 </table>
             </div>
@@ -924,6 +517,13 @@
                     <input type="text" id="nacMadre" placeholder="Escriba arete" oninput="sincronizarMadrePorArete(this.value)">
                 </div>
                 <div id="chipBuscarInfo" class="chip-buscar-info" style="grid-column: 1 / -1;"></div>
+                <div id="chipNacAcciones" class="chip-acciones">
+                    <button type="button" class="btn btn-warning btn-sm" onclick="asignarChipAnimal(document.getElementById('nacMadre').value.trim())">Asignar / Cambiar Chip de la Madre</button>
+                </div>
+                <div class="form-group">
+                    <label>Categoria de la Madre</label>
+                    <select id="nacCategoriaMadre"></select>
+                </div>
                 <div class="form-group">
                     <label>Toro (Arete) <span class="required">*</span></label>
                     <input type="text" id="nacToro" placeholder="-" value="-">
@@ -952,7 +552,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Lote para Criar</label>
+                    <label>Lote para Crias</label>
                     <select id="nacLote" disabled>
                         <option value="Lote Cria">Lote Cria</option>
                     </select>
@@ -985,11 +585,15 @@
                     </div>
                     <div class="form-group">
                         <label>Sexo <span class="required">*</span></label>
-                        <select id="nacCria1Sexo">
+                        <select id="nacCria1Sexo" onchange="sugerirCategoriaCria(1)">
                             <option value="">Seleccionar...</option>
                             <option value="Hembra">Hembra</option>
                             <option value="Macho">Macho</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoria <span class="required">*</span></label>
+                        <select id="nacCria1Categoria"></select>
                     </div>
                     <div class="form-group">
                         <label>Peso (Kg) <span class="required">*</span></label>
@@ -1014,11 +618,15 @@
                     </div>
                     <div class="form-group">
                         <label>Sexo <span class="required">*</span></label>
-                        <select id="nacCria2Sexo">
+                        <select id="nacCria2Sexo" onchange="sugerirCategoriaCria(2)">
                             <option value="">Seleccionar...</option>
                             <option value="Hembra">Hembra</option>
                             <option value="Macho">Macho</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoria <span class="required">*</span></label>
+                        <select id="nacCria2Categoria"></select>
                     </div>
                     <div class="form-group">
                         <label>Peso (Kg) <span class="required">*</span></label>
@@ -1040,7 +648,7 @@
 
             <div class="table-wrap">
                 <table>
-                    <thead><tr><th>Fecha</th><th>Finca</th><th>Madre</th><th>Chip Madre</th><th>Toro</th><th>N</th><th>Tipo</th><th>Dias</th><th>Cria ID</th><th>Chip</th><th>Sexo</th><th>Peso</th><th>IPP</th><th>Accion</th></tr></thead>
+                    <thead><tr><th>Fecha</th><th>Finca</th><th>Madre</th><th>Cat. Madre</th><th>Chip Madre</th><th>Toro</th><th>N</th><th>Tipo</th><th>Dias</th><th>Cria ID</th><th>Chip</th><th>Sexo</th><th>Cat.</th><th>Peso</th><th>IPP</th><th>Accion</th></tr></thead>
                     <tbody id="tablaNacimientos"></tbody>
                 </table>
             </div>
@@ -1071,6 +679,9 @@
                         <input type="text" id="traArete" placeholder="Escriba arete" oninput="sincronizarTrasladoPorArete(this.value)">
                     </div>
                     <div id="chipTrasladoInfo" class="chip-buscar-info" style="grid-column: 1 / -1;"></div>
+                    <div id="chipTrasladoAcciones" class="chip-acciones">
+                        <button type="button" class="btn btn-warning btn-sm" onclick="asignarChipAnimal(document.getElementById('traArete').value.trim())">Asignar / Cambiar Chip</button>
+                    </div>
                     <div class="form-group">
                         <label>Finca Origen</label>
                         <input type="text" id="traFincaOrigen" readonly placeholder="Se autocompleta">
@@ -1080,25 +691,29 @@
                         <input type="text" id="traLoteOrigen" readonly placeholder="Se autocompleta">
                     </div>
                     <div class="form-group">
-                        <label>Finca Destino <span class="required">*</span></label>
-                        <select id="traFincaDestino" onchange="actualizarLotesDestino()"></select>
+                        <label>Categoria</label>
+                        <select id="traCategoria"></select>
                     </div>
                     <div class="form-group">
-                        <label>Lote Destino <span class="required">*</span></label>
-                        <select id="traLoteDestino"></select>
-                    </div>
-                    <div class="form-group">
-                        <label>Motivo</label>
+                        <label>Motivo <span class="required">*</span></label>
                         <select id="traMotivo">
                             <option value="Manejo">Manejo</option>
                             <option value="Rotacion de potreros">Rotacion de potreros</option>
-                            <option value="Venta">Venta</option>
+                            <option value="Venta">Venta (SALE DEL INVENTARIO)</option>
                             <option value="Compra">Compra</option>
                             <option value="Sanidad">Sanidad</option>
                             <option value="Reproduccion">Reproduccion</option>
                             <option value="Destete">Destete</option>
                             <option value="Otro">Otro</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Finca Destino <span class="required">*</span></label>
+                        <select id="traFincaDestino"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Lote Destino <span class="required">*</span></label>
+                        <select id="traLoteDestino"></select>
                     </div>
                     <div class="form-group" style="grid-column: 1 / -1;">
                         <label>Observaciones <span class="optional">(Opcional)</span></label>
@@ -1125,6 +740,7 @@
                             <th>Fecha</th>
                             <th>Chip</th>
                             <th>Arete</th>
+                            <th>Categoria</th>
                             <th>Finca Origen</th>
                             <th>Lote Origen</th>
                             <th>Finca Destino</th>
@@ -1168,6 +784,9 @@
                         <input type="text" id="mueArete" placeholder="Escriba arete" oninput="sincronizarMuertePorArete(this.value)">
                     </div>
                     <div id="chipMuerteInfo" class="chip-buscar-info" style="grid-column: 1 / -1;"></div>
+                    <div id="chipMuerteAcciones" class="chip-acciones">
+                        <button type="button" class="btn btn-warning btn-sm" onclick="asignarChipAnimal(document.getElementById('mueArete').value.trim())">Asignar / Cambiar Chip</button>
+                    </div>
                     <div class="form-group">
                         <label>Lote</label>
                         <input type="text" id="mueLote" readonly placeholder="Se autocompleta">
@@ -1188,14 +807,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Categoria</label>
-                        <select id="mueCategoria">
-                            <option value="Cria">Cria</option>
-                            <option value="Levante">Levante</option>
-                            <option value="Vientre">Vientre</option>
-                            <option value="Toro">Toro</option>
-                            <option value="Adulto">Adulto</option>
-                        </select>
+                        <label>Categoria <span class="required">*</span></label>
+                        <select id="mueCategoria"></select>
                     </div>
                     <div class="form-group">
                         <label>Peso (Kg)</label>
@@ -1228,8 +841,8 @@
                             <th>Chip</th>
                             <th>Arete</th>
                             <th>Lote</th>
-                            <th>Causa</th>
                             <th>Categoria</th>
+                            <th>Causa</th>
                             <th>Peso</th>
                             <th>Observaciones</th>
                             <th>Accion</th>
@@ -1440,7 +1053,35 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // ============ HELPERS ============
+        const CATEGORIAS = [
+            'VACA PARIDA', 'VACA HORRA', 'NOVILLA', 'RETAJOS',
+            'TORO', 'MAUTA', 'MAUTE', 'BECERRO', 'BECERRA'
+        ];
+
+        function cargarCategorias() {
+            ['invCategoria', 'nacCategoriaMadre', 'nacCria1Categoria', 'nacCria2Categoria', 'traCategoria', 'mueCategoria'].forEach(id => {
+                let sel = document.getElementById(id);
+                if (!sel) return;
+                let v = sel.value;
+                sel.innerHTML = '<option value="">Seleccionar...</option>';
+                CATEGORIAS.forEach(cat => {
+                    let opt = document.createElement('option');
+                    opt.value = cat;
+                    opt.textContent = cat;
+                    sel.appendChild(opt);
+                });
+                if (v) sel.value = v;
+            });
+        }
+
+        function sugerirCategoriaCria(num) {
+            let sexo = document.getElementById('nacCria' + num + 'Sexo').value;
+            let cat = '';
+            if (sexo === 'Hembra') cat = 'BECERRA';
+            if (sexo === 'Macho') cat = 'BECERRO';
+            if (cat) document.getElementById('nacCria' + num + 'Categoria').value = cat;
+        }
+
         async function compartirODescargar(nombreArchivo, contenido, tipoMime, titulo, texto) {
             let blob = new Blob([contenido], { type: tipoMime });
             if (navigator.canShare && typeof File !== 'undefined') {
@@ -1511,6 +1152,7 @@
             setTimeout(() => { generarSugerenciasIds(); calcularNumParto(); }, 100);
             renderConfiguracion();
             renderAnalisis();
+            renderGraficasInventario();
         }
 
         function cargarSelects() {
@@ -1560,22 +1202,22 @@
             }
 
             actualizarLotesDestino();
+            cargarCategorias();
         }
 
         function actualizarLotesDestino() {
-            let fincaDestino = document.getElementById('traFincaDestino').value;
             let selLote = document.getElementById('traLoteDestino');
             if (!selLote) return;
-            let lotes = getData('lotes').filter(l => !fincaDestino || l.finca === fincaDestino);
+            let todosLosLotes = getData('lotes');
             let v = selLote.value;
             selLote.innerHTML = '<option value="">Seleccione...</option>';
-            lotes.forEach(l => {
+            todosLosLotes.forEach(l => {
                 let opt = document.createElement('option');
                 opt.value = l.nombre;
-                opt.textContent = l.nombre;
+                opt.textContent = l.nombre + (l.finca ? ' (' + l.finca + ')' : '');
                 selLote.appendChild(opt);
             });
-            if (v && lotes.find(l => l.nombre === v)) selLote.value = v;
+            if (v && todosLosLotes.find(l => l.nombre === v)) selLote.value = v;
         }
 
         function mostrarModulo(mod) {
@@ -1597,7 +1239,7 @@
 
             if (mod === 'inventario') { cargarTablaInventario(); renderGraficasInventario(); }
             if (mod === 'nacimiento') cargarTablaNacimientos();
-            if (mod === 'traslado') cargarTablaTraslados();
+            if (mod === 'traslado') { cargarTablaTraslados(); actualizarLotesDestino(); }
             if (mod === 'muerte') cargarTablaMuertes();
             if (mod === 'graficos') verGraficos();
             if (mod === 'configuracion') renderConfiguracion();
@@ -1636,28 +1278,84 @@
         }
 
         function formatearInfoAnimal(animal) {
-            return `<strong>${animal.arete}</strong> | ${animal.especie || '-'}<span class="animal-detalle">Lote: ${animal.lote || '-'} | Finca: ${animal.finca || '-'}</span>`;
+            return `<strong>${animal.arete}</strong> | ${animal.especie || '-'}${animal.categoria ? ' | ' + animal.categoria : ''}<span class="animal-detalle">Lote: ${animal.lote || '-'} | Finca: ${animal.finca || '-'}</span>`;
         }
 
         function limpiarEstiloAuto(input) { if (input) input.classList.remove('auto-lleno'); }
         function marcarAuto(input) { if (input) input.classList.add('auto-lleno'); }
+
+        function toggleChipAcciones(idAcciones, mostrar) {
+            let el = document.getElementById(idAcciones);
+            if (el) el.style.display = mostrar ? 'block' : 'none';
+        }
+
+        // ============ ASIGNAR / CAMBIAR CHIP ============
+        function asignarChipAnimal(arete) {
+            if (!arete) { alert('Primero debe buscar un animal.'); return; }
+            let inventario = getData('inventario');
+            let animal = inventario.find(a => a.arete === arete);
+            if (!animal) { alert('Animal no encontrado en inventario.'); return; }
+
+            let actual = animal.chip || '';
+            let nuevo = prompt(
+                'Asignar / Cambiar chip para el arete ' + arete + ':\n\n' +
+                'Chip actual: ' + (actual || '(vacio)') + '\n\n' +
+                '(Deje vacio para eliminar el chip)',
+                actual
+            );
+            if (nuevo === null) return;
+            nuevo = nuevo.trim();
+
+            if (nuevo) {
+                let ocupado = inventario.find(a => a.chip === nuevo && a.arete !== arete);
+                if (ocupado) {
+                    alert('Ese chip ya esta asignado al arete ' + ocupado.arete);
+                    return;
+                }
+            }
+
+            animal.chip = nuevo;
+            setData('inventario', inventario);
+            actualizarChipEnPantalla(arete, nuevo);
+            cargarTablaInventario();
+            alert(nuevo ? 'Chip asignado: ' + nuevo : 'Chip eliminado.');
+        }
+
+        function actualizarChipEnPantalla(arete, nuevoChip) {
+            ['traChip', 'mueChip', 'nacMadreChip'].forEach(id => {
+                let campo = document.getElementById(id);
+                if (!campo) return;
+                let areteRef = '';
+                if (id === 'traChip') areteRef = document.getElementById('traArete').value.trim();
+                if (id === 'mueChip') areteRef = document.getElementById('mueArete').value.trim();
+                if (id === 'nacMadreChip') areteRef = document.getElementById('nacMadre').value.trim();
+                if (areteRef === arete) {
+                    campo.value = nuevoChip;
+                    if (nuevoChip) campo.classList.add('auto-lleno');
+                    else campo.classList.remove('auto-lleno');
+                }
+            });
+        }
 
         // ============ SINCRONIZACION CHIP/ARETE ============
         function sincronizarMadrePorChip(valor) {
             let info = document.getElementById('chipBuscarInfo');
             let campo = document.getElementById('nacMadre');
             valor = (valor || '').trim();
-            if (!valor) { limpiarEstiloAuto(campo); info.style.display = 'none'; return; }
+            if (!valor) { limpiarEstiloAuto(campo); info.style.display = 'none'; toggleChipAcciones('chipNacAcciones', false); return; }
             let a = buscarPorChip(valor);
             if (a) {
                 campo.value = a.arete; marcarAuto(campo);
+                if (a.categoria) document.getElementById('nacCategoriaMadre').value = a.categoria;
                 info.className = 'chip-buscar-info'; info.style.display = 'block';
                 info.innerHTML = 'Animal encontrado: ' + formatearInfoAnimal(a);
                 calcularNumParto();
+                toggleChipAcciones('chipNacAcciones', true);
             } else {
                 campo.value = ''; limpiarEstiloAuto(campo);
                 info.className = 'chip-buscar-info error'; info.style.display = 'block';
                 info.innerHTML = 'No se encontro ningun animal con ese chip.';
+                toggleChipAcciones('chipNacAcciones', false);
             }
         }
 
@@ -1665,16 +1363,19 @@
             let info = document.getElementById('chipBuscarInfo');
             let campo = document.getElementById('nacMadreChip');
             valor = (valor || '').trim();
-            if (!valor) { limpiarEstiloAuto(campo); info.style.display = 'none'; calcularNumParto(); return; }
+            if (!valor) { limpiarEstiloAuto(campo); info.style.display = 'none'; toggleChipAcciones('chipNacAcciones', false); calcularNumParto(); return; }
             let a = buscarPorArete(valor);
             if (a) {
                 campo.value = a.chip || ''; if (a.chip) marcarAuto(campo);
+                if (a.categoria) document.getElementById('nacCategoriaMadre').value = a.categoria;
                 info.className = 'chip-buscar-info'; info.style.display = 'block';
                 info.innerHTML = 'Animal encontrado: ' + formatearInfoAnimal(a);
+                toggleChipAcciones('chipNacAcciones', true);
             } else {
                 campo.value = ''; limpiarEstiloAuto(campo);
                 info.className = 'chip-buscar-info error'; info.style.display = 'block';
                 info.innerHTML = 'Ese arete no esta en el inventario.';
+                toggleChipAcciones('chipNacAcciones', false);
             }
             calcularNumParto();
         }
@@ -1685,17 +1386,20 @@
             let cF = document.getElementById('traFincaOrigen');
             let cL = document.getElementById('traLoteOrigen');
             valor = (valor || '').trim();
-            if (!valor) { limpiarEstiloAuto(cA); cF.value = ''; cL.value = ''; info.style.display = 'none'; return; }
+            if (!valor) { limpiarEstiloAuto(cA); cF.value = ''; cL.value = ''; info.style.display = 'none'; toggleChipAcciones('chipTrasladoAcciones', false); return; }
             let a = buscarPorChip(valor);
             if (a) {
                 cA.value = a.arete; cF.value = a.finca || ''; cL.value = a.lote || '';
+                if (a.categoria) document.getElementById('traCategoria').value = a.categoria;
                 marcarAuto(cA);
                 info.className = 'chip-buscar-info'; info.style.display = 'block';
                 info.innerHTML = 'Animal encontrado: ' + formatearInfoAnimal(a);
+                toggleChipAcciones('chipTrasladoAcciones', true);
             } else {
                 cA.value = ''; limpiarEstiloAuto(cA);
                 info.className = 'chip-buscar-info error'; info.style.display = 'block';
                 info.innerHTML = 'No se encontro ningun animal con ese chip.';
+                toggleChipAcciones('chipTrasladoAcciones', false);
             }
         }
 
@@ -1705,17 +1409,20 @@
             let cF = document.getElementById('traFincaOrigen');
             let cL = document.getElementById('traLoteOrigen');
             valor = (valor || '').trim();
-            if (!valor) { limpiarEstiloAuto(cC); cF.value = ''; cL.value = ''; info.style.display = 'none'; return; }
+            if (!valor) { limpiarEstiloAuto(cC); cF.value = ''; cL.value = ''; info.style.display = 'none'; toggleChipAcciones('chipTrasladoAcciones', false); return; }
             let a = buscarPorArete(valor);
             if (a) {
                 cC.value = a.chip || ''; cF.value = a.finca || ''; cL.value = a.lote || '';
+                if (a.categoria) document.getElementById('traCategoria').value = a.categoria;
                 if (a.chip) marcarAuto(cC);
                 info.className = 'chip-buscar-info'; info.style.display = 'block';
                 info.innerHTML = 'Animal encontrado: ' + formatearInfoAnimal(a);
+                toggleChipAcciones('chipTrasladoAcciones', true);
             } else {
                 cC.value = ''; limpiarEstiloAuto(cC);
                 info.className = 'chip-buscar-info error'; info.style.display = 'block';
                 info.innerHTML = 'Ese arete no esta en el inventario.';
+                toggleChipAcciones('chipTrasladoAcciones', false);
             }
         }
 
@@ -1725,17 +1432,20 @@
             let cL = document.getElementById('mueLote');
             let cF = document.getElementById('mueFinca');
             valor = (valor || '').trim();
-            if (!valor) { limpiarEstiloAuto(cA); cL.value = ''; info.style.display = 'none'; return; }
+            if (!valor) { limpiarEstiloAuto(cA); cL.value = ''; info.style.display = 'none'; toggleChipAcciones('chipMuerteAcciones', false); return; }
             let a = buscarPorChip(valor);
             if (a) {
                 cA.value = a.arete; cL.value = a.lote || '-'; if (a.finca) cF.value = a.finca;
+                if (a.categoria) document.getElementById('mueCategoria').value = a.categoria;
                 marcarAuto(cA);
                 info.className = 'chip-buscar-info'; info.style.display = 'block';
                 info.innerHTML = 'Animal encontrado: ' + formatearInfoAnimal(a);
+                toggleChipAcciones('chipMuerteAcciones', true);
             } else {
                 cA.value = ''; cL.value = ''; limpiarEstiloAuto(cA);
                 info.className = 'chip-buscar-info error'; info.style.display = 'block';
                 info.innerHTML = 'No se encontro ningun animal con ese chip.';
+                toggleChipAcciones('chipMuerteAcciones', false);
             }
         }
 
@@ -1745,17 +1455,20 @@
             let cL = document.getElementById('mueLote');
             let cF = document.getElementById('mueFinca');
             valor = (valor || '').trim();
-            if (!valor) { limpiarEstiloAuto(cC); cL.value = ''; info.style.display = 'none'; return; }
+            if (!valor) { limpiarEstiloAuto(cC); cL.value = ''; info.style.display = 'none'; toggleChipAcciones('chipMuerteAcciones', false); return; }
             let a = buscarPorArete(valor);
             if (a) {
                 cC.value = a.chip || ''; cL.value = a.lote || '-'; if (a.finca) cF.value = a.finca;
+                if (a.categoria) document.getElementById('mueCategoria').value = a.categoria;
                 if (a.chip) marcarAuto(cC);
                 info.className = 'chip-buscar-info'; info.style.display = 'block';
                 info.innerHTML = 'Animal encontrado: ' + formatearInfoAnimal(a);
+                toggleChipAcciones('chipMuerteAcciones', true);
             } else {
                 cC.value = ''; cL.value = ''; limpiarEstiloAuto(cC);
                 info.className = 'chip-buscar-info error'; info.style.display = 'block';
                 info.innerHTML = 'Ese arete no esta en el inventario.';
+                toggleChipAcciones('chipMuerteAcciones', false);
             }
         }
 
@@ -1764,18 +1477,20 @@
             let chip = document.getElementById('invChip').value.trim();
             let arete = document.getElementById('invArete').value.trim();
             let especie = document.getElementById('invEspecie').value;
+            let categoria = document.getElementById('invCategoria').value;
             let lote = document.getElementById('invLote').value;
             let finca = document.getElementById('invFinca').value;
 
             if (!arete) { mostrarAlerta('alertInventario', 'El arete es obligatorio.', 'error'); return; }
             if (!especie) { mostrarAlerta('alertInventario', 'Seleccione especie.', 'error'); return; }
+            if (!categoria) { mostrarAlerta('alertInventario', 'Seleccione categoria.', 'error'); return; }
 
             let inventario = getData('inventario');
             if (inventario.find(a => a.arete === arete)) { mostrarAlerta('alertInventario', 'El arete ya existe.', 'error'); return; }
             if (chip && inventario.find(a => a.chip === chip)) { mostrarAlerta('alertInventario', 'El chip ya existe.', 'error'); return; }
 
             inventario.push({
-                chip: chip || '', arete, especie, lote, finca,
+                chip: chip || '', arete, especie, categoria, lote, finca,
                 fecha: new Date().toLocaleDateString(),
                 _id: 'inv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6)
             });
@@ -1795,26 +1510,15 @@
         }
 
         function editarChipInventario(arete) {
-            let inventario = getData('inventario');
-            let animal = inventario.find(a => a.arete === arete);
-            if (!animal) return;
-            let nuevo = prompt('Chip para arete ' + arete + ':', animal.chip || '');
-            if (nuevo === null) return;
-            nuevo = nuevo.trim();
-            if (nuevo && inventario.find(a => a.chip === nuevo && a.arete !== arete)) {
-                alert('Ese chip ya esta asignado.'); return;
-            }
-            animal.chip = nuevo;
-            setData('inventario', inventario);
-            cargarTablas();
+            asignarChipAnimal(arete);
         }
 
         async function exportarInventarioCSV() {
             let inventario = getData('inventario');
             if (inventario.length === 0) { alert('No hay inventario.'); return; }
-            let csv = 'Chip,Arete,Especie,Lote,Finca,Fecha\n';
+            let csv = 'Chip,Arete,Especie,Categoria,Lote,Finca,Fecha\n';
             inventario.forEach(a => {
-                csv += [a.chip || '', a.arete, a.especie || '', a.lote || '', a.finca || '', a.fecha || ''].join(',') + '\n';
+                csv += [a.chip || '', a.arete, a.especie || '', a.categoria || '', a.lote || '', a.finca || '', a.fecha || ''].join(',') + '\n';
             });
             let nombre = 'syntro_inventario_' + fechaArchivo() + '.csv';
             let r = await compartirODescargar(nombre, csv, 'text/csv', 'Inventario', '');
@@ -1919,6 +1623,7 @@
             let finca = document.getElementById('nacFinca').value;
             let madre = document.getElementById('nacMadre').value.trim();
             let madreChip = document.getElementById('nacMadreChip').value.trim();
+            let categoriaMadre = document.getElementById('nacCategoriaMadre').value;
             let toro = document.getElementById('nacToro').value.trim();
             let numParto = parseInt(document.getElementById('nacNumParto').value) || 1;
             let diasGestacion = parseInt(document.getElementById('nacDiasGestacion').value) || 283;
@@ -1938,22 +1643,24 @@
                 let c1Id = document.getElementById('nacCria1Id').value.trim();
                 let c1Chip = document.getElementById('nacCria1Chip').value.trim();
                 let c1Sexo = document.getElementById('nacCria1Sexo').value;
+                let c1Categoria = document.getElementById('nacCria1Categoria').value;
                 let c1Peso = parseFloat(document.getElementById('nacCria1Peso').value);
-                if (!c1Id || c1Id === '-' || !c1Sexo || isNaN(c1Peso)) {
-                    mostrarAlerta('alertNacimiento', 'Complete la cria 1.', 'error');
+                if (!c1Id || c1Id === '-' || !c1Sexo || !c1Categoria || isNaN(c1Peso)) {
+                    mostrarAlerta('alertNacimiento', 'Complete la cria 1 (incluida categoria).', 'error');
                     return;
                 }
-                crias.push({ id: c1Id, chip: c1Chip || '', sexo: c1Sexo, peso: c1Peso });
+                crias.push({ id: c1Id, chip: c1Chip || '', sexo: c1Sexo, categoria: c1Categoria, peso: c1Peso });
                 if (tipo === 'Gemelar') {
                     let c2Id = document.getElementById('nacCria2Id').value.trim();
                     let c2Chip = document.getElementById('nacCria2Chip').value.trim();
                     let c2Sexo = document.getElementById('nacCria2Sexo').value;
+                    let c2Categoria = document.getElementById('nacCria2Categoria').value;
                     let c2Peso = parseFloat(document.getElementById('nacCria2Peso').value);
-                    if (!c2Id || c2Id === '-' || !c2Sexo || isNaN(c2Peso)) {
-                        mostrarAlerta('alertNacimiento', 'Complete la cria 2.', 'error');
+                    if (!c2Id || c2Id === '-' || !c2Sexo || !c2Categoria || isNaN(c2Peso)) {
+                        mostrarAlerta('alertNacimiento', 'Complete la cria 2 (incluida categoria).', 'error');
                         return;
                     }
-                    crias.push({ id: c2Id, chip: c2Chip || '', sexo: c2Sexo, peso: c2Peso });
+                    crias.push({ id: c2Id, chip: c2Chip || '', sexo: c2Sexo, categoria: c2Categoria, peso: c2Peso });
                 }
             }
 
@@ -1969,21 +1676,21 @@
 
             let inventario = getData('inventario');
             if (!inventario.find(a => a.arete === madre)) {
-                inventario.push({ chip: madreChip || '', arete: madre, especie, lote, finca, fecha: new Date().toLocaleDateString() });
+                inventario.push({ chip: madreChip || '', arete: madre, especie, categoria: categoriaMadre || '', lote, finca, fecha: new Date().toLocaleDateString() });
             }
             if (toro !== '-' && !inventario.find(a => a.arete === toro)) {
-                inventario.push({ chip: '', arete: toro, especie, lote, finca, fecha: new Date().toLocaleDateString() });
+                inventario.push({ chip: '', arete: toro, especie, categoria: 'TORO', lote, finca, fecha: new Date().toLocaleDateString() });
             }
             crias.forEach(c => {
                 if (!inventario.find(a => a.arete === c.id)) {
-                    inventario.push({ chip: c.chip || '', arete: c.id, especie, lote, finca, fecha: new Date().toLocaleDateString() });
+                    inventario.push({ chip: c.chip || '', arete: c.id, especie, categoria: c.categoria, lote, finca, fecha: new Date().toLocaleDateString() });
                 }
             });
             setData('inventario', inventario);
 
             let nacimientos = getData('nacimientos');
             nacimientos.push({
-                fecha, finca, madre, madreChip, toro, numParto, diasGestacion, tipoParto: tipo,
+                fecha, finca, madre, madreChip, categoriaMadre, toro, numParto, diasGestacion, tipoParto: tipo,
                 especie, ipp, crias, sinCria: esSinCria,
                 _id: 'nac_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6)
             });
@@ -1993,6 +1700,7 @@
 
             document.getElementById('nacMadre').value = '';
             document.getElementById('nacMadreChip').value = '';
+            document.getElementById('nacCategoriaMadre').value = '';
             document.getElementById('nacToro').value = '-';
             document.getElementById('nacNumParto').value = '';
             document.getElementById('nacNumPartoDisplay').textContent = '-';
@@ -2000,12 +1708,14 @@
             document.getElementById('nacCria1Id').value = '-';
             document.getElementById('nacCria1Chip').value = '';
             document.getElementById('nacCria1Sexo').value = '';
+            document.getElementById('nacCria1Categoria').value = '';
             document.getElementById('nacCria1Peso').value = '';
             document.getElementById('nacCria2Section').classList.add('hidden');
             document.getElementById('nacCria1Section').classList.remove('hidden');
             document.getElementById('criaNota').classList.remove('visible');
             document.getElementById('nacTipoParto').value = '';
             document.getElementById('chipBuscarInfo').style.display = 'none';
+            toggleChipAcciones('chipNacAcciones', false);
 
             cargarTablas();
             renderGraficasInventario();
@@ -2014,14 +1724,14 @@
         async function exportarCSVNacimientos() {
             let nacimientos = getData('nacimientos');
             if (nacimientos.length === 0) { alert('No hay nacimientos.'); return; }
-            let headers = ['Fecha', 'Finca', 'Madre', 'Chip Madre', 'Toro', 'N Parto', 'Tipo', 'Dias Gest.', 'Cria ID', 'Chip Cria', 'Sexo', 'Peso', 'IPP'];
+            let headers = ['Fecha', 'Finca', 'Madre', 'Cat. Madre', 'Chip Madre', 'Toro', 'N Parto', 'Tipo', 'Dias Gest.', 'Cria ID', 'Chip Cria', 'Sexo', 'Categoria', 'Peso', 'IPP'];
             let csv = headers.join(',') + '\n';
             nacimientos.forEach(r => {
                 if (!r.crias || r.crias.length === 0) {
-                    csv += [r.fecha, r.finca, r.madre, r.madreChip || '', r.toro, r.numParto, r.tipoParto, r.diasGestacion, 'SIN CRIA', '', '', '', r.ipp > 0 ? r.ipp : ''].join(',') + '\n';
+                    csv += [r.fecha, r.finca, r.madre, r.categoriaMadre || '', r.madreChip || '', r.toro, r.numParto, r.tipoParto, r.diasGestacion, 'SIN CRIA', '', '', '', '', r.ipp > 0 ? r.ipp : ''].join(',') + '\n';
                 } else {
                     r.crias.forEach(c => {
-                        csv += [r.fecha, r.finca, r.madre, r.madreChip || '', r.toro, r.numParto, r.tipoParto, r.diasGestacion, c.id, c.chip || '', c.sexo, c.peso, r.ipp > 0 ? r.ipp : ''].join(',') + '\n';
+                        csv += [r.fecha, r.finca, r.madre, r.categoriaMadre || '', r.madreChip || '', r.toro, r.numParto, r.tipoParto, r.diasGestacion, c.id, c.chip || '', c.sexo, c.categoria || '', c.peso, r.ipp > 0 ? r.ipp : ''].join(',') + '\n';
                     });
                 }
             });
@@ -2044,9 +1754,10 @@
             let arete = document.getElementById('traArete').value.trim();
             let fincaOrigen = document.getElementById('traFincaOrigen').value.trim();
             let loteOrigen = document.getElementById('traLoteOrigen').value.trim();
+            let categoria = document.getElementById('traCategoria').value;
+            let motivo = document.getElementById('traMotivo').value;
             let fincaDestino = document.getElementById('traFincaDestino').value;
             let loteDestino = document.getElementById('traLoteDestino').value;
-            let motivo = document.getElementById('traMotivo').value;
             let observaciones = document.getElementById('traObservaciones').value.trim();
 
             if (!fecha || !arete || !fincaDestino || !loteDestino) {
@@ -2056,28 +1767,40 @@
 
             let inventario = getData('inventario');
             let animal = inventario.find(a => a.arete === arete);
-            if (animal) {
+            if (!animal) {
+                mostrarAlerta('alertTraslado', 'El animal no esta en inventario.', 'error');
+                return;
+            }
+
+            if (motivo === 'Venta') {
+                if (!confirm('El motivo es VENTA. El animal se ELIMINARA del inventario.\n\nContinuar?')) return;
+                inventario = inventario.filter(a => a.arete !== arete);
+                setData('inventario', inventario);
+            } else {
                 animal.finca = fincaDestino;
                 animal.lote = loteDestino;
+                if (categoria) animal.categoria = categoria;
                 setData('inventario', inventario);
             }
 
             let traslados = getData('traslados');
             traslados.push({
-                fecha, chip: document.getElementById('traChip').value.trim(), arete,
+                fecha, chip: document.getElementById('traChip').value.trim(), arete, categoria,
                 fincaOrigen, loteOrigen, fincaDestino, loteDestino, motivo, observaciones,
                 _id: 'tra_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6)
             });
             setData('traslados', traslados);
 
-            mostrarAlerta('alertTraslado', 'Traslado registrado.', 'success');
+            mostrarAlerta('alertTraslado', motivo === 'Venta' ? 'Venta registrada. Animal retirado del inventario.' : 'Traslado registrado.', 'success');
             document.getElementById('traChip').value = '';
             document.getElementById('traArete').value = '';
             document.getElementById('traFincaOrigen').value = '';
             document.getElementById('traLoteOrigen').value = '';
             document.getElementById('traLoteDestino').value = '';
             document.getElementById('traObservaciones').value = '';
+            document.getElementById('traCategoria').value = '';
             document.getElementById('chipTrasladoInfo').style.display = 'none';
+            toggleChipAcciones('chipTrasladoAcciones', false);
             cargarTablas();
             renderGraficasInventario();
         }
@@ -2085,9 +1808,9 @@
         async function exportarCSVTraslados() {
             let traslados = getData('traslados');
             if (traslados.length === 0) { alert('No hay traslados.'); return; }
-            let csv = 'Fecha,Chip,Arete,Finca Origen,Lote Origen,Finca Destino,Lote Destino,Motivo,Observaciones\n';
+            let csv = 'Fecha,Chip,Arete,Categoria,Finca Origen,Lote Origen,Finca Destino,Lote Destino,Motivo,Observaciones\n';
             traslados.forEach(t => {
-                csv += [t.fecha, t.chip || '', t.arete, t.fincaOrigen, t.loteOrigen, t.fincaDestino, t.loteDestino, t.motivo, '"' + (t.observaciones || '').replace(/"/g, '""') + '"'].join(',') + '\n';
+                csv += [t.fecha, t.chip || '', t.arete, t.categoria || '', t.fincaOrigen, t.loteOrigen, t.fincaDestino, t.loteDestino, t.motivo, '"' + (t.observaciones || '').replace(/"/g, '""') + '"'].join(',') + '\n';
             });
             let nombre = 'syntro_traslados_' + fechaArchivo() + '.csv';
             let r = await compartirODescargar(nombre, csv, 'text/csv', 'Traslados', '');
@@ -2114,8 +1837,8 @@
             let peso = parseFloat(document.getElementById('muePeso').value) || 0;
             let observaciones = document.getElementById('mueObservaciones').value.trim();
 
-            if (!fecha || !finca || !arete || !causa) {
-                mostrarAlerta('alertMuerte', 'Complete los campos.', 'error');
+            if (!fecha || !finca || !arete || !causa || !categoria) {
+                mostrarAlerta('alertMuerte', 'Complete los campos (incluida categoria).', 'error');
                 return;
             }
 
@@ -2136,9 +1859,11 @@
             document.getElementById('mueArete').value = '';
             document.getElementById('mueLote').value = '';
             document.getElementById('mueCausa').value = '';
+            document.getElementById('mueCategoria').value = '';
             document.getElementById('muePeso').value = '';
             document.getElementById('mueObservaciones').value = '';
             document.getElementById('chipMuerteInfo').style.display = 'none';
+            toggleChipAcciones('chipMuerteAcciones', false);
             cargarTablas();
             renderGraficasInventario();
         }
@@ -2146,10 +1871,10 @@
         async function exportarCSVMuertes() {
             let muertes = getData('muertes');
             if (muertes.length === 0) { alert('No hay muertes.'); return; }
-            let headers = ['Fecha', 'Finca', 'Chip', 'Arete', 'Lote', 'Causa', 'Categoria', 'Peso (Kg)', 'Observaciones'];
+            let headers = ['Fecha', 'Finca', 'Chip', 'Arete', 'Lote', 'Categoria', 'Causa', 'Peso (Kg)', 'Observaciones'];
             let csv = headers.join(',') + '\n';
             muertes.forEach(m => {
-                csv += [m.fecha, m.finca, m.chip || '', m.arete, m.lote, m.causa, m.categoria, m.peso || '', '"' + (m.observaciones || '').replace(/"/g, '""') + '"'].join(',') + '\n';
+                csv += [m.fecha, m.finca, m.chip || '', m.arete, m.lote, m.categoria || '', m.causa, m.peso || '', '"' + (m.observaciones || '').replace(/"/g, '""') + '"'].join(',') + '\n';
             });
             let nombre = 'syntro_muertes_' + fechaArchivo() + '.csv';
             let r = await compartirODescargar(nombre, csv, 'text/csv', 'Muertes', '');
@@ -2214,6 +1939,7 @@
                     if (!arete) return;
                     resultado.push({
                         chip: r['Chip'] || '', arete, especie: r['Especie'] || '',
+                        categoria: (r['Categoria'] || '').toUpperCase(),
                         lote: r['Lote'] || '', finca: r['Finca'] || '',
                         fecha: r['Fecha'] || new Date().toLocaleDateString()
                     });
@@ -2222,10 +1948,11 @@
                     if (!madre) return;
                     let crias = [];
                     if (r['Cria ID'] && r['Cria ID'] !== 'SIN CRIA') {
-                        crias.push({ id: r['Cria ID'], chip: r['Chip Cria'] || '', sexo: r['Sexo'] || '', peso: parseFloat(r['Peso']) || 0 });
+                        crias.push({ id: r['Cria ID'], chip: r['Chip Cria'] || '', sexo: r['Sexo'] || '', categoria: (r['Categoria'] || '').toUpperCase(), peso: parseFloat(r['Peso']) || 0 });
                     }
                     resultado.push({
                         fecha: r['Fecha'] || '', finca: r['Finca'] || '', madre, madreChip: r['Chip Madre'] || '',
+                        categoriaMadre: (r['Cat. Madre'] || r['Categoria Madre'] || '').toUpperCase(),
                         toro: r['Toro'] || '', numParto: parseInt(r['N Parto']) || 1,
                         diasGestacion: parseInt(r['Dias Gest.']) || 283,
                         tipoParto: r['Tipo'] || '', ipp: parseFloat(r['IPP']) || 0,
@@ -2236,6 +1963,7 @@
                     if (!arete) return;
                     resultado.push({
                         fecha: r['Fecha'] || '', chip: r['Chip'] || '', arete,
+                        categoria: (r['Categoria'] || '').toUpperCase(),
                         fincaOrigen: r['Finca Origen'] || '', loteOrigen: r['Lote Origen'] || '',
                         fincaDestino: r['Finca Destino'] || '', loteDestino: r['Lote Destino'] || '',
                         motivo: r['Motivo'] || '', observaciones: r['Obs.'] || ''
@@ -2245,7 +1973,7 @@
                     if (!arete) return;
                     resultado.push({
                         fecha: r['Fecha'] || '', finca: r['Finca'] || '', chip: r['Chip'] || '', arete,
-                        lote: r['Lote'] || '-', causa: r['Causa'] || '', categoria: r['Categoria'] || '',
+                        lote: r['Lote'] || '-', causa: r['Causa'] || '', categoria: (r['Categoria'] || '').toUpperCase(),
                         peso: parseFloat(r['Peso']) || 0, observaciones: r['Observaciones'] || ''
                     });
                 }
@@ -2553,7 +2281,6 @@
                 });
             }
 
-            // Grafica inventario por especie
             let porEspecie = {};
             getData('inventario').forEach(a => {
                 let esp = a.especie || 'Sin especie';
@@ -2572,7 +2299,6 @@
                 });
             }
 
-            // Grafica inventario por lote
             let porLote = {};
             getData('inventario').forEach(a => {
                 let lote = a.lote || 'Sin lote';
@@ -2592,7 +2318,6 @@
                 });
             }
 
-            // Grafica inventario por supervisor
             let porSupInv = {};
             getData('inventario').forEach(a => {
                 let sup = a.supervisor || 'Sin asignar';
@@ -2934,7 +2659,7 @@
             let tbody = document.getElementById('tablaInventario');
             tbody.innerHTML = '';
             if (data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#94a3b8; padding:20px;">No hay animales registrados</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:#94a3b8; padding:20px;">No hay animales registrados</td></tr>';
                 return;
             }
             data.forEach(a => {
@@ -2943,6 +2668,7 @@
                         <td>${a.chip || '<span class="badge-sin-chip">Sin chip</span>'}</td>
                         <td><strong>${a.arete}</strong></td>
                         <td>${a.especie || '-'}</td>
+                        <td>${a.categoria || '-'}</td>
                         <td>${a.lote || '-'}</td>
                         <td>${a.finca || '-'}</td>
                         <td>${a.fecha || '-'}</td>
@@ -2960,7 +2686,7 @@
             let tbody = document.getElementById('tablaNacimientos');
             tbody.innerHTML = '';
             if (data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="14" style="text-align:center; color:#94a3b8; padding:20px;">No hay nacimientos registrados</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="16" style="text-align:center; color:#94a3b8; padding:20px;">No hay nacimientos registrados</td></tr>';
                 return;
             }
             data.forEach((reg, index) => {
@@ -2968,6 +2694,7 @@
                     tbody.innerHTML += `
                         <tr>
                             <td>${reg.fecha}</td><td>${reg.finca}</td><td>${reg.madre}</td>
+                            <td>${reg.categoriaMadre || '-'}</td>
                             <td>${reg.madreChip || '-'}</td><td>${reg.toro}</td><td>${reg.numParto}</td>
                             <td><span class="badge-aborto">${reg.tipoParto}</span></td>
                             <td>${reg.diasGestacion}</td>
@@ -2981,9 +2708,11 @@
                         tbody.innerHTML += `
                             <tr>
                                 <td>${reg.fecha}</td><td>${reg.finca}</td><td>${reg.madre}</td>
+                                <td>${reg.categoriaMadre || '-'}</td>
                                 <td>${reg.madreChip || '-'}</td><td>${reg.toro}</td><td>${reg.numParto}</td>
                                 <td>${reg.tipoParto}</td><td>${reg.diasGestacion}</td>
                                 <td>${c.id}</td><td>${c.chip || '-'}</td><td>${c.sexo}</td>
+                                <td>${c.categoria || '-'}</td>
                                 <td>${c.peso} Kg</td><td>${reg.ipp > 0 ? reg.ipp : '-'}</td>
                                 <td><button class="btn-delete" onclick="eliminarNacimientoTabla(${index})">Borrar</button></td>
                             </tr>
@@ -2998,13 +2727,14 @@
             let tbody = document.getElementById('tablaTraslados');
             tbody.innerHTML = '';
             if (data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:#94a3b8;padding:20px;">No hay traslados</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="11" style="text-align:center;color:#94a3b8;padding:20px;">No hay traslados</td></tr>';
                 return;
             }
             data.forEach((t, i) => {
                 tbody.innerHTML += `
                     <tr>
                         <td>${t.fecha}</td><td>${t.chip || '-'}</td><td><strong>${t.arete}</strong></td>
+                        <td>${t.categoria || '-'}</td>
                         <td>${t.fincaOrigen}</td><td>${t.loteOrigen}</td>
                         <td><span class="badge-traslado">${t.fincaDestino}</span></td>
                         <td><span class="badge-traslado">${t.loteDestino}</span></td>
@@ -3028,8 +2758,9 @@
                     <tr>
                         <td>${m.fecha}</td><td>${m.finca}</td><td>${m.chip || '-'}</td>
                         <td><strong>${m.arete}</strong></td><td>${m.lote}</td>
+                        <td>${m.categoria || '-'}</td>
                         <td><span class="badge-muerte">${m.causa}</span></td>
-                        <td>${m.categoria}</td><td>${m.peso > 0 ? m.peso + ' Kg' : '-'}</td>
+                        <td>${m.peso > 0 ? m.peso + ' Kg' : '-'}</td>
                         <td>${m.observaciones || '-'}</td>
                         <td><button class="btn-delete" onclick="eliminarMuerteTabla(${i})">Borrar</button></td>
                     </tr>
